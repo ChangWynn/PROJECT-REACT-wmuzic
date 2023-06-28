@@ -33,12 +33,13 @@ const Auth = () => {
   };
 
   const formatErrorMessage = (err) => {
+    console.log(err);
     if (err === "auth/weak-password") {
       return "Password must be at least 6 characters";
     }
-    const message = err.slice(5);
-    const noHyphen = message.replace(/-/g, " ");
-    return `${noHyphen[0].toUpperCase()}${noHyphen.slice(1)}`;
+    const message = err?.slice(5);
+    const noHyphen = message?.replace(/-/g, " ");
+    return `${noHyphen[0].toUpperCase()}${noHyphen.slice(1)}` || undefined;
   };
 
   const authenticateMethod = async (callback) => {
@@ -47,6 +48,7 @@ const Auth = () => {
       await callback(auth, email, password);
       navigateToMain();
     } catch (err) {
+      console.log(err);
       const message = formatErrorMessage(err.code);
       setErrorMessage(message);
     }

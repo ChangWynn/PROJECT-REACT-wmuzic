@@ -1,8 +1,10 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import audioFiles from "../../assets/audioFiles";
 import styles from "./css/MusicPlayer.module.css";
 import Controls from "../../components/Controls";
+
+import { ref, getDownloadURL, uploadBytes, listAll } from "firebase/storage";
+import { auth, storage } from "../../config/firebase";
 
 const MusicPlayer = () => {
   const [songIsPlaying, setSongIsPlaying] = useState(false);
@@ -10,7 +12,44 @@ const MusicPlayer = () => {
   const [songProgression, setSongProgression] = useState(0);
   const [bufferProgression, setBufferProgression] = useState(0);
 
+  const [songsList, setSongsList] = useState([]);
+  const [uploadedSong, setUploadedSong] = useState(null);
+
   const currentSong = useRef();
+
+  const uploadSong = async () => {
+    const userStorage = ref(
+      storage,
+      `USER-UID-${auth.currentUser.uid}/${uploadedSong.name}`
+    );
+
+    try {
+      await uploadBytes(userStorage, uploadedSong);
+      updateSongsList();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateSongsList = async () => {
+    const userSongsRef = ref(storage, `USER-UID-${auth.currentUser.uid}`);
+    const songsRef = await listAll(userSongsRef);
+
+    songsRef.items.forEach((itemRef) => {
+      getDownloadURL(itemRef).then((url) => {
+        setSongsList((currentURL) => {
+          return [...currentURL, url];
+        });
+      });
+    });
+  };
+
+  // fetch all users songs
+  useEffect(() => {
+    updateSongsList();
+
+    return () => setSongsList([]);
+  }, []);
 
   const updateBufferProgression = ({ buffered, duration }) => {
     if (buffered.length > 0) {
@@ -26,6 +65,7 @@ const MusicPlayer = () => {
     setSongProgression(songProgress);
   };
 
+  // update progress bar
   useEffect(() => {
     const song = currentSong?.current;
 
@@ -53,7 +93,7 @@ const MusicPlayer = () => {
   };
 
   const nextSong = () => {
-    if (currentSongIndex === audioFiles.length - 1) setCurrentSongIndex(0);
+    if (currentSongIndex === songsList.length - 1) setCurrentSongIndex(0);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex + 1;
@@ -62,7 +102,7 @@ const MusicPlayer = () => {
   };
 
   const previousSong = () => {
-    if (currentSongIndex === 0) setCurrentSongIndex(audioFiles.length - 1);
+    if (currentSongIndex === 0) setCurrentSongIndex(songsList.length - 1);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex - 1;
@@ -80,11 +120,13 @@ const MusicPlayer = () => {
     currentSong.current.currentTime = newCurrentTime;
     setSongProgression(newSongProgress);
   };
+
   return (
     <div className={styles["app"]}>
       <audio
         ref={currentSong}
-        src={audioFiles[currentSongIndex].track()}
+        // src={audioFiles[currentSongIndex].track()}
+        src={songsList[currentSongIndex]}
         onEnded={nextSong}
       ></audio>
       <div className={styles["track--container"]}>
@@ -100,6 +142,13 @@ const MusicPlayer = () => {
           />
         </div>
       </div>
+      <input
+        type="file"
+        onChange={(e) => {
+          setUploadedSong(e.target.files[0]);
+        }}
+      />
+      <button onClick={uploadSong}>Upload</button>
       <Controls
         previousSong={previousSong}
         nextSong={nextSong}
