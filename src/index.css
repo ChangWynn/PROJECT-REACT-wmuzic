@@ -1,3 +1,16 @@
+:root {
+  --max-width: 90rem;
+  --black: black;
+  --white: white;
+  --white-hover: #cbcbcb;
+  --pink: #ee82ee;
+  --pink-hover: #e958e9;
+  --purple: #c200db;
+  --purple-hover: #9100a4;
+
+  --auth-form-width: 50%;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -9,9 +22,11 @@ html {
 }
 
 body {
-  background-color: #111;
-  /* font-family:'Rubik', sans-serif; */
-  font-family: "Quicksand", sans-serif;
+  background: var(--black);
+  color: var(--white);
+  font-family: "Cabin", sans-serif;
+  /* font-family: "Rubik", sans-serif; */
+  /* font-family: "Quicksand", sans-serif; */
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

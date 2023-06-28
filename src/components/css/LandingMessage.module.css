@@ -1,0 +1,19 @@
+.landing-message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 5rem;
+}
+
+.landing-message h1 {
+  font-size: 5rem;
+}
+
+.landing-message h1 .w {
+  color: var(--purple);
+}
+.landing-message h1 .m {
+  color: var(--pink);
+}

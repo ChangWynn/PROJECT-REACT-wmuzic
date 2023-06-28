@@ -1,0 +1,50 @@
+.auth--btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  width: var(--auth-form-width);
+  padding: 0 1rem;
+}
+
+.auth--btns button {
+  cursor: pointer;
+  border-radius: 3px;
+  border: none;
+  padding: 0.7rem;
+  font-family: inherit;
+  color: var(--white);
+  font-weight: 900;
+  font-size: 1.7rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 0px 10px var(--black);
+}
+.auth--btns button:active {
+  transform: scale(0.98);
+}
+
+.auth--submit-btn {
+  flex-grow: 1;
+  height: 5rem;
+  background-color: var(--pink);
+}
+
+.auth--submit-btn:hover {
+  background-color: var(--pink-hover);
+}
+
+.auth--google-btn {
+  flex-grow: 0;
+  width: 7rem;
+  height: 5rem;
+}
+.auth--google-btn:hover {
+  background-color: var(--white-hover);
+}
+
+.auth--google-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
