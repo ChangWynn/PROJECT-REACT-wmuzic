@@ -11,8 +11,35 @@ import { Context } from "./MusicPlayer";
 import { useContext } from "react";
 
 const AudioControls = () => {
-  const { songIsPlaying, previousSong, togglePlay, nextSong } =
-    useContext(Context);
+  const {
+    setSongIsPlaying,
+    songIsPlaying,
+    setCurrentSongIndex,
+    currentSongIndex,
+    songsURL,
+  } = useContext(Context);
+
+  const togglePlay = () => {
+    setSongIsPlaying(!songIsPlaying);
+  };
+
+  const nextSong = () => {
+    if (currentSongIndex === songsURL.length - 1) setCurrentSongIndex(0);
+    else {
+      setCurrentSongIndex((currentIndex) => {
+        return currentIndex + 1;
+      });
+    }
+  };
+
+  const previousSong = () => {
+    if (currentSongIndex === 0) setCurrentSongIndex(songsURL.length - 1);
+    else {
+      setCurrentSongIndex((currentIndex) => {
+        return currentIndex - 1;
+      });
+    }
+  };
 
   return (
     <div className={styles["audio-controls"]}>

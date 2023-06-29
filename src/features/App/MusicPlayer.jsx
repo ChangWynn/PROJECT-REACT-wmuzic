@@ -12,7 +12,7 @@ import Playlist from "../Playlist/Playlist";
 export const Context = React.createContext();
 
 const MusicPlayer = () => {
-  const { uid, userItems } = useOutletContext();
+  const { userItems } = useOutletContext();
 
   const [songIsPlaying, setSongIsPlaying] = useState(false);
 
@@ -21,7 +21,7 @@ const MusicPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
   const currentSong = useRef();
-  console.log(currentSong.current?.duration);
+
   useEffect(() => {
     const song = currentSong?.current;
     if (songIsPlaying) {
@@ -29,49 +29,25 @@ const MusicPlayer = () => {
     } else song.pause();
   }, [songIsPlaying, currentSongIndex]);
 
-  // MUSIC PLAYER CONTROLS
-  const togglePlay = () => {
-    setSongIsPlaying(!songIsPlaying);
-  };
-
-  const nextSong = () => {
-    if (currentSongIndex === songsURL.length - 1) setCurrentSongIndex(0);
-    else {
-      setCurrentSongIndex((currentIndex) => {
-        return currentIndex + 1;
-      });
-    }
-  };
-
-  const previousSong = () => {
-    if (currentSongIndex === 0) setCurrentSongIndex(songsURL.length - 1);
-    else {
-      setCurrentSongIndex((currentIndex) => {
-        return currentIndex - 1;
-      });
-    }
-  };
-
   return (
     <Context.Provider
       value={{
-        songIsPlaying,
         currentSong,
+        songIsPlaying,
+        setSongIsPlaying,
         currentSongIndex,
+        setCurrentSongIndex,
         songsRefs,
         songsURL,
         setSongsRefs,
         setSongsURL,
-        togglePlay,
-        previousSong,
-        nextSong,
       }}
     >
       <div className={styles["app"]}>
         <audio
           ref={currentSong}
           src={songsURL[currentSongIndex]}
-          onEnded={nextSong}
+          // onEnded={nextSong}
         ></audio>
         <Playlist />
         <AudioControllers />

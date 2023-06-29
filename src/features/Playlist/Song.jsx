@@ -14,6 +14,7 @@ const Song = ({ itemRef }) => {
 
   useEffect(() => {
     setIsLoading(true);
+
     getMetadata(itemRef).then((metadata) => {
       const data = metadata.customMetadata;
       setTitle(data.title);
@@ -23,10 +24,9 @@ const Song = ({ itemRef }) => {
       setLargeImage(data.imgL);
       setDuration(data.duration);
     });
+
     setIsLoading(false);
   }, []);
-
-  console.log(typeof +duration);
 
   const formattedDuration = () => {
     if (duration) {
