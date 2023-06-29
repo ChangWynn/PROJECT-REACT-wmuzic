@@ -1,16 +1,15 @@
-import style from "./Playlist.module.css";
+import UploadForm from "../Upload/UploadForm";
+import style from "./css/Playlist.module.css";
+import Song from "./Song";
 
-const Playlist = ({ songsRefs }) => {
+const Playlist = ({ songsRefs, setSongsRefs, setSongsURL }) => {
   return (
     <div className={style["playlist"]}>
       {songsRefs.items.length > 0 &&
         songsRefs.items.map((itemRef) => {
-          return (
-            <p className={style["title"]} key={itemRef.name}>
-              {itemRef.name}
-            </p>
-          );
+          return <Song key={itemRef.name} itemRef={itemRef} />;
         })}
+      <UploadForm setSongsRefs={setSongsRefs} setSongsURL={setSongsURL} />
     </div>
   );
 };

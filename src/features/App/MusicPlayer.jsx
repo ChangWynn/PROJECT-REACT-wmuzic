@@ -18,8 +18,6 @@ const MusicPlayer = () => {
   const [songsURL, setSongsURL] = useState(userItems.songsURL);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
-  const [uploadedSong, setUploadedSong] = useState(null);
-
   const currentSong = useRef();
 
   useEffect(() => {
@@ -28,22 +26,6 @@ const MusicPlayer = () => {
       song.play();
     } else song.pause();
   }, [songIsPlaying, currentSongIndex]);
-
-  // UPDLOAD SONG LOGIC ////////
-  const uploadSong = async () => {
-    const userStorage = ref(storage, `USER-UID-${uid}/${uploadedSong.name}`);
-
-    try {
-      await uploadBytes(userStorage, uploadedSong);
-      getUserStorage().then((updatedItems) => {
-        setSongsURL(updatedItems.songsURL);
-        setSongsRefs(updatedItems.songsRefs);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  //////////////////////////////
 
   // MUSIC PLAYER CONTROLS
   const togglePlay = () => {
@@ -67,7 +49,6 @@ const MusicPlayer = () => {
       });
     }
   };
-  //////////////////////////////
 
   return (
     <div className={styles["app"]}>
@@ -76,19 +57,11 @@ const MusicPlayer = () => {
         src={songsURL[currentSongIndex]}
         onEnded={nextSong}
       ></audio>
-      <Playlist songsRefs={songsRefs} />
-      <div>
-        <input
-          type="file"
-          id="file"
-          name="file"
-          multiple={false}
-          onChange={(e) => {
-            setUploadedSong(e.target.files[0]);
-          }}
-        />
-        <button onClick={uploadSong}>Upload</button>
-      </div>
+      <Playlist
+        songsRefs={songsRefs}
+        setSongsRefs={setSongsRefs}
+        setSongsURL={setSongsURL}
+      />
       <AudioControllers
         currentSong={currentSong}
         currentSongIndex={currentSongIndex}

@@ -1,4 +1,5 @@
-import MusicPlayer, { action as uploadSong } from "./features/App/MusicPlayer";
+import MusicPlayer from "./features/App/MusicPlayer";
+import { action as uploadSong } from "./features/Upload/UploadForm";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./layout/AuthLayout";
 import AppLayout, { loader as getUsersItemsRefs } from "./layout/AppLayout";
