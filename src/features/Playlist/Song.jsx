@@ -10,6 +10,7 @@ const Song = ({ itemRef }) => {
   const [album, setAlbum] = useState("");
   const [smallImage, setSmallImage] = useState("");
   const [largeImage, setLargeImage] = useState("");
+  const [duration, setDuration] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -20,9 +21,22 @@ const Song = ({ itemRef }) => {
       setAlbum(data.album);
       setSmallImage(data.imgM);
       setLargeImage(data.imgL);
+      setDuration(data.duration);
     });
     setIsLoading(false);
   }, []);
+
+  console.log(typeof +duration);
+
+  const formattedDuration = () => {
+    if (duration) {
+      let minutes = Math.floor(+duration / 60);
+      let seconds = Math.floor(+duration % 60);
+
+      return `${minutes.toString()}:${seconds.toString().padStart(2, "0")}`;
+    }
+    return "-:--";
+  };
 
   return (
     <button className={styles["song-btn"]}>
@@ -36,6 +50,9 @@ const Song = ({ itemRef }) => {
             <div className={styles["song-info--details"]}>
               <h2>{title}</h2>
               <h3>{artist}</h3>
+            </div>
+            <div className={styles["song-info--duration"]}>
+              <h3>{formattedDuration()}</h3>
             </div>
           </>
         )}
