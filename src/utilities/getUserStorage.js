@@ -10,7 +10,6 @@ export const getUserStorage = async () => {
     const URLpromises = songsRefs.items.map(async (itemRef) => {
       return await getDownloadURL(itemRef);
     });
-
     const songsURL = await Promise.all(URLpromises);
 
     return { songsRefs, songsURL };

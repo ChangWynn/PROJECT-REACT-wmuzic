@@ -1,13 +1,12 @@
 import styles from "./css/MusicPlayer.module.css";
 import { getUserStorage } from "../../utilities/getUserStorage";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../config/firebase";
 import AudioControllers from "./AudioControllers";
-import AudioProgressBar from "./AudioProgressBar";
 import Playlist from "../Playlist/Playlist";
 
 const MusicPlayer = () => {
@@ -22,6 +21,13 @@ const MusicPlayer = () => {
   const [uploadedSong, setUploadedSong] = useState(null);
 
   const currentSong = useRef();
+
+  useEffect(() => {
+    const song = currentSong?.current;
+    if (songIsPlaying) {
+      song.play();
+    } else song.pause();
+  }, [songIsPlaying, currentSongIndex]);
 
   // UPDLOAD SONG LOGIC ////////
   const uploadSong = async () => {

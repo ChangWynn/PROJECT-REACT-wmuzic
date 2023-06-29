@@ -29,16 +29,13 @@ const AudioProgressBar = ({ currentSong, currentSongIndex, songIsPlaying }) => {
 
     let interval;
     if (songIsPlaying) {
-      song.play();
       interval = setInterval(updateProgressBar, 1000);
-    } else song.pause();
+    }
 
     return () => {
       return clearInterval(interval);
     };
   }, [songIsPlaying, currentSongIndex]);
-
-  //////////////////////////////
 
   // CLICK ON TRACK ////////////
   const navigateInSong = (e) => {
@@ -50,7 +47,6 @@ const AudioProgressBar = ({ currentSong, currentSongIndex, songIsPlaying }) => {
     currentSong.current.currentTime = newCurrentTime;
     setSongProgression(newSongProgress);
   };
-  //////////////////////////////
 
   return (
     <div className={styles["track--container"]}>

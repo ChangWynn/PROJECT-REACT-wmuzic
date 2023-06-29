@@ -1,17 +1,14 @@
+import styles from "./css/AppLayout.module.css";
+import AppNavigation from "../features/App/AppNavigation";
+
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLoaderData } from "react-router-dom";
 
 import { getUserStorage } from "../utilities/getUserStorage";
 
-import { auth } from "../config/firebase";
-import { signOut } from "firebase/auth";
-import AppNavigation from "../features/App/AppNavigation";
-import styles from "./css/AppLayout.module.css";
-
 const AppLayout = () => {
-  const [uid, setUid] = useState(localStorage.getItem("uid"));
+  const [uid] = useState(localStorage.getItem("uid"));
   const navigate = useNavigate();
-  console.log(uid);
   const userItems = useLoaderData();
 
   useEffect(() => {
