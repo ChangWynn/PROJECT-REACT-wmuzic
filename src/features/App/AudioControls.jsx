@@ -7,10 +7,16 @@ import {
   faBackwardStep,
 } from "@fortawesome/sharp-solid-svg-icons";
 
-const AudioControls = ({ props }) => {
+import { Context } from "./MusicPlayer";
+import { useContext } from "react";
+
+const AudioControls = () => {
+  const { songIsPlaying, previousSong, togglePlay, nextSong } =
+    useContext(Context);
+
   return (
     <div className={styles["audio-controls"]}>
-      <button onClick={props.previousSong}>
+      <button onClick={previousSong}>
         {" "}
         <FontAwesomeIcon
           icon={faBackwardStep}
@@ -18,8 +24,8 @@ const AudioControls = ({ props }) => {
           size="5x"
         />
       </button>
-      <button onClick={props.togglePlay}>
-        {props.songIsPlaying ? (
+      <button onClick={togglePlay}>
+        {songIsPlaying ? (
           <FontAwesomeIcon
             icon={faPause}
             className={styles["icon-play-pause"]}
@@ -33,7 +39,7 @@ const AudioControls = ({ props }) => {
           />
         )}
       </button>
-      <button onClick={props.nextSong}>
+      <button onClick={nextSong}>
         <FontAwesomeIcon
           icon={faForwardStep}
           className={styles["icon-prev-next"]}

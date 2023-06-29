@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./css/AudioProgressBar.module.css";
 
-const AudioProgressBar = ({ currentSong, currentSongIndex, songIsPlaying }) => {
+import { Context } from "./MusicPlayer";
+
+const AudioProgressBar = () => {
   const [songProgression, setSongProgression] = useState(0);
   const [bufferProgression, setBufferProgression] = useState(0);
 
-  // UPDATE PROGRESS BAR ////////
+  const { currentSong, currentSongIndex, songIsPlaying } = useContext(Context);
+
   const updateBufferProgression = ({ buffered, duration }) => {
     if (buffered.length > 0) {
       for (let i = 0; i < buffered.length; i++) {
@@ -37,7 +40,6 @@ const AudioProgressBar = ({ currentSong, currentSongIndex, songIsPlaying }) => {
     };
   }, [songIsPlaying, currentSongIndex]);
 
-  // CLICK ON TRACK ////////////
   const navigateInSong = (e) => {
     const width = e.target.clientWidth;
     const clickOffset = e.nativeEvent.offsetX;

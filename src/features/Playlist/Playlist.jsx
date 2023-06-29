@@ -2,7 +2,11 @@ import UploadForm from "../Upload/UploadForm";
 import style from "./css/Playlist.module.css";
 import Song from "./Song";
 
-const Playlist = ({ songsRefs, setSongsRefs, setSongsURL }) => {
+import { Context } from "../App/MusicPlayer";
+import { useContext } from "react";
+
+const Playlist = () => {
+  const { songsRefs, setSongsRefs, setSongsURL } = useContext(Context);
   return (
     <div className={style["playlist"]}>
       {songsRefs.items.length > 0 &&

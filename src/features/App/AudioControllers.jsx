@@ -6,12 +6,8 @@ import AudioProgressBar from "./AudioProgressBar";
 const AudioControllers = (props) => {
   return (
     <div className={styles["audio-controllers"]}>
-      <AudioProgressBar
-        currentSong={props.currentSong}
-        currentSongIndex={props.currentSongIndex}
-        songIsPlaying={props.songIsPlaying}
-      />
-      <AudioControls props={props} />
+      <AudioProgressBar />
+      <AudioControls />
     </div>
   );
 };

@@ -4,6 +4,7 @@
   padding: 1rem;
   border-block: rgb(28, 28, 28) 0.5px solid;
   border-radius: 5px;
+  height: 7rem;
 }
 .song-info {
   display: flex;
@@ -12,6 +13,17 @@
   color: white;
   gap: 1rem;
 }
+.song-info--img {
+  height: 5rem;
+  width: 5rem;
+}
+
+.song-info--img img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
 .song-info--details {
   display: flex;
   flex-direction: column;

@@ -4,20 +4,33 @@ import {
   updateMetadata,
   getMetadata,
 } from "firebase/storage";
-import React, { useRef, useState } from "react";
-import { Form, useOutletContext } from "react-router-dom";
-
 import { storage } from "../../config/firebase";
 import { getUserStorage } from "../../utilities/getUserStorage";
 
-import axios from "../services/axios";
+import React, { useEffect, useRef, useState } from "react";
+import { Form, useOutletContext } from "react-router-dom";
+
 import { apiKey } from "../../.api";
+import axios from "../services/axios";
 
 const UploadForm = ({ setSongsRefs, setSongsURL }) => {
   const { uid } = useOutletContext();
   const [uploadedSong, setUploadedSong] = useState(null);
+  const [uploadedSongDuration, setUploadedSongDuration] = useState(0);
   const titleRef = useRef();
   const artistRef = useRef();
+
+  useEffect(() => {
+    if (uploadedSong) {
+      const audio = new Audio();
+      audio.src = URL.createObjectURL(uploadedSong);
+      audio.addEventListener("loadedmetadata", () => {
+        setUploadedSongDuration(audio.duration);
+        console.log("Duration:", audio.duration);
+      });
+    }
+  }, [uploadedSong]);
+
   // UPDLOAD SONG LOGIC ////////
   const addNewSong = async (e) => {
     e.preventDefault();
@@ -27,10 +40,12 @@ const UploadForm = ({ setSongsRefs, setSongsURL }) => {
     const res = await axios.get(url);
 
     const songData = res.data.track;
+
     const metaData = {
       customMetadata: {
         title: songData.name,
         artist: songData.album.artist,
+        duration: uploadedSongDuration,
         album: songData.album.title,
         imgM: songData.album.image[1]["#text"],
         imgL: songData.album.image[3]["#text"],
@@ -75,17 +90,3 @@ const UploadForm = ({ setSongsRefs, setSongsURL }) => {
 };
 
 export default UploadForm;
-
-export const action = async ({ request, params }) => {
-  const data = await request.formData();
-
-  const eventData = {
-    title: data.get("title"),
-    artist: data.get("artist"),
-    file: data.get("file"),
-  };
-
-  console.log("request", request);
-  console.log("eventData", typeof eventData.file);
-  return null;
-};
