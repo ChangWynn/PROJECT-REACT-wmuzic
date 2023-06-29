@@ -1,0 +1,30 @@
+.audio-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10rem;
+  /* border: 1px solid white; */
+}
+
+.icon-play-pause,
+.icon-prev-next {
+  height: 7rem;
+  width: 7rem;
+  background-color: black;
+  margin: -0.2rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+
+  /* border: 1px solid white; */
+}
+.icon-prev-next {
+  height: 5rem;
+  width: 5rem;
+}
+
+.icon-play-pause:hover,
+.icon-prev-next:hover {
+  transform: scale(1.05);
+  color: var(--white-hover);
+}

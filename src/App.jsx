@@ -1,7 +1,7 @@
-import MusicPlayer from "./features/MusicPlayer/MusicPlayer";
+import MusicPlayer, { action as uploadSong } from "./features/App/MusicPlayer";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./layout/AuthLayout";
-import MusicLibraryLayout from "./layout/MusicLibraryLayout";
+import AppLayout, { loader as getUsersItemsRefs } from "./layout/AppLayout";
 
 const router = createBrowserRouter([
   {
@@ -9,9 +9,10 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
   },
   {
-    path: "/music-library",
-    element: <MusicLibraryLayout />,
-    children: [{ index: true, element: <MusicPlayer /> }],
+    path: "/app",
+    element: <AppLayout />,
+    loader: getUsersItemsRefs,
+    children: [{ index: true, element: <MusicPlayer />, action: uploadSong }],
   },
 ]);
 

@@ -9,7 +9,7 @@ const AuthSubmit = ({ mode, setErrorMessage }) => {
   const signinWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuth);
-      navigate("/music-library");
+      navigate("/app");
     } catch (err) {
       setErrorMessage(err.code);
     }

@@ -29,7 +29,7 @@ const Auth = () => {
   };
 
   const navigateToMain = () => {
-    navigate("/music-library");
+    navigate("/app");
   };
 
   const formatErrorMessage = (err) => {
@@ -46,6 +46,7 @@ const Auth = () => {
     const { email, password } = getInputValue();
     try {
       await callback(auth, email, password);
+      localStorage.setItem("uid", auth.currentUser.uid);
       navigateToMain();
     } catch (err) {
       console.log(err);

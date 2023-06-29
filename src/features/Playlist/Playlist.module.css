@@ -1,0 +1,8 @@
+.playlist {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.5rem;
+}

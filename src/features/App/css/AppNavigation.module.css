@@ -1,0 +1,30 @@
+.navbar,
+.brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem;
+}
+.navbar {
+  position: relative;
+  top: 0;
+}
+.brand {
+  gap: 1rem;
+  font-size: 1.5rem;
+  padding: 0;
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  color: var(--white);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+}
+.logout-btn:hover {
+  color: var(--pink);
+}

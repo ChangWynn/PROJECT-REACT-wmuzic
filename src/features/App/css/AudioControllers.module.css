@@ -1,0 +1,10 @@
+.audio-controllers {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 25%;
+}
