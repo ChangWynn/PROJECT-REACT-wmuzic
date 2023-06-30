@@ -1,8 +1,10 @@
-import { useContext, useEffect, useState } from "react";
 import styles from "./css/Song.module.css";
+import { formatDuration } from "../../utilities/formatDuration";
 
 import { getMetadata } from "firebase/storage";
 import { Context } from "../App/MusicPlayer";
+
+import { useContext, useEffect, useState } from "react";
 
 const Song = ({ itemRef, index }) => {
   const { currentSongIndex, setCurrentSongIndex } = useContext(Context);
@@ -22,20 +24,9 @@ const Song = ({ itemRef, index }) => {
       setArtist(data.artist);
       setSmallImage(data.imgM);
       setDuration(data.duration);
+      setIsLoading(false);
     });
-
-    setIsLoading(false);
   }, []);
-
-  const formattedDuration = () => {
-    if (duration) {
-      let minutes = Math.floor(+duration / 60);
-      let seconds = Math.floor(+duration % 60);
-
-      return `${minutes.toString()}:${seconds.toString().padStart(2, "0")}`;
-    }
-    return "-:--";
-  };
 
   const playSelectedSong = () => {
     setCurrentSongIndex(index);
@@ -47,25 +38,29 @@ const Song = ({ itemRef, index }) => {
         currentSongIndex === index && styles["current"]
       }`}
     >
-      <button onClick={playSelectedSong} className={styles["song-btn"]}>
-        <div className={styles["song-info"]}>
-          {isLoading && <h2>Loading...</h2>}
-          {!isLoading && (
-            <>
-              <div className={styles["song-info--img"]}>
-                <img src={smallImage} alt="" />
-              </div>
-              <div className={styles["song-info--details"]}>
-                <h2>{title}</h2>
-                <h3>{artist}</h3>
-              </div>
-              <div className={styles["song-info--duration"]}>
-                <h3>{formattedDuration()}</h3>
-              </div>
-            </>
-          )}
-        </div>
-      </button>
+      {isLoading ? (
+        <h3 className={styles["song--loading-message"]}>Loading...</h3>
+      ) : (
+        <button onClick={playSelectedSong} className={styles["song-btn"]}>
+          <div className={styles["song-info"]}>
+            {isLoading && <h2>Loading...</h2>}
+            {!isLoading && (
+              <>
+                <div className={styles["song-info--img"]}>
+                  <img src={smallImage} alt="" />
+                </div>
+                <div className={styles["song-info--details"]}>
+                  <h2>{title}</h2>
+                  <h3>{artist}</h3>
+                </div>
+                <div className={styles["song-info--duration"]}>
+                  <h3>{formatDuration(duration)}</h3>
+                </div>
+              </>
+            )}
+          </div>
+        </button>
+      )}
     </div>
   );
 };

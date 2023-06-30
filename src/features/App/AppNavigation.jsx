@@ -16,7 +16,10 @@ const AppNavigation = () => {
   };
 
   return (
-    <nav className={styles["navbar"]}>
+    <nav
+      className={styles["navbar"]}
+      onClick={(e) => console.log(e.target.clientHeight)}
+    >
       <div className={styles["brand"]}>
         <FontAwesomeIcon
           icon={faWaveformLines}

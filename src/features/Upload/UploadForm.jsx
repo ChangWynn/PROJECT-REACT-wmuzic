@@ -26,7 +26,6 @@ const UploadForm = ({ setSongRefs }) => {
       audio.src = URL.createObjectURL(uploadedSong);
       audio.addEventListener("loadedmetadata", () => {
         setUploadedSongDuration(audio.duration);
-        console.log("Duration:", audio.duration);
       });
     }
   }, [uploadedSong]);

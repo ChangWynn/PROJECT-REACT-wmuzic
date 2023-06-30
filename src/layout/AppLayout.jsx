@@ -18,7 +18,7 @@ const AppLayout = () => {
   if (uid) {
     return (
       <div className={styles["app--container"]}>
-        <AppNavigation />
+        {/* <AppNavigation /> */}
         <Outlet context={{ uid, allRefs: allRefs.items }} />
       </div>
     );

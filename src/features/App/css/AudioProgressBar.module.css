@@ -1,10 +1,13 @@
 .track--container {
   height: 10rem;
   width: 100%;
-  padding: 4rem;
+  padding: 2rem 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1rem;
+
+  /* border: 1px solid white; */
 }
 
 .track--background {

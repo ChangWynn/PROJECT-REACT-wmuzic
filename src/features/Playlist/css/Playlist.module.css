@@ -1,7 +1,23 @@
 .playlist {
   display: flex;
   flex-direction: column;
-  width: 40rem;
+  width: 45rem;
+  height: 100%;
+  overflow: scroll;
+  padding: 2rem 2rem;
+  scroll-behavior: smooth;
 
-  border: 1px solid white;
+  /* border: 1px solid white; */
+}
+
+.playlist::-webkit-scrollbar {
+  width: 0; /* Adjust the width if needed */
+}
+
+.playlist::-webkit-scrollbar-track {
+  background: transparent; /* Set the background color of the track */
+}
+
+.playlist::-webkit-scrollbar-thumb {
+  background: transparent; /* Set the background color of the thumb */
 }

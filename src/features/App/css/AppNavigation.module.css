@@ -6,10 +6,7 @@
   justify-content: space-between;
   padding: 3rem;
 }
-.navbar {
-  position: relative;
-  top: 0;
-}
+
 .brand {
   gap: 1rem;
   font-size: 1.5rem;

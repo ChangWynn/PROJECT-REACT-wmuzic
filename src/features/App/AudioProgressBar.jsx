@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styles from "./css/AudioProgressBar.module.css";
 
 import { Context } from "./MusicPlayer";
+import AudioDuration from "./AudioDuration";
 
 const AudioProgressBar = () => {
   const [songProgression, setSongProgression] = useState(0);
@@ -65,6 +66,7 @@ const AudioProgressBar = () => {
           className={styles["track--progress"]}
         />
       </div>
+      <AudioDuration />
     </div>
   );
 };

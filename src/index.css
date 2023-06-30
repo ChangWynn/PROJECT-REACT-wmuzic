@@ -22,6 +22,7 @@ html {
 }
 
 body {
+  overflow: hidden;
   background: var(--black);
   color: var(--white);
   font-family: "Cabin", sans-serif;
@@ -30,6 +31,10 @@ body {
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: "Cabin", sans-serif;
 }
 
 /* code {

@@ -7,6 +7,7 @@ import { useOutletContext } from "react-router-dom";
 
 import { getDownloadURL } from "firebase/storage";
 import Visual from "../Visual/Visual";
+import AppNavigation from "./AppNavigation";
 
 export const Context = React.createContext();
 
@@ -14,14 +15,11 @@ const MusicPlayer = () => {
   const { allRefs } = useOutletContext();
 
   const [songRefs, setSongRefs] = useState(allRefs);
-
   const [songIsPlaying, setSongIsPlaying] = useState(false);
   const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
   const currentSongRef = useRef();
-
-  console.log("songRefs from main", songRefs);
 
   useEffect(() => {
     const downloadURL = async () => {
@@ -56,6 +54,7 @@ const MusicPlayer = () => {
           src={currentSongURL}
           // onEnded={nextSong}
         ></audio>
+        <AppNavigation />
         <div className={styles["app--middle"]}>
           <Playlist />
           <Visual />
