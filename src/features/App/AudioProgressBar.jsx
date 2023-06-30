@@ -7,7 +7,8 @@ const AudioProgressBar = () => {
   const [songProgression, setSongProgression] = useState(0);
   const [bufferProgression, setBufferProgression] = useState(0);
 
-  const { currentSong, currentSongIndex, songIsPlaying } = useContext(Context);
+  const { currentSongRef, currentSongIndex, songIsPlaying } =
+    useContext(Context);
 
   const updateBufferProgression = ({ buffered, duration }) => {
     if (buffered.length > 0) {
@@ -24,7 +25,7 @@ const AudioProgressBar = () => {
   };
 
   useEffect(() => {
-    const song = currentSong?.current;
+    const song = currentSongRef?.current;
     const updateProgressBar = () => {
       updateSongProgression(song);
       updateBufferProgression(song);
@@ -43,10 +44,11 @@ const AudioProgressBar = () => {
   const navigateInSong = (e) => {
     const width = e.target.clientWidth;
     const clickOffset = e.nativeEvent.offsetX;
-    const newCurrentTime = (clickOffset / width) * currentSong.current.duration;
+    const newCurrentTime =
+      (clickOffset / width) * currentSongRef.current.duration;
     const newSongProgress = (clickOffset / width) * 100;
 
-    currentSong.current.currentTime = newCurrentTime;
+    currentSongRef.current.currentTime = newCurrentTime;
     setSongProgression(newSongProgress);
   };
 

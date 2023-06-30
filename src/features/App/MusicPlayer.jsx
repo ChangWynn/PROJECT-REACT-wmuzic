@@ -1,55 +1,65 @@
 import styles from "./css/MusicPlayer.module.css";
-import { getUserStorage } from "../../utilities/getUserStorage";
+import AudioControllers from "./AudioControllers";
+import Playlist from "../Playlist/Playlist";
 
 import React, { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../config/firebase";
-import AudioControllers from "./AudioControllers";
-import Playlist from "../Playlist/Playlist";
+import { getDownloadURL } from "firebase/storage";
+import Visual from "../Visual/Visual";
 
 export const Context = React.createContext();
 
 const MusicPlayer = () => {
-  const { userItems } = useOutletContext();
+  const { allRefs } = useOutletContext();
+
+  const [songRefs, setSongRefs] = useState(allRefs);
 
   const [songIsPlaying, setSongIsPlaying] = useState(false);
-
-  const [songsRefs, setSongsRefs] = useState(userItems.songsRefs);
-  const [songsURL, setSongsURL] = useState(userItems.songsURL);
+  const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
-  const currentSong = useRef();
+  const currentSongRef = useRef();
+
+  console.log("songRefs from main", songRefs);
 
   useEffect(() => {
-    const song = currentSong?.current;
+    const downloadURL = async () => {
+      const url = await getDownloadURL(songRefs[currentSongIndex]);
+      setCurrentSongURL(url);
+    };
+    downloadURL();
+  }, [currentSongIndex]);
+
+  useEffect(() => {
+    const song = currentSongRef?.current;
     if (songIsPlaying) {
       song.play();
     } else song.pause();
-  }, [songIsPlaying, currentSongIndex]);
+  }, [songIsPlaying, currentSongURL]);
 
   return (
     <Context.Provider
       value={{
-        currentSong,
+        currentSongRef,
         songIsPlaying,
         setSongIsPlaying,
         currentSongIndex,
         setCurrentSongIndex,
-        songsRefs,
-        songsURL,
-        setSongsRefs,
-        setSongsURL,
+        songRefs,
+        setSongRefs,
       }}
     >
       <div className={styles["app"]}>
         <audio
-          ref={currentSong}
-          src={songsURL[currentSongIndex]}
+          ref={currentSongRef}
+          src={currentSongURL}
           // onEnded={nextSong}
         ></audio>
-        <Playlist />
+        <div className={styles["app--middle"]}>
+          <Playlist />
+          <Visual />
+        </div>
         <AudioControllers />
       </div>
     </Context.Provider>

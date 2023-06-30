@@ -9,7 +9,7 @@ import { getUserStorage } from "../utilities/getUserStorage";
 const AppLayout = () => {
   const [uid] = useState(localStorage.getItem("uid"));
   const navigate = useNavigate();
-  const userItems = useLoaderData();
+  const allRefs = useLoaderData();
 
   useEffect(() => {
     if (!uid) navigate("/");
@@ -19,7 +19,7 @@ const AppLayout = () => {
     return (
       <div className={styles["app--container"]}>
         <AppNavigation />
-        <Outlet context={{ uid, userItems }} />
+        <Outlet context={{ uid, allRefs: allRefs.items }} />
       </div>
     );
   }

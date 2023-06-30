@@ -1,10 +1,14 @@
+.song-container {
+  border-block: rgb(28, 28, 28) 0.5px solid;
+  height: 7rem;
+  padding: 1rem;
+}
+
 .song-btn {
   background-color: transparent;
   border: none;
-  padding: 1rem;
-  border-block: rgb(28, 28, 28) 0.5px solid;
-  border-radius: 5px;
-  height: 7rem;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
 }
 .song-info {
   display: flex;
@@ -34,4 +38,8 @@
 .song-info--duration {
   width: 5rem;
   flex-shrink: 0;
+}
+
+.song-container.current {
+  background-color: #1c001c;
 }

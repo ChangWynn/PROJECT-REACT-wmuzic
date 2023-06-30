@@ -12,11 +12,11 @@ import { useContext } from "react";
 
 const AudioControls = () => {
   const {
-    setSongIsPlaying,
     songIsPlaying,
-    setCurrentSongIndex,
+    setSongIsPlaying,
     currentSongIndex,
-    songsURL,
+    setCurrentSongIndex,
+    songRefs,
   } = useContext(Context);
 
   const togglePlay = () => {
@@ -24,7 +24,7 @@ const AudioControls = () => {
   };
 
   const nextSong = () => {
-    if (currentSongIndex === songsURL.length - 1) setCurrentSongIndex(0);
+    if (currentSongIndex === songRefs.length - 1) setCurrentSongIndex(0);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex + 1;
@@ -33,7 +33,7 @@ const AudioControls = () => {
   };
 
   const previousSong = () => {
-    if (currentSongIndex === 0) setCurrentSongIndex(songsURL.length - 1);
+    if (currentSongIndex === 0) setCurrentSongIndex(songRefs.length - 1);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex - 1;

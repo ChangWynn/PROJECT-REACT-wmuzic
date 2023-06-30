@@ -11,9 +11,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, useOutletContext } from "react-router-dom";
 
 import { apiKey } from "../../.api";
-import axios from "../services/axios";
+import axios from "../../services/axios";
 
-const UploadForm = ({ setSongsRefs, setSongsURL }) => {
+const UploadForm = ({ setSongRefs }) => {
   const { uid } = useOutletContext();
   const [uploadedSong, setUploadedSong] = useState(null);
   const [uploadedSongDuration, setUploadedSongDuration] = useState(0);
@@ -60,11 +60,8 @@ const UploadForm = ({ setSongsRefs, setSongsURL }) => {
     try {
       await uploadBytes(songRef, uploadedSong);
       await updateMetadata(songRef, metaData);
-      const metadata = await getMetadata(songRef);
-      console.log("metadata", metadata);
-      getUserStorage().then((updatedItems) => {
-        setSongsURL(updatedItems.songsURL);
-        setSongsRefs(updatedItems.songsRefs);
+      setSongRefs((prevRefs) => {
+        return [...prevRefs, songRef];
       });
     } catch (err) {
       console.log(err);

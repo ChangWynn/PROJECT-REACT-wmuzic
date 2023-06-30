@@ -6,14 +6,14 @@ import { Context } from "../App/MusicPlayer";
 import { useContext } from "react";
 
 const Playlist = () => {
-  const { songsRefs, setSongsRefs, setSongsURL } = useContext(Context);
+  const { songRefs, setSongRefs } = useContext(Context);
   return (
     <div className={style["playlist"]}>
-      {songsRefs.items.length > 0 &&
-        songsRefs.items.map((itemRef, index) => {
+      {songRefs.length > 0 &&
+        songRefs.map((itemRef, index) => {
           return <Song key={itemRef.name} itemRef={itemRef} index={index} />;
         })}
-      <UploadForm setSongsRefs={setSongsRefs} setSongsURL={setSongsURL} />
+      <UploadForm setSongRefs={setSongRefs} />
     </div>
   );
 };
