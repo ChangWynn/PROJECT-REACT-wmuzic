@@ -1,0 +1,177 @@
+.form--background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  visibility: hidden;
+  z-index: 6;
+
+  /* border: 1px solid white; */
+}
+.form--background.visible {
+  visibility: visible;
+}
+
+.form {
+  width: 60rem;
+  border-radius: 5px;
+  transition: all 0.1s ease-out;
+  transform: scale(0);
+  opacity: 0;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.form.visible {
+  opacity: 1;
+  transform: scale(1);
+
+  /* border: 1px solid white; */
+}
+
+.form .error-message {
+  height: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form--input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* FORM INPUT FIELD */
+
+.form--input input[type="text"] {
+  width: 70%;
+  height: 5rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.6rem;
+  padding: 0 1rem;
+  transition: all 0.1s;
+}
+.form--input input[type="text"]:focus {
+  outline: 3px solid var(--pink-hover);
+}
+
+/* UPLOAD BTN */
+
+.form--upload-btn-container {
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  width: 70%;
+}
+.form--upload-btn-container input[type="file"] {
+  /* border: 1px solid white; */
+  height: 5rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.form--upload-btn-container input[type="file"]:hover + .form--btn-icon {
+  background-color: var(--pink-hover);
+}
+.form--btn-icon {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  padding: 0rem 1rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+
+  background-color: var(--pink);
+  transition: all 0.2s ease-out;
+}
+.form--btn-icon h3 {
+  font-size: 1.7rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 2rem;
+}
+
+/* CHECKBOX */
+
+.checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 65%;
+  gap: 1rem;
+  /* border: 1px solid white; */
+}
+.checkbox input[type="checkbox"] {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.6rem;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.checkbox p {
+  font-size: 1.4rem;
+  /* border: 1px solid white; */
+}
+
+/* VALIDATION BTNS */
+
+.form--validation-btn {
+  width: 70%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.form--validation-btn button {
+  height: 5rem;
+  width: 10rem;
+  border-radius: 5px;
+}
+.form--validation-btn .cancel {
+  color: var(--white);
+
+  transition: all 0.1s ease-out;
+}
+.form--validation-btn .cancel:hover {
+  color: #6c3ce3;
+}
+.form--validation-btn .confirm {
+  background-color: #541be4;
+  transition: all 0.1s ease-out;
+}
+.form--validation-btn .confirm:hover {
+  background-color: #4a1cc0;
+}

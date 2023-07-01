@@ -5,10 +5,7 @@ import AudioProgressBar from "./AudioProgressBar";
 
 const AudioControllers = () => {
   return (
-    <div
-      className={styles["audio-controllers"]}
-      onClick={(e) => console.log(e.target.clientHeight)}
-    >
+    <div className={styles["audio-controllers"]}>
       <AudioProgressBar />
       <AudioControls />
     </div>

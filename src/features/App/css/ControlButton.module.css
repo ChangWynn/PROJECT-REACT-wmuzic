@@ -1,0 +1,28 @@
+.icon-play-pause,
+.icon-prev-next {
+  height: 7rem;
+  width: 7rem;
+  background-color: transparent;
+  margin: -0.2rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+
+  /* border: 1px solid white; */
+}
+.icon-prev-next {
+  height: 5rem;
+  width: 5rem;
+}
+
+.icon-play-pause:hover,
+.icon-prev-next:hover {
+  transform: scale(1.05);
+  color: var(--white-hover);
+}
+
+.icon-play-pause.disabled,
+.icon-prev-next.disabled {
+  color: rgb(55, 55, 55);
+  cursor: initial;
+}

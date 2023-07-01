@@ -17,12 +17,19 @@
   transition: all 0.3s ease-out;
   width: 100%;
 }
+.song-btn:hover > .song-info {
+  color: var(--pink);
+}
+.song-btn:hover > .song-info h3 {
+  color: #ddaedd;
+}
 .song-info {
   display: flex;
   flex-direction: row;
   align-items: center;
   color: white;
   gap: 1rem;
+  transition: all 0.2s ease-out;
 }
 .song-info--img {
   height: 5rem;

@@ -1,5 +1,6 @@
 import styles from "./css/Song.module.css";
 import { formatDuration } from "../../utilities/formatDuration";
+import defaultThumbnails from "../../assets/default-album-cover.jpeg";
 
 import { getMetadata } from "firebase/storage";
 import { Context } from "../App/MusicPlayer";
@@ -7,7 +8,12 @@ import { Context } from "../App/MusicPlayer";
 import { useContext, useEffect, useState } from "react";
 
 const Song = ({ itemRef, index }) => {
-  const { currentSongIndex, setCurrentSongIndex } = useContext(Context);
+  const {
+    songIsPlaying,
+    setSongIsPlaying,
+    currentSongIndex,
+    setCurrentSongIndex,
+  } = useContext(Context);
 
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -30,6 +36,9 @@ const Song = ({ itemRef, index }) => {
 
   const playSelectedSong = () => {
     setCurrentSongIndex(index);
+    if (!songIsPlaying) {
+      setTimeout(() => setSongIsPlaying(true), 500);
+    }
   };
 
   return (
@@ -47,7 +56,7 @@ const Song = ({ itemRef, index }) => {
             {!isLoading && (
               <>
                 <div className={styles["song-info--img"]}>
-                  <img src={smallImage} alt="" />
+                  <img src={smallImage || defaultThumbnails} alt="" />
                 </div>
                 <div className={styles["song-info--details"]}>
                   <h2>{title}</h2>

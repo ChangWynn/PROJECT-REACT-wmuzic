@@ -9,6 +9,7 @@ import {
 
 import { Context } from "./MusicPlayer";
 import { useContext } from "react";
+import ControlButton from "./ControlButton";
 
 const AudioControls = () => {
   const {
@@ -43,36 +44,21 @@ const AudioControls = () => {
 
   return (
     <div className={styles["audio-controls"]}>
-      <button onClick={previousSong}>
-        {" "}
-        <FontAwesomeIcon
-          icon={faBackwardStep}
-          className={styles["icon-prev-next"]}
-          size="5x"
-        />
-      </button>
-      <button onClick={togglePlay}>
-        {songIsPlaying ? (
-          <FontAwesomeIcon
-            icon={faPause}
-            className={styles["icon-play-pause"]}
-            size="5x"
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon={faPlay}
-            className={styles["icon-play-pause"]}
-            size="5x"
-          />
-        )}
-      </button>
-      <button onClick={nextSong}>
-        <FontAwesomeIcon
-          icon={faForwardStep}
-          className={styles["icon-prev-next"]}
-          size="5x"
-        />
-      </button>
+      <ControlButton
+        onClickFn={previousSong}
+        FaIcon={faBackwardStep}
+        styleName="icon-prev-next"
+      />
+      <ControlButton
+        onClickFn={togglePlay}
+        FaIcon={songIsPlaying ? faPause : faPlay}
+        styleName="icon-play-pause"
+      />
+      <ControlButton
+        onClickFn={nextSong}
+        FaIcon={faForwardStep}
+        styleName="icon-prev-next"
+      />
     </div>
   );
 };

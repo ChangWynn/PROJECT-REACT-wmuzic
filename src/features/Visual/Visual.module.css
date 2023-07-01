@@ -7,6 +7,21 @@
   justify-content: center;
   gap: 3rem;
 }
+.album-cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 30rem;
+  width: 30rem;
+}
+
+.album-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
 .album-cover h3 {
   font-size: 2rem;
   font-weight: 100;

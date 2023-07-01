@@ -4,6 +4,8 @@ import { storage } from "../../config/firebase";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../App/MusicPlayer";
 
+import defaultCover from "../../assets/default-album-cover.jpeg";
+
 const Visual = () => {
   const { songRefs, currentSongIndex } = useContext(Context);
 
@@ -25,7 +27,11 @@ const Visual = () => {
   return (
     <div className={style["container"]}>
       <div className={style["album-cover"]}>
-        {isLoading ? <h3>Loading...</h3> : <img src={albumCover} />}
+        {isLoading ? (
+          <h3>Loading...</h3>
+        ) : (
+          <img src={albumCover || defaultCover} />
+        )}
       </div>
       <div className={style["song-info"]}>
         <h2>{title}</h2>

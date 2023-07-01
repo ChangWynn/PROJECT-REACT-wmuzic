@@ -26,8 +26,8 @@ const MusicPlayer = () => {
       const url = await getDownloadURL(songRefs[currentSongIndex]);
       setCurrentSongURL(url);
     };
-    downloadURL();
-  }, [currentSongIndex]);
+    if (songRefs.length > 0) downloadURL();
+  }, [currentSongIndex, songRefs.length]);
 
   useEffect(() => {
     const song = currentSongRef?.current;
@@ -57,7 +57,7 @@ const MusicPlayer = () => {
         <AppNavigation />
         <div className={styles["app--middle"]}>
           <Playlist />
-          <Visual />
+          {songRefs.length > 0 && <Visual />}
         </div>
         <AudioControllers />
       </div>
