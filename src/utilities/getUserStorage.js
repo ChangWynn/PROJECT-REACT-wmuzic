@@ -1,5 +1,5 @@
 import { storage } from "../config/firebase";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { ref, listAll } from "firebase/storage";
 
 export const getUserStorage = async () => {
   const userStoragePath = `USER-UID-${localStorage.getItem("uid")}`;

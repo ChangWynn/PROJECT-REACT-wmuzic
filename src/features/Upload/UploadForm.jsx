@@ -2,6 +2,7 @@ import styles from "./UploadForm.module.css";
 import axios from "../../services/axios";
 import { apiKey } from "../../.api";
 import { Context } from "../App/MusicPlayer";
+import useUploadError from "../hooks/useUploadState";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -12,17 +13,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlbum } from "@fortawesome/pro-solid-svg-icons";
 
 const UploadForm = ({ showForm, setShowForm }) => {
+  const { uploadState, errorState, triggerUploadError } = useUploadError();
+
   const { uid } = useOutletContext();
   const { songRefs, setSongRefs } = useContext(Context);
+
   const [uploadedSong, setUploadedSong] = useState(null);
   const [uploadedSongDuration, setUploadedSongDuration] = useState(0);
   const [isChecked, setIsChecked] = useState(true);
-  const [isUploading, setIsUploading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState({});
+
   const titleRef = useRef();
   const artistRef = useRef();
-
-  const uploadedFile = useRef();
+  const fileInputRef = useRef();
 
   useEffect(() => {
     if (uploadedSong) {
@@ -38,34 +40,30 @@ const UploadForm = ({ showForm, setShowForm }) => {
 
   const addNewSong = async (e) => {
     e.preventDefault();
-    setIsUploading(true);
+    uploadState.setIsUploading(true);
     const title = titleRef.current.value;
     const artist = artistRef.current.value;
 
     if (!title || !artist || !uploadedSong) {
-      setErrorMessage({
+      triggerUploadError({
         description: "Invalid input",
         action: "Please fill in all fields",
       });
       return;
     }
 
-    // const { title, artist } = getUserInputs();
-
     let songData;
     if (isChecked) {
       songData = await fetchSongData(title, artist);
     }
 
-    const missingMBID =
-      songData?.artist?.mbid || songData?.album?.mbid || songData?.mbid;
+    const missingMBID = songData?.artist?.mbid || songData?.mbid;
 
     if (isChecked && (missingMBID === undefined || !songData)) {
-      setErrorMessage({
+      triggerUploadError({
         description: "Track not found",
         action: "Please check spelling or continue without LastFm metadata",
       });
-      setIsUploading(false);
       return;
     }
 
@@ -83,15 +81,16 @@ const UploadForm = ({ showForm, setShowForm }) => {
       });
       cleanUp();
     } catch (err) {
-      console.log(err);
-      setErrorMessage({
+      triggerUploadError({
         description: "Something went wrong",
         action: "please try again",
       });
     }
   };
 
-  //////////////////////////////
+  ////////////////////////////
+  ////////////////////////////
+
   const fetchSongData = async (title, artist) => {
     const searchTrackURL = `/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${artist}&track=${title}&format=json`;
 
@@ -118,12 +117,15 @@ const UploadForm = ({ showForm, setShowForm }) => {
     await updateMetadata(songRef, metaData);
   };
 
-  const cleanUp = () => {
+  const cleanUp = (e) => {
+    e.preventDefault();
     titleRef.current.value = "";
     artistRef.current.value = "";
-    setIsUploading(false);
+    fileInputRef.current.value = null;
+    uploadState.setIsUploading(false);
+    errorState.setMessage("");
+    setUploadedSong(null);
     setShowForm(false);
-    setErrorMessage("");
   };
 
   return (
@@ -132,10 +134,13 @@ const UploadForm = ({ showForm, setShowForm }) => {
         showForm && styles["visible"]
       }`}
     >
-      <div className={`${styles["form"]} ${showForm && styles["visible"]}`}>
+      <form
+        onSubmit={addNewSong}
+        className={`${styles["form"]} ${showForm && styles["visible"]}`}
+      >
         <div className={styles["error-message"]}>
-          <h2>{errorMessage.description}</h2>
-          <p>{errorMessage.action}</p>
+          <h2>{errorState?.message?.description}</h2>
+          <p>{errorState?.message?.action}</p>
         </div>
         <div className={styles["form--input"]}>
           <input
@@ -154,7 +159,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
           />
           <div className={styles["form--upload-btn-container"]}>
             <input
-              ref={uploadedFile}
+              ref={fileInputRef}
               type="file"
               id="file"
               name="file"
@@ -176,6 +181,8 @@ const UploadForm = ({ showForm, setShowForm }) => {
           <div className={styles["checkbox"]}>
             <input
               type="checkbox"
+              id="checkbox"
+              name="checkbox"
               onChange={() => setIsChecked(!isChecked)}
               checked={isChecked}
             />
@@ -186,13 +193,99 @@ const UploadForm = ({ showForm, setShowForm }) => {
           <button className={styles["cancel"]} onClick={cleanUp}>
             Cancel
           </button>
-          <button className={styles["confirm"]} onClick={addNewSong}>
-            {isUploading ? "Uploading..." : "Upload"}
+          <button className={styles["confirm"]}>
+            {uploadState.isUploading ? "Uploading..." : "Upload"}
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
 
 export default UploadForm;
+
+// export const action = async ({ request, params }) => {
+//   const data = await request.formData();
+
+//   console.log("params", params);
+
+//   const formData = {
+//     title: data.get("title"),
+//     artist: data.get("artist"),
+//     file: data.get("file"),
+//     checked: data.get("checkbox"),
+//   };
+
+//   if (!formData.title || !formData.artist || !formData.file) {
+//     return {
+//       description: "Invalid input",
+//       action: "Please fill in all fields",
+//     };
+//   }
+
+//   let songData;
+//   if (formData.checked) {
+//     songData = await fetchSongData(formData.title, formData.artist);
+//   }
+
+//   const missingMBID =
+//     songData?.artist?.mbid || songData?.album?.mbid || songData?.mbid;
+
+//   if (formData.checked && (missingMBID === undefined || !songData)) {
+//     return {
+//       description: "Track not found",
+//       action: "Please check spelling or continue without LastFm metadata",
+//     };
+//   }
+
+//   const metaData = constructMetadata(songData, formData);
+//   const songRef = ref(
+//     storage,
+//     `USER-UID-${localStorage.getItem("uid")}/${new Date()}-${
+//       metaData.customMetadata.title
+//     }-${metaData.customMetadata.artist}`
+//   );
+//   try {
+//     await uploadFile(songRef, metaData);
+//     setSongRefs((prevRefs) => {
+//       return [...prevRefs, songRef];
+//     });
+//     cleanUp();
+//   } catch (err) {
+//     console.log(err);
+//     return {
+//       description: "Something went wrong",
+//       action: "please try again",
+//     };
+//   }
+
+//   return null;
+// };
+
+// const fetchSongData = async (title, artist) => {
+//   const searchTrackURL = `/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${artist}&track=${title}&format=json`;
+
+//   const res = await axios.get(searchTrackURL);
+//   return res?.data.track;
+// };
+
+// const constructMetadata = async (songData, formData) => {
+//   const userStorageRefs = await getUserStorage();
+//   const songRefs = userStorageRefs?.items;
+//   return {
+//     customMetadata: {
+//       title: songData?.name || formData.title,
+//       artist: songData?.album?.artist || formData.artist,
+//       duration: uploadedSongDuration,
+//       album: songData?.album?.title || "",
+//       imgM: songData?.album?.image[1]["#text"] || "",
+//       imgL: songData?.album?.image.at(-1)["#text"] || "",
+//       position: songRefs?.length + 1 || "",
+//     },
+//   };
+// };
+
+// const uploadFile = async (songRef, metaData) => {
+//   await uploadBytes(songRef, uploadedSong);
+//   await updateMetadata(songRef, metaData);
+// };
