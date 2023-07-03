@@ -1,8 +1,9 @@
 import styles from "./UploadForm.module.css";
+import useUploadState from "../hooks/useUploadState";
+import UploadState from "./UploadState";
 import axios from "../../services/axios";
 import { apiKey } from "../../.api";
 import { Context } from "../App/MusicPlayer";
-import useUploadState from "../hooks/useUploadState";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -11,7 +12,7 @@ import { storage } from "../../config/firebase";
 import { ref, uploadBytes, updateMetadata } from "firebase/storage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlbum } from "@fortawesome/pro-solid-svg-icons";
-import UploadState from "./UploadState";
+import moment from "moment";
 
 const UploadForm = ({ showForm, setShowForm }) => {
   const upload = useUploadState();
@@ -43,81 +44,90 @@ const UploadForm = ({ showForm, setShowForm }) => {
   // UPDLOAD SONG LOGIC ///////
 
   const addNewSong = async (checkboxValue = isChecked) => {
-    console.log(checkboxValue);
     upload.start("Initializing...");
 
     const title = titleRef.current.value.trim();
     const artist = artistRef.current.value.trim();
 
+    if (invalidInputs(title, artist, uploadedSong)) return;
+
+    let songData;
+    if (checkboxValue) {
+      songData = await fetchMetadata(title, artist);
+      if (!songData) return;
+      if (mbidMissing(songData)) return;
+    }
+
+    if (await uploadToFirebase(songData, title, artist)) return;
+
+    cleanUp();
+  };
+
+  const invalidInputs = (title, artist, uploadedSong) => {
     if (!title || !artist || !uploadedSong) {
       upload.raiseError({
         description: "Invalid input",
         action: "Please fill in all fields",
       });
-      return;
+      return true;
     }
+  };
 
-    let songData;
-    if (checkboxValue) {
-      upload.updateState("Retrieving metadata...");
-      songData = await fetchSongData(title, artist);
-    }
+  const fetchMetadata = async (title, artist) => {
+    upload.updateState("Retrieving metadata...");
+    const songData = await callAPI(title, artist);
 
-    const missingMBID = // returns
-      !songData?.artist?.mbid || !songData?.mbid || !songData?.album?.mbid;
-
-    if (checkboxValue && !songData) {
+    if (!songData) {
       upload.raiseError({
         description: "No match found",
         action: "Please check spelling or continue without LastFm metadata",
       });
-      return;
-    }
-
-    if (checkboxValue && missingMBID) {
-      upload.pause();
-      setMidPrompt(true);
-      return;
-    }
-
-    const metaData = constructMetadata(songData, title, artist);
-    const songRef = ref(
-      storage,
-      `USER-UID-${uid}/${new Date()}-${metaData.customMetadata.title}-${
-        metaData.customMetadata.artist
-      }`
-    );
-    try {
-      upload.updateState("Uploading file...");
-      await uploadFile(songRef, metaData);
-      setSongRefs((prevRefs) => {
-        return [...prevRefs, songRef];
-      });
-      upload.success();
-    } catch (err) {
-      upload.raiseError({
-        description: "Something went wrong",
-        action: "Please try again",
-      });
-    }
-    cleanUp();
+      return false;
+    } else return songData;
   };
 
-  ////////////////////////////
-  ////////////////////////////
-
-  const fetchSongData = async (title, artist) => {
+  const callAPI = async (title, artist) => {
     const searchTrackURL = `/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${artist}&track=${title}&format=json`;
 
     const res = await axios.get(searchTrackURL);
     return res?.data.track;
   };
 
-  const constructMetadata = (songData, userTitle, UserArtist) => {
+  const mbidMissing = (songData) => {
+    const missingMBID = // returns true if any of the below is undefined
+      !songData?.artist?.mbid || !songData?.mbid || !songData?.album?.mbid;
+
+    if (missingMBID) {
+      upload.stop();
+      setMidPrompt(true);
+      return true;
+    }
+  };
+
+  const uploadToFirebase = async (songData, title, artist) => {
+    const date = moment(new Date()).format("YYYYMMDDHHmmss");
+    const metaData = constructMetadata(songData, title, artist);
+    const songRef = ref(
+      storage,
+      `USER-UID-${uid}/${date}-${metaData.customMetadata.title}-${metaData.customMetadata.artist}`
+    );
+
+    try {
+      await uploadingProcess(songRef, metaData);
+    } catch (err) {
+      upload.raiseError({
+        description: "Something went wrong",
+        action: "Please try again",
+      });
+      return true;
+    }
+  };
+
+  const constructMetadata = (songData, title, artist) => {
     return {
       customMetadata: {
-        title: songData?.name || userTitle,
-        artist: songData?.album?.artist || UserArtist,
+        title: songData?.name || title,
+        artist: songData?.album?.artist || artist,
         duration: uploadedSongDuration,
         album: songData?.album?.title || "",
         imgM: songData?.album?.image[1]["#text"] || "",
@@ -125,6 +135,15 @@ const UploadForm = ({ showForm, setShowForm }) => {
         position: songRefs.length + 1,
       },
     };
+  };
+
+  const uploadingProcess = async (songRef, metaData) => {
+    upload.updateState("Uploading file...");
+    await uploadFile(songRef, metaData);
+    setSongRefs((prevRefs) => {
+      return [...prevRefs, songRef];
+    });
+    upload.success();
   };
 
   const uploadFile = async (songRef, metaData) => {
@@ -165,8 +184,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
     >
       {midPrompt && (
         <div className={styles["mid-prompt"]}>
-          <h3>Metadata not found</h3>
-          <p>Metadata might be missing or incorrect in the LastFM database.</p>
+          <h3>Metadata found but might be incorrect</h3>
           <p>Come back to check spelling or continue anyway ?</p>
           <div className={styles["mid-prompt-btns"]}>
             <button className={styles["cancel"]} onClick={cancelUpload}>

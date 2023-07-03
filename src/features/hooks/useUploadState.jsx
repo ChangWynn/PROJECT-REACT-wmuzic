@@ -10,7 +10,7 @@ const useUploadState = () => {
     setUploadState(message);
   };
 
-  const pause = () => {
+  const stop = () => {
     setIsUploading(false);
   };
   const resume = () => {
@@ -39,12 +39,13 @@ const useUploadState = () => {
 
   const reset = () => {
     setUploadState({});
+    setErrorMessage({});
     setIsUploading(false);
   };
 
   return {
     start,
-    pause,
+    stop,
     resume,
     updateState,
     raiseError,
