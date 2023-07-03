@@ -9,7 +9,7 @@ import { getDownloadURL } from "firebase/storage";
 import Visual from "../Visual/Visual";
 import AppNavigation from "./AppNavigation";
 
-export const Context = React.createContext();
+export const MainContext = React.createContext();
 
 const MusicPlayer = () => {
   const { allRefs } = useOutletContext();
@@ -18,6 +18,8 @@ const MusicPlayer = () => {
   const [songIsPlaying, setSongIsPlaying] = useState(false);
   const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+
+  const [currentRepeatMode, setCurrentRepeatMode] = useState(0);
 
   const currentSongRef = useRef();
 
@@ -37,9 +39,33 @@ const MusicPlayer = () => {
     } else song.pause();
   }, [songIsPlaying, currentSongURL]);
 
+  const nextSong = () => {
+    if (currentSongIndex === songRefs.length - 1) setCurrentSongIndex(0);
+    else {
+      setCurrentSongIndex((currentIndex) => {
+        return currentIndex + 1;
+      });
+    }
+  };
+
+  const endOfTrackHandler = () => {
+    const isTheLastSong = currentSongIndex === songRefs.length - 1;
+    if (currentRepeatMode === 0 && !isTheLastSong) {
+      nextSong();
+    }
+    if (currentRepeatMode === 1) {
+      currentSongRef.current.play();
+    }
+    if (currentRepeatMode === 2) {
+      nextSong();
+    }
+  };
+  console.log(currentRepeatMode);
+
   return (
-    <Context.Provider
+    <MainContext.Provider
       value={{
+        nextSong,
         currentSongRef,
         songIsPlaying,
         setSongIsPlaying,
@@ -47,13 +73,15 @@ const MusicPlayer = () => {
         setCurrentSongIndex,
         songRefs,
         setSongRefs,
+        currentRepeatMode,
+        setCurrentRepeatMode,
       }}
     >
       <div className={styles["app"]}>
         <audio
           ref={currentSongRef}
           src={currentSongURL}
-          // onEnded={nextSong}
+          onEnded={endOfTrackHandler}
         ></audio>
         <AppNavigation />
         <div className={styles["app--middle"]}>
@@ -62,7 +90,7 @@ const MusicPlayer = () => {
         </div>
         <AudioControllers />
       </div>
-    </Context.Provider>
+    </MainContext.Provider>
   );
 };
 

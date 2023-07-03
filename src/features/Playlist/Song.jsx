@@ -3,7 +3,7 @@ import { formatDuration } from "../../utilities/formatDuration";
 import defaultThumbnails from "../../assets/default-album-cover.jpeg";
 
 import { getMetadata } from "firebase/storage";
-import { Context } from "../App/MusicPlayer";
+import { MainContext } from "../App/MusicPlayer";
 
 import { useContext, useEffect, useState } from "react";
 
@@ -13,7 +13,7 @@ const Song = ({ itemRef, index }) => {
     setSongIsPlaying,
     currentSongIndex,
     setCurrentSongIndex,
-  } = useContext(Context);
+  } = useContext(MainContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");

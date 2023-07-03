@@ -2,7 +2,7 @@ import UploadForm from "../Upload/UploadForm";
 import styles from "./css/Playlist.module.css";
 import Song from "./Song";
 
-import { Context } from "../App/MusicPlayer";
+import { MainContext } from "../App/MusicPlayer";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlbumCirclePlus } from "@fortawesome/pro-duotone-svg-icons";
@@ -10,7 +10,7 @@ import { faAlbumCirclePlus } from "@fortawesome/pro-duotone-svg-icons";
 const Playlist = () => {
   const [showForm, setShowForm] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const { songRefs } = useContext(Context);
+  const { songRefs } = useContext(MainContext);
 
   return (
     <div className={styles["container"]}>

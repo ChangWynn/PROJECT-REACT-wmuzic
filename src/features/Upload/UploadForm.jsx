@@ -9,7 +9,7 @@ import UploadButtons from "./UploadButtons";
 import ErrorMessage from "./ErrorMessage";
 import Modal from "./Modal";
 import { apiKey } from "../../.api";
-import { Context } from "../App/MusicPlayer";
+import { MainContext } from "../App/MusicPlayer";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -23,7 +23,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
   const upload = useUploadState();
 
   const { uid } = useOutletContext();
-  const { songRefs, setSongRefs } = useContext(Context);
+  const { songRefs, setSongRefs } = useContext(MainContext);
 
   const [uploadedSong, setUploadedSong] = useState(null);
 

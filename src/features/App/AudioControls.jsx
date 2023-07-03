@@ -7,34 +7,35 @@ import {
   faBackwardStep,
 } from "@fortawesome/sharp-solid-svg-icons";
 
-import { Context } from "./MusicPlayer";
+import { MainContext } from "./MusicPlayer";
 import { useContext } from "react";
 import ControlButton from "./ControlButton";
+import {
+  faArrowsRepeat,
+  faRepeat1,
+} from "@fortawesome/sharp-regular-svg-icons";
 
 const AudioControls = () => {
   const {
+    nextSong,
     songIsPlaying,
     setSongIsPlaying,
     currentSongIndex,
     setCurrentSongIndex,
+    currentSongRef,
     songRefs,
-  } = useContext(Context);
+    currentRepeatMode,
+    setCurrentRepeatMode,
+  } = useContext(MainContext);
 
   const togglePlay = () => {
     setSongIsPlaying(!songIsPlaying);
   };
 
-  const nextSong = () => {
-    if (currentSongIndex === songRefs.length - 1) setCurrentSongIndex(0);
-    else {
-      setCurrentSongIndex((currentIndex) => {
-        return currentIndex + 1;
-      });
-    }
-  };
-
-  const previousSong = () => {
-    if (currentSongIndex === 0) setCurrentSongIndex(songRefs.length - 1);
+  const prevSong = () => {
+    if (currentSongRef.current.currentTime > 10) {
+      currentSongRef.current.currentTime = 0;
+    } else if (currentSongIndex === 0) setCurrentSongIndex(songRefs.length - 1);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex - 1;
@@ -42,22 +43,44 @@ const AudioControls = () => {
     }
   };
 
+  const toggleRepeatMode = () => {
+    if (currentRepeatMode === 2) setCurrentRepeatMode(0);
+    else {
+      setCurrentRepeatMode((prevMode) => {
+        return prevMode + 1;
+      });
+    }
+  };
+
+  const setRepeatIcon = () => {
+    if (currentRepeatMode === 0 || currentRepeatMode === 2) {
+      return faArrowsRepeat;
+    } else {
+      return faRepeat1;
+    }
+  };
+
   return (
     <div className={styles["audio-controls"]}>
       <ControlButton
-        onClickFn={previousSong}
+        onClickFn={prevSong}
         FaIcon={faBackwardStep}
-        styleName="icon-prev-next"
+        styleName="prev-next"
       />
       <ControlButton
         onClickFn={togglePlay}
         FaIcon={songIsPlaying ? faPause : faPlay}
-        styleName="icon-play-pause"
+        styleName="play-pause"
       />
       <ControlButton
         onClickFn={nextSong}
         FaIcon={faForwardStep}
-        styleName="icon-prev-next"
+        styleName="prev-next"
+      />
+      <ControlButton
+        onClickFn={toggleRepeatMode}
+        FaIcon={setRepeatIcon()}
+        styleName={currentRepeatMode === 0 ? "no-repeat" : "repeat"}
       />
     </div>
   );

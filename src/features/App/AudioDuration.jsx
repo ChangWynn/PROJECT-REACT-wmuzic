@@ -1,11 +1,11 @@
 import styles from "./css/AudioDuration.module.css";
-import { Context } from "./MusicPlayer";
+import { MainContext } from "./MusicPlayer";
 import { formatDuration } from "../../utilities/formatDuration";
 
 import { useContext, useEffect } from "react";
 
 const AudioDuration = () => {
-  const { currentSongRef } = useContext(Context);
+  const { currentSongRef } = useContext(MainContext);
   const songData = currentSongRef.current;
 
   const totalDuration = formatDuration(songData?.duration);

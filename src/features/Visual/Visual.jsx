@@ -2,12 +2,12 @@ import { getMetadata, ref } from "firebase/storage";
 import style from "./Visual.module.css";
 import { storage } from "../../config/firebase";
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../App/MusicPlayer";
+import { MainContext } from "../App/MusicPlayer";
 
 import defaultCover from "../../assets/default-album-cover.jpeg";
 
 const Visual = () => {
-  const { songRefs, currentSongIndex } = useContext(Context);
+  const { songRefs, currentSongIndex } = useContext(MainContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [albumCover, setAlbumCover] = useState("");

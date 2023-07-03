@@ -6,8 +6,9 @@
   /* border: 1px solid white; */
 }
 
-.icon-play-pause,
-.icon-prev-next {
+/* .icon-play-pause,
+.icon-prev-next,
+.icon-repeat {
   height: 7rem;
   width: 7rem;
   background-color: black;
@@ -15,10 +16,10 @@
   color: white;
   cursor: pointer;
   transition: all 0.2s ease-out;
-
-  /* border: 1px solid white; */
 }
-.icon-prev-next {
+.icon-prev-next,
+.icon-repeat,
+.icon-no-repeat {
   height: 5rem;
   width: 5rem;
 }
@@ -28,3 +29,7 @@
   transform: scale(1.05);
   color: var(--white-hover);
 }
+
+.icon-no-repeat {
+  color: rgb(55, 55, 55);
+} */

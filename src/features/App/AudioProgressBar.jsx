@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./css/AudioProgressBar.module.css";
 
-import { Context } from "./MusicPlayer";
+import { MainContext } from "./MusicPlayer";
 import AudioDuration from "./AudioDuration";
 
 const AudioProgressBar = () => {
@@ -9,7 +9,7 @@ const AudioProgressBar = () => {
   const [bufferProgression, setBufferProgression] = useState(0);
 
   const { currentSongRef, currentSongIndex, songIsPlaying } =
-    useContext(Context);
+    useContext(MainContext);
 
   const updateBufferProgression = ({ buffered, duration }) => {
     if (buffered.length > 0) {
