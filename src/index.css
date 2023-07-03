@@ -37,6 +37,7 @@ body {
 }
 
 button {
+  outline: none;
   font-family: "Cabin", sans-serif;
   background-color: transparent;
   border: none;

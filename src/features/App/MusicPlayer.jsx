@@ -22,12 +22,13 @@ const MusicPlayer = () => {
   const currentSongRef = useRef();
 
   useEffect(() => {
+    console.log("running");
     const downloadURL = async () => {
       const url = await getDownloadURL(songRefs[currentSongIndex]);
       setCurrentSongURL(url);
     };
     if (songRefs.length > 0) downloadURL();
-  }, [currentSongIndex, songRefs.length]);
+  }, [currentSongIndex, songRefs]);
 
   useEffect(() => {
     const song = currentSongRef?.current;

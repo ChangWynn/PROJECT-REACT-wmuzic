@@ -11,6 +11,7 @@ const Playlist = () => {
   const [showForm, setShowForm] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { songRefs } = useContext(Context);
+
   return (
     <div className={styles["container"]}>
       <div className={styles["playlist"]}>

@@ -1,7 +1,13 @@
 import styles from "./css/UploadForm.module.css";
 import useUploadState from "../hooks/useUploadState";
 import UploadState from "./UploadState";
+import MidPrompt from "./MidPrompt";
 import axios from "../../services/axios";
+import moment from "moment";
+import FormInputs from "./FormInputs";
+import UploadButtons from "./UploadButtons";
+import ErrorMessage from "./ErrorMessage";
+import Modal from "./Modal";
 import { apiKey } from "../../.api";
 import { Context } from "../App/MusicPlayer";
 
@@ -10,12 +16,6 @@ import { useOutletContext } from "react-router-dom";
 
 import { storage } from "../../config/firebase";
 import { ref, uploadBytes, updateMetadata } from "firebase/storage";
-import moment from "moment";
-import MidPrompt from "./MidPrompt";
-import FormInputs from "./FormInputs";
-import UploadButtons from "./UploadButtons";
-import ErrorMessage from "./ErrorMessage";
-import Modal from "./Modal";
 
 export const FormContext = React.createContext();
 
@@ -46,21 +46,20 @@ const UploadForm = ({ showForm, setShowForm }) => {
     }
   }, [uploadedSong]);
 
-  // UPDLOAD SONG LOGIC ///////
+  ////////// ADD NEW SONG MAIN FUNCTIONS ////////////////////
 
-  const addNewSong = async (checkboxValue = isChecked) => {
+  const addNewSong = async (mbidRequired = true) => {
     upload.start("Initializing...");
-
     const title = titleRef.current.value.trim();
     const artist = artistRef.current.value.trim();
 
-    if (invalidInputs(title, artist, uploadedSong)) return;
+    if (inputsAreInvalid(title, artist, uploadedSong)) return;
 
     let songData;
-    if (checkboxValue) {
+    if (isChecked) {
       songData = await fetchMetadata(title, artist);
       if (!songData) return;
-      if (mbidMissing(songData)) return;
+      if (mbidRequired && mbidAreMissing(songData)) return;
     }
 
     if (await uploadToFirebase(songData, title, artist)) return;
@@ -68,7 +67,9 @@ const UploadForm = ({ showForm, setShowForm }) => {
     cleanUp();
   };
 
-  const invalidInputs = (title, artist, uploadedSong) => {
+  ////////// ADD NEW SONG HELPER FUNCTIONS ////////////////////
+
+  const inputsAreInvalid = (title, artist, uploadedSong) => {
     if (!title || !artist || !uploadedSong) {
       upload.raiseError({
         description: "Invalid input",
@@ -98,11 +99,11 @@ const UploadForm = ({ showForm, setShowForm }) => {
     return res?.data.track;
   };
 
-  const mbidMissing = (songData) => {
-    const missingMBID = // returns true if any of the below is undefined
+  const mbidAreMissing = (songData) => {
+    const mbidMissing = // returns true if one of the below returns undefined
       !songData?.artist?.mbid || !songData?.mbid || !songData?.album?.mbid;
 
-    if (missingMBID) {
+    if (mbidMissing) {
       upload.stop();
       setMidPrompt(true);
       return true;
@@ -166,9 +167,17 @@ const UploadForm = ({ showForm, setShowForm }) => {
     setShowForm(false);
   };
 
+  ////////// END OF HELPER FUNCTIONS ////////////////////
+
   const closeModal = (e) => {
     if (e.target === backdropRef.current) setShowForm(false);
   };
+
+  document.addEventListener("keydown", (key) => {
+    if (showForm && key.code === "Escape") {
+      setShowForm(false);
+    }
+  });
 
   return (
     <FormContext.Provider
