@@ -1,0 +1,21 @@
+.checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 90%;
+  gap: 1rem;
+}
+.checkbox input[type="checkbox"] {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1.6rem;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.checkbox p {
+  font-size: 1.4rem;
+}

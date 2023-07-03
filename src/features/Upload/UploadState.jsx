@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./UploadState.module.css";
+import styles from "./css/UploadState.module.css";
 import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
 
 const UploadState = ({ message }) => {

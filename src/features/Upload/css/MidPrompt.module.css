@@ -19,6 +19,7 @@
 .mid-prompt h3 {
   font-size: 2.5rem;
 }
+
 .mid-prompt p {
   font-size: 1.7rem;
 }
@@ -27,6 +28,7 @@
 .mid-prompt-btns button {
   flex-direction: row;
 }
+
 .btn-icon,
 .mid-prompt-btns button {
   transition: all 0.2s ease-out;

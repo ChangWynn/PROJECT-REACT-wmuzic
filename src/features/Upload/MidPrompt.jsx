@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import styles from "./MidPrompt.module.css";
+import styles from "./css/MidPrompt.module.css";
 import { FormContext } from "./UploadForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
