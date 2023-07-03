@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.85);
   visibility: hidden;
   z-index: 6;
 
@@ -38,6 +38,40 @@
   /* border: 1px solid white; */
 }
 
+.mid-prompt {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.97);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  gap: 1rem;
+}
+
+.mid-prompt h3 {
+  font-size: 2.5rem;
+}
+.mid-prompt p {
+  font-size: 1.7rem;
+}
+.mid-prompt-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+.mid-prompt-btns button {
+  margin-top: 5rem;
+  height: 5rem;
+  width: 10rem;
+  border-radius: 5px;
+}
+
 .error-message,
 .form--input,
 .form--upload-btn-container,
@@ -53,8 +87,14 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 2rem;
+}
+.form .error-message h3 {
+  font-size: 1.3rem;
+}
+.form .error-message p {
+  font-size: 1.3rem;
 }
 
 .form--input {
@@ -164,18 +204,18 @@
   width: 10rem;
   border-radius: 5px;
 }
-.form--validation-btn .cancel {
+.cancel {
   color: var(--white);
 
   transition: all 0.1s ease-out;
 }
-.form--validation-btn .cancel:hover {
+.cancel:hover {
   color: #6c3ce3;
 }
-.form--validation-btn .confirm {
+.confirm {
   background-color: #541be4;
   transition: all 0.1s ease-out;
 }
-.form--validation-btn .confirm:hover {
+.confirm:hover {
   background-color: #4a1cc0;
 }

@@ -4,29 +4,26 @@ import { apiKey } from "../../.api";
 import { Context } from "../App/MusicPlayer";
 import useUploadState from "../hooks/useUploadState";
 
-import React, {
-  forwardRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import { storage } from "../../config/firebase";
 import { ref, uploadBytes, updateMetadata } from "firebase/storage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlbum } from "@fortawesome/pro-solid-svg-icons";
+import UploadState from "./UploadState";
 
-const UploadForm = ({ showForm, setShowForm }, { dialogRef }) => {
-  const { isUploading, uploadState, uploadError } = useUploadState();
+const UploadForm = ({ showForm, setShowForm }) => {
+  const upload = useUploadState();
 
   const { uid } = useOutletContext();
   const { songRefs, setSongRefs } = useContext(Context);
 
   const [uploadedSong, setUploadedSong] = useState(null);
+
   const [uploadedSongDuration, setUploadedSongDuration] = useState(0);
   const [isChecked, setIsChecked] = useState(true);
+  const [midPrompt, setMidPrompt] = useState(false);
 
   const titleRef = useRef();
   const artistRef = useRef();
@@ -45,44 +42,41 @@ const UploadForm = ({ showForm, setShowForm }, { dialogRef }) => {
 
   // UPDLOAD SONG LOGIC ///////
 
-  const addNewSong = async (e) => {
-    e.preventDefault();
-    isUploading.set(true);
+  const addNewSong = async (checkboxValue = isChecked) => {
+    console.log(checkboxValue);
+    upload.start("Initializing...");
+
     const title = titleRef.current.value.trim();
     const artist = artistRef.current.value.trim();
 
     if (!title || !artist || !uploadedSong) {
-      uploadError.set({
+      upload.raiseError({
         description: "Invalid input",
         action: "Please fill in all fields",
       });
-      isUploading.stop();
       return;
     }
 
     let songData;
-    if (isChecked) {
+    if (checkboxValue) {
+      upload.updateState("Retrieving metadata...");
       songData = await fetchSongData(title, artist);
     }
 
     const missingMBID = // returns
       !songData?.artist?.mbid || !songData?.mbid || !songData?.album?.mbid;
 
-    if (isChecked && !songData) {
-      uploadError.set({
+    if (checkboxValue && !songData) {
+      upload.raiseError({
         description: "No match found",
         action: "Please check spelling or continue without LastFm metadata",
       });
-      isUploading.stop();
       return;
     }
 
-    if (isChecked && missingMBID) {
-      uploadError.set({
-        description: "LastFM incomplete data",
-        action: "",
-      });
-      isUploading.stop();
+    if (checkboxValue && missingMBID) {
+      upload.pause();
+      setMidPrompt(true);
       return;
     }
 
@@ -94,16 +88,17 @@ const UploadForm = ({ showForm, setShowForm }, { dialogRef }) => {
       }`
     );
     try {
+      upload.updateState("Uploading file...");
       await uploadFile(songRef, metaData);
       setSongRefs((prevRefs) => {
         return [...prevRefs, songRef];
       });
+      upload.success();
     } catch (err) {
-      uploadError.set({
+      upload.raiseError({
         description: "Something went wrong",
-        action: "please try again",
+        action: "Please try again",
       });
-      isUploading.stop();
     }
     cleanUp();
   };
@@ -142,15 +137,22 @@ const UploadForm = ({ showForm, setShowForm }, { dialogRef }) => {
     titleRef.current.value = "";
     artistRef.current.value = "";
     fileInputRef.current.value = null;
-    isUploading.set(false);
-    uploadState.set("");
-    uploadError.set("");
+    upload.reset();
     setUploadedSong(null);
     setShowForm(false);
   };
 
   const closeModal = (e) => {
     if (e.target === backdropRef.current) setShowForm(false);
+  };
+
+  const resumeUpload = () => {
+    setMidPrompt(false);
+    addNewSong(false);
+  };
+
+  const cancelUpload = () => {
+    setMidPrompt(false);
   };
 
   return (
@@ -161,13 +163,26 @@ const UploadForm = ({ showForm, setShowForm }, { dialogRef }) => {
         showForm && styles["visible"]
       }`}
     >
-      <form
-        onSubmit={addNewSong}
-        className={`${styles["form"]} ${showForm && styles["visible"]}`}
-      >
+      {midPrompt && (
+        <div className={styles["mid-prompt"]}>
+          <h3>Metadata not found</h3>
+          <p>Metadata might be missing or incorrect in the LastFM database.</p>
+          <p>Come back to check spelling or continue anyway ?</p>
+          <div className={styles["mid-prompt-btns"]}>
+            <button className={styles["cancel"]} onClick={cancelUpload}>
+              Back
+            </button>
+            <button className={styles["confirm"]} onClick={resumeUpload}>
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
+      {upload.inProgress && <UploadState message={upload.message} />}
+      <div className={`${styles["form"]} ${showForm && styles["visible"]}`}>
         <div className={styles["error-message"]}>
-          <h2>{uploadError?.message?.description}</h2>
-          <p>{uploadError?.message?.action}</p>
+          <h2>{upload?.errorMessage?.description}</h2>
+          <p>{upload?.errorMessage?.action}</p>
         </div>
         <div className={styles["form--input"]}>
           <input
@@ -220,11 +235,11 @@ const UploadForm = ({ showForm, setShowForm }, { dialogRef }) => {
           <button className={styles["cancel"]} onClick={cleanUp}>
             Cancel
           </button>
-          <button className={styles["confirm"]}>
-            {isUploading.state ? "Uploading..." : "Upload"}
+          <button className={styles["confirm"]} onClick={addNewSong}>
+            Upload
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

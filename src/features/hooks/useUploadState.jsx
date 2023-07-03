@@ -3,16 +3,56 @@ import { useState } from "react";
 const useUploadState = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadState, setUploadState] = useState(null);
-  const [uploadError, setUploadError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const start = (message) => {
+    setIsUploading(true);
+    setUploadState(message);
+  };
+
+  const pause = () => {
+    setIsUploading(false);
+  };
+  const resume = () => {
+    setIsUploading(true);
+  };
+
+  const updateState = (message) => {
+    setUploadState({
+      description: message,
+      action: "Please wait",
+    });
+  };
+
+  const raiseError = (message) => {
+    setErrorMessage(message);
+    setIsUploading(false);
+  };
+
+  const success = () => {
+    setUploadState({
+      description: "Upload Complete",
+      action: "",
+    });
+    setIsUploading(false);
+  };
+
+  const reset = () => {
+    setUploadState({});
+    setIsUploading(false);
+  };
 
   return {
-    isUploading: {
-      state: isUploading,
-      set: setIsUploading,
-      stop: () => setIsUploading(false),
-    },
-    uploadState: { message: uploadState, set: setUploadState },
-    uploadError: { message: uploadError, set: setUploadError },
+    start,
+    pause,
+    resume,
+    updateState,
+    raiseError,
+    reset,
+    success,
+    errorMessage,
+    message: uploadState,
+    inProgress: isUploading,
   };
 };
 
