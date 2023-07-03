@@ -38,6 +38,7 @@
   flex-grow: 0;
   width: 7rem;
   height: 5rem;
+  background-color: var(--white);
 }
 .auth--google-btn:hover {
   background-color: var(--white-hover);
