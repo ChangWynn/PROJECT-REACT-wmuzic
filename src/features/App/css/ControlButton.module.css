@@ -28,14 +28,15 @@
 }
 
 .icon.repeat,
-.icon.no-repeat {
+.icon.shuffle,
+.icon.off {
   height: 3.5rem;
   width: 3.5rem;
 }
 
-.icon.no-repeat {
+.icon.off {
   color: rgb(80, 80, 80);
 }
-.icon.no-repeat:hover {
+.icon.off:hover {
   transform: scale(1.05);
 }

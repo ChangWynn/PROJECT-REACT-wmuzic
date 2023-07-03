@@ -13,6 +13,7 @@ import ControlButton from "./ControlButton";
 import {
   faArrowsRepeat,
   faRepeat1,
+  faShuffle,
 } from "@fortawesome/sharp-regular-svg-icons";
 
 const AudioControls = () => {
@@ -26,6 +27,8 @@ const AudioControls = () => {
     songRefs,
     currentRepeatMode,
     setCurrentRepeatMode,
+    shuffleMode,
+    setShuffleMode,
   } = useContext(MainContext);
 
   const togglePlay = () => {
@@ -63,6 +66,11 @@ const AudioControls = () => {
   return (
     <div className={styles["audio-controls"]}>
       <ControlButton
+        onClickFn={toggleRepeatMode}
+        FaIcon={setRepeatIcon()}
+        styleName={currentRepeatMode === 0 ? "off" : "repeat"}
+      />
+      <ControlButton
         onClickFn={prevSong}
         FaIcon={faBackwardStep}
         styleName="prev-next"
@@ -78,9 +86,9 @@ const AudioControls = () => {
         styleName="prev-next"
       />
       <ControlButton
-        onClickFn={toggleRepeatMode}
-        FaIcon={setRepeatIcon()}
-        styleName={currentRepeatMode === 0 ? "no-repeat" : "repeat"}
+        onClickFn={() => setShuffleMode(!shuffleMode)}
+        FaIcon={faShuffle}
+        styleName={shuffleMode ? "shuffle" : "off"}
       />
     </div>
   );

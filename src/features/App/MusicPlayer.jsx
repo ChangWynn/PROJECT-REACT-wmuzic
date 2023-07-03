@@ -20,6 +20,7 @@ const MusicPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
   const [currentRepeatMode, setCurrentRepeatMode] = useState(0);
+  const [shuffleMode, setShuffleMode] = useState(false);
 
   const currentSongRef = useRef();
 
@@ -40,7 +41,8 @@ const MusicPlayer = () => {
   }, [songIsPlaying, currentSongURL]);
 
   const nextSong = () => {
-    if (currentSongIndex === songRefs.length - 1) setCurrentSongIndex(0);
+    if (shuffleMode) shuffleModeOnHandler();
+    else if (currentSongIndex === songRefs.length - 1) setCurrentSongIndex(0);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex + 1;
@@ -49,18 +51,37 @@ const MusicPlayer = () => {
   };
 
   const endOfTrackHandler = () => {
-    const isTheLastSong = currentSongIndex === songRefs.length - 1;
-    if (currentRepeatMode === 0 && !isTheLastSong) {
-      nextSong();
-    }
     if (currentRepeatMode === 1) {
       currentSongRef.current.play();
+    } else {
+      if (shuffleMode) {
+        shuffleModeOnHandler();
+      } else {
+        shuffleModeOffHandler();
+      }
     }
-    if (currentRepeatMode === 2) {
+  };
+
+  const shuffleModeOnHandler = () => {
+    const currentIndex = currentSongIndex;
+    const randomIndex = Math.floor(Math.random() * (songRefs.length + 1));
+
+    if (currentIndex === randomIndex) {
+      shuffleModeOnHandler();
+    } else {
+      setCurrentSongIndex(randomIndex);
+    }
+  };
+
+  const shuffleModeOffHandler = () => {
+    const isTheLastSong = currentSongIndex === songRefs.length - 1;
+    if (
+      (currentRepeatMode === 0 && !isTheLastSong) ||
+      currentRepeatMode === 2
+    ) {
       nextSong();
     }
   };
-  console.log(currentRepeatMode);
 
   return (
     <MainContext.Provider
@@ -75,6 +96,8 @@ const MusicPlayer = () => {
         setSongRefs,
         currentRepeatMode,
         setCurrentRepeatMode,
+        shuffleMode,
+        setShuffleMode,
       }}
     >
       <div className={styles["app"]}>
