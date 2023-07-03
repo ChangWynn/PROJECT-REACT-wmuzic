@@ -56,6 +56,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
 
     if (invalidInputs(title, artist, uploadedSong)) return;
 
+    console.log("checkboxValue", checkboxValue);
     let songData;
     if (checkboxValue) {
       songData = await fetchMetadata(title, artist);
