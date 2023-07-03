@@ -1,0 +1,50 @@
+.mid-prompt,
+.mid-prompt-btns,
+.mid-prompt-btns button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mid-prompt {
+  position: absolute;
+  background-color: var(--mid-prompt-backdrop);
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  z-index: 3;
+  gap: 1rem;
+}
+
+.mid-prompt h3 {
+  font-size: 2.5rem;
+}
+.mid-prompt p {
+  font-size: 1.7rem;
+}
+
+.mid-prompt-btns,
+.mid-prompt-btns button {
+  flex-direction: row;
+}
+.btn-icon,
+.mid-prompt-btns button {
+  transition: all 0.2s ease-out;
+}
+
+.mid-prompt-btns {
+  gap: 10rem;
+}
+
+.mid-prompt-btns button {
+  gap: 1.5rem;
+  height: 5rem;
+  width: 10rem;
+  margin-top: 5rem;
+  font-size: 2rem;
+}
+
+.mid-prompt-btns button:hover .btn-icon {
+  scale: 1.5;
+  color: var(--mid-prompt-arrows-hover);
+}

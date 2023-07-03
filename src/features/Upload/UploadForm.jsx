@@ -13,6 +13,9 @@ import { ref, uploadBytes, updateMetadata } from "firebase/storage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlbum } from "@fortawesome/pro-solid-svg-icons";
 import moment from "moment";
+import MidPrompt from "./MidPrompt";
+
+export const FormContext = React.createContext();
 
 const UploadForm = ({ showForm, setShowForm }) => {
   const upload = useUploadState();
@@ -164,101 +167,87 @@ const UploadForm = ({ showForm, setShowForm }) => {
   const closeModal = (e) => {
     if (e.target === backdropRef.current) setShowForm(false);
   };
-
-  const resumeUpload = () => {
-    setMidPrompt(false);
-    addNewSong(false);
-  };
-
-  const cancelUpload = () => {
-    setMidPrompt(false);
-  };
-
+  console.log(midPrompt);
   return (
-    <div
-      ref={backdropRef}
-      onClick={closeModal}
-      className={`${styles["form--background"]} ${
-        showForm && styles["visible"]
-      }`}
+    <FormContext.Provider
+      value={{
+        addNewSong,
+        MidPrompt,
+        setMidPrompt,
+      }}
     >
-      {midPrompt && (
-        <div className={styles["mid-prompt"]}>
-          <h3>Metadata found but might be incorrect</h3>
-          <p>Come back to check spelling or continue anyway ?</p>
-          <div className={styles["mid-prompt-btns"]}>
-            <button className={styles["cancel"]} onClick={cancelUpload}>
-              Back
-            </button>
-            <button className={styles["confirm"]} onClick={resumeUpload}>
-              Continue
-            </button>
+      <div
+        ref={backdropRef}
+        onClick={closeModal}
+        className={`${styles["form--background"]} ${
+          showForm && styles["visible"]
+        }`}
+      >
+        {midPrompt && <MidPrompt />}
+        {upload.inProgress && <UploadState message={upload.message} />}
+        <div className={`${styles["form"]} ${showForm && styles["visible"]}`}>
+          <div className={styles["error-message"]}>
+            <h2>{upload?.errorMessage?.description}</h2>
+            <p>{upload?.errorMessage?.action}</p>
           </div>
-        </div>
-      )}
-      {upload.inProgress && <UploadState message={upload.message} />}
-      <div className={`${styles["form"]} ${showForm && styles["visible"]}`}>
-        <div className={styles["error-message"]}>
-          <h2>{upload?.errorMessage?.description}</h2>
-          <p>{upload?.errorMessage?.action}</p>
-        </div>
-        <div className={styles["form--input"]}>
-          <input
-            ref={titleRef}
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Enter the new song title"
-          />
-          <input
-            ref={artistRef}
-            type="text"
-            id="artist"
-            name="artist"
-            placeholder="Enter the artist name"
-          />
-          <div className={styles["form--upload-btn-container"]}>
+          <div className={styles["form--input"]}>
             <input
-              ref={fileInputRef}
-              type="file"
-              id="file"
-              name="file"
-              multiple={false}
-              accept=".mp3, .wav, .ogg"
-              onChange={(e) => {
-                setUploadedSong(e.target.files[0]);
-              }}
+              ref={titleRef}
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Enter the new song title"
             />
-            <div className={styles["form--btn-icon"]}>
-              <FontAwesomeIcon
-                icon={faAlbum}
-                size="4x"
-                style={{ color: "#ffffff" }}
+            <input
+              ref={artistRef}
+              type="text"
+              id="artist"
+              name="artist"
+              placeholder="Enter the artist name"
+            />
+            <div className={styles["form--upload-btn-container"]}>
+              <input
+                ref={fileInputRef}
+                type="file"
+                id="file"
+                name="file"
+                multiple={false}
+                accept=".mp3, .wav, .ogg"
+                onChange={(e) => {
+                  setUploadedSong(e.target.files[0]);
+                }}
               />
-              <h3>{uploadedSong?.name || "Choose file"}</h3>
+              <div className={styles["form--btn-icon"]}>
+                <FontAwesomeIcon
+                  icon={faAlbum}
+                  size="4x"
+                  style={{ color: "#ffffff" }}
+                />
+                <h3>{uploadedSong?.name || "Choose file"}</h3>
+              </div>
+            </div>
+            <div className={styles["checkbox"]}>
+              <input
+                type="checkbox"
+                id="checkbox"
+                name="checkbox"
+                onChange={() => setIsChecked(!isChecked)}
+                checked={isChecked}
+              />
+              <p>Would you like to use LastFM metadata?</p>
             </div>
           </div>
-          <div className={styles["checkbox"]}>
-            <input
-              type="checkbox"
-              id="checkbox"
-              name="checkbox"
-              onChange={() => setIsChecked(!isChecked)}
-              checked={isChecked}
-            />
-            <p>Would you like to use LastFM metadata?</p>
+          <div className={styles["form--validation-btn"]}>
+            <button className={styles["cancel"]} onClick={cleanUp}>
+              Cancel
+            </button>
+            <button className={styles["confirm"]} onClick={addNewSong}>
+              Upload
+            </button>
           </div>
         </div>
-        <div className={styles["form--validation-btn"]}>
-          <button className={styles["cancel"]} onClick={cleanUp}>
-            Cancel
-          </button>
-          <button className={styles["confirm"]} onClick={addNewSong}>
-            Upload
-          </button>
-        </div>
       </div>
-    </div>
+    </FormContext.Provider>
   );
 };
 
