@@ -2,7 +2,7 @@ import { getMetadata, ref } from "firebase/storage";
 import style from "./Visual.module.css";
 import { storage } from "../../config/firebase";
 import { useContext, useEffect, useState } from "react";
-import { MainContext } from "../App/MusicPlayer";
+import { Context, MainContext } from "../App/MusicPlayer";
 
 import defaultCover from "../../assets/default-album-cover.jpeg";
 
@@ -30,7 +30,7 @@ const Visual = () => {
         {isLoading ? (
           <h3>Loading...</h3>
         ) : (
-          <img src={albumCover || defaultCover} />
+          <img src={albumCover || defaultCover} alt="album cover" />
         )}
       </div>
       <div className={style["song-info"]}>

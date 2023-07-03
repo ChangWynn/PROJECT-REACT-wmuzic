@@ -25,7 +25,6 @@ const MusicPlayer = () => {
   const currentSongRef = useRef();
 
   useEffect(() => {
-    console.log("running");
     const downloadURL = async () => {
       const url = await getDownloadURL(songRefs[currentSongIndex]);
       setCurrentSongURL(url);
@@ -35,6 +34,7 @@ const MusicPlayer = () => {
 
   useEffect(() => {
     const song = currentSongRef?.current;
+
     if (songIsPlaying) {
       song.play();
     } else song.pause();
@@ -103,9 +103,10 @@ const MusicPlayer = () => {
       <div className={styles["app"]}>
         <audio
           ref={currentSongRef}
+          id="audio"
           src={currentSongURL}
           onEnded={endOfTrackHandler}
-        ></audio>
+        />
         <AppNavigation />
         <div className={styles["app--middle"]}>
           <Playlist />
