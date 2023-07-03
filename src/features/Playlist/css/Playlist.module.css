@@ -1,42 +1,41 @@
 .container {
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
-  width: 45rem;
+  overflow: hidden;
   height: 100%;
-}
-
-.playlist {
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 6rem);
-  overflow: scroll;
-  padding: 2rem 2rem;
-  scroll-behavior: smooth;
-
+  width: 0;
+  /* transform: translateX(-45rem); */
+  transition: width 0.2s ease-out;
   /* border: 1px solid white; */
 }
 
+.container.show,
+.playlist.show {
+  width: 45rem;
+  opacity: 1;
+  /* transform: translateX(0); */
+}
+.playlist {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: scroll;
+  padding: 2rem 2rem;
+  scroll-behavior: smooth;
+  opacity: 0;
+  /* border: 1px solid white; */
+  transition: opacity 0.2s ease-out;
+}
+
 .playlist::-webkit-scrollbar {
-  width: 0; /* Adjust the width if needed */
+  width: 0;
 }
 
 .playlist::-webkit-scrollbar-track {
-  background: transparent; /* Set the background color of the track */
+  background: transparent;
 }
 
 .playlist::-webkit-scrollbar-thumb {
-  background: transparent; /* Set the background color of the thumb */
-}
-
-.playlist--menu {
-  padding: 0 3rem;
-  height: 6rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-.add-btn {
-  width: 100%;
-  height: 100%;
+  background: transparent;
 }

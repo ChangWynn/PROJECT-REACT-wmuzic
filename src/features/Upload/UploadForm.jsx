@@ -211,7 +211,6 @@ const UploadForm = ({ showForm, setShowForm }) => {
           <FormInputs ref={{ titleRef, artistRef, fileInputRef }} />
           <UploadButtons />
         </Modal>
-        ,
       </div>
     </FormContext.Provider>
   );

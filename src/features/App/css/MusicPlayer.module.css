@@ -13,7 +13,7 @@
   flex-direction: row;
   align-items: center;
 
-  height: calc(100vh - 9rem - 24rem);
+  height: calc(100vh - 9rem - 6rem - 24rem);
 
   /* border: 1px solid white; */
 }

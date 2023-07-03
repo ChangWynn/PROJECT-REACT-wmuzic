@@ -1,8 +1,7 @@
-import { getMetadata, ref } from "firebase/storage";
+import { getMetadata } from "firebase/storage";
 import style from "./Visual.module.css";
-import { storage } from "../../config/firebase";
 import { useContext, useEffect, useState } from "react";
-import { Context, MainContext } from "../App/MusicPlayer";
+import { MainContext } from "../App/MusicPlayer";
 
 import defaultCover from "../../assets/default-album-cover.jpeg";
 

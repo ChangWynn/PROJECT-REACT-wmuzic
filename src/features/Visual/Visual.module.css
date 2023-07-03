@@ -1,21 +1,27 @@
 .container,
+.album-cover,
 .song-info {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
 }
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+  gap: 3rem;
+  /* border: 1px solid white; */
+}
+
 .album-cover {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 30rem;
   width: 30rem;
-
+  box-shadow: 0 0 10px 1px var(--pink-hover);
   border: 2px solid var(--pink);
+  position: relative;
+  z-index: 1;
 }
 
 .album-cover img {
@@ -29,7 +35,10 @@
   font-weight: 100;
 }
 .song-info {
+  width: 100%;
   gap: 1rem;
+  position: relative;
+  z-index: 1;
 }
 .song-info h2 {
   font-size: 2.5rem;

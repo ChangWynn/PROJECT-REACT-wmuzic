@@ -1,10 +1,8 @@
 import styles from "./css/AppLayout.module.css";
-import AppNavigation from "../features/App/AppNavigation";
+import { getUserStorage } from "../utilities/getUserStorage";
 
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLoaderData } from "react-router-dom";
-
-import { getUserStorage } from "../utilities/getUserStorage";
 
 const AppLayout = () => {
   const [uid] = useState(localStorage.getItem("uid"));
@@ -18,7 +16,6 @@ const AppLayout = () => {
   if (uid) {
     return (
       <div className={styles["app--container"]}>
-        {/* <AppNavigation /> */}
         <Outlet context={{ uid, allRefs: allRefs.items }} />
       </div>
     );

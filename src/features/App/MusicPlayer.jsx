@@ -9,6 +9,9 @@ import { getDownloadURL } from "firebase/storage";
 import Visual from "../Visual/Visual";
 import AppNavigation from "./AppNavigation";
 
+import UploadForm from "../Upload/UploadForm";
+import Menu from "../Menu/Menu";
+
 export const MainContext = React.createContext();
 
 const MusicPlayer = () => {
@@ -23,6 +26,9 @@ const MusicPlayer = () => {
   const [shuffleMode, setShuffleMode] = useState(false);
 
   const currentSongRef = useRef();
+
+  const [showForm, setShowForm] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(true);
 
   useEffect(() => {
     const downloadURL = async () => {
@@ -64,7 +70,7 @@ const MusicPlayer = () => {
 
   const shuffleModeOnHandler = () => {
     const currentIndex = currentSongIndex;
-    const randomIndex = Math.floor(Math.random() * (songRefs.length + 1));
+    const randomIndex = Math.floor(Math.random() * songRefs.length);
 
     if (currentIndex === randomIndex) {
       shuffleModeOnHandler();
@@ -98,6 +104,10 @@ const MusicPlayer = () => {
         setCurrentRepeatMode,
         shuffleMode,
         setShuffleMode,
+        showPlaylist,
+        setShowPlaylist,
+        showForm,
+        setShowForm,
       }}
     >
       <div className={styles["app"]}>
@@ -112,7 +122,9 @@ const MusicPlayer = () => {
           <Playlist />
           {songRefs.length > 0 && <Visual />}
         </div>
+        <Menu />
         <AudioControllers />
+        <UploadForm showForm={showForm} setShowForm={setShowForm} />
       </div>
     </MainContext.Provider>
   );
