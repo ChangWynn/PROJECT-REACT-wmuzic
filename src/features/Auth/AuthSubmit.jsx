@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 const AuthSubmit = ({ mode, setErrorMessage }) => {
   const navigate = useNavigate();
+
   const signinWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuth);
+      localStorage.setItem("uid", auth.currentUser.uid);
       navigate("/app");
     } catch (err) {
       setErrorMessage(err.code);
