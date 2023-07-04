@@ -2,7 +2,7 @@ import styles from "./css/Playlist.module.css";
 import Song from "./Song";
 
 import { MainContext } from "../App/MusicPlayer";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 const Playlist = () => {
   const { songRefs, showPlaylist } = useContext(MainContext);

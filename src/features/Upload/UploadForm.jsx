@@ -46,7 +46,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
     }
   }, [uploadedSong]);
 
-  ////////// ADD NEW SONG MAIN FUNCTIONS ////////////////////
+  ////////// ADD NEW SONG FUNCTION ////////////////////
 
   const addNewSong = async (mbidRequired = true) => {
     upload.start("Initializing...");

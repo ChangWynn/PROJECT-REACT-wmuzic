@@ -21,11 +21,12 @@
   flex-direction: column;
   height: 100%;
   overflow: scroll;
-  padding: 2rem 2rem;
+  padding: 2rem;
   scroll-behavior: smooth;
   opacity: 0;
   /* border: 1px solid white; */
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.1s ease-out;
+  user-select: none;
 }
 
 .playlist::-webkit-scrollbar {

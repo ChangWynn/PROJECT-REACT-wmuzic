@@ -9,10 +9,13 @@
 
   /* border: 1px solid white; */
 }
-
-.icon.disabled {
+.icon.play-pause.icon.disabled,
+.icon.prev-next.icon.disabled,
+.icon.repeat.icon.disabled,
+.icon.shuffle.icon.disabled {
   color: rgb(55, 55, 55);
   cursor: initial;
+  transform: none;
 }
 
 .icon.prev-next {

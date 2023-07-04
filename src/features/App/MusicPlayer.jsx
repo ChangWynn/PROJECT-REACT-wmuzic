@@ -36,7 +36,7 @@ const MusicPlayer = () => {
       setCurrentSongURL(url);
     };
     if (songRefs.length > 0) downloadURL();
-  }, [currentSongIndex, songRefs]);
+  }, [currentSongIndex]);
 
   useEffect(() => {
     const song = currentSongRef?.current;

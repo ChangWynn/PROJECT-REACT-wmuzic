@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "music-player-189b5"
-  }
+    "default": "wmuzic-3020e",
+    "wmuzic": "wmuzic-3020e"
+  },
+  "targets": {},
+  "etags": {}
 }
