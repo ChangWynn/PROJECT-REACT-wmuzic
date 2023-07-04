@@ -9,6 +9,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/pro-solid-svg-icons";
 import { faCirclePlay, faXmark } from "@fortawesome/sharp-regular-svg-icons";
+import { faCirclePause } from "@fortawesome/pro-regular-svg-icons";
 
 const Song = ({ itemRef, index }) => {
   const {
@@ -51,10 +52,24 @@ const Song = ({ itemRef, index }) => {
   };
 
   const playSelectedSong = () => {
-    setCurrentSongIndex(index);
-    if (!songIsPlaying) {
-      setTimeout(() => setSongIsPlaying(true), 500);
+    if (currentSongIndex === index) {
+      setSongIsPlaying(!songIsPlaying);
+    } else {
+      setCurrentSongIndex(index);
+      if (!songIsPlaying) {
+        setTimeout(() => setSongIsPlaying(true), 500);
+      }
     }
+  };
+
+  const renderThumbnailIcon = () => {
+    if (songIsPlaying && currentSongIndex === index) return faCirclePause;
+    else return faCirclePlay;
+  };
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+    setShowDelete(false);
   };
 
   const closeMenu = () => {
@@ -97,7 +112,7 @@ const Song = ({ itemRef, index }) => {
                     className={styles["play-btn"]}
                     onClick={playSelectedSong}
                   >
-                    <FontAwesomeIcon size="3x" icon={faCirclePlay} />
+                    <FontAwesomeIcon size="3x" icon={renderThumbnailIcon()} />
                   </div>
                 </div>
                 <div className={styles["song-info--details"]}>
@@ -106,10 +121,7 @@ const Song = ({ itemRef, index }) => {
                 </div>
                 <div className={styles["hover-options"]}>
                   {isHovered ? (
-                    <div
-                      className={styles["menu"]}
-                      onClick={() => setShowMenu(!showMenu)}
-                    >
+                    <div className={styles["menu"]} onClick={toggleMenu}>
                       <FontAwesomeIcon
                         size="xl"
                         icon={showMenu ? faXmark : faEllipsisVertical}
@@ -133,7 +145,12 @@ const Song = ({ itemRef, index }) => {
                       <button onClick={() => setShowDelete(false)}>
                         Cancel
                       </button>
-                      <button onClick={confirmDelete}>Confirm</button>
+                      <button
+                        className={styles["confirm-delete-btn"]}
+                        onClick={confirmDelete}
+                      >
+                        Confirm
+                      </button>
                     </div>
                   )}
                 </div>

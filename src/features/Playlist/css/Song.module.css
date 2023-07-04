@@ -1,7 +1,7 @@
 .song-container {
   border-block: rgb(28, 28, 28) 0.5px solid;
   height: 8rem;
-  padding: 1rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -152,4 +152,13 @@
 
 .song-menu button:hover {
   color: var(--pink-hover);
+}
+
+.song-menu .confirm-delete-btn {
+  color: red;
+  transition: all 0.2s ease-out;
+}
+
+.song-menu .confirm-delete-btn:hover {
+  color: rgb(204, 32, 32);
 }
