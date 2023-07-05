@@ -52,26 +52,29 @@
   object-fit: cover;
 }
 
-.play-btn {
+.icon-container {
   position: absolute;
   top: 0;
-  left: 0%;
+  left: 0;
   height: 100%;
   width: 100%;
+  transition: all 0.1s ease-out;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
   transition: all 0.1s ease-out;
 }
-.play-btn:hover {
-  color: white;
-  opacity: 1;
-}
-.play-btn:active {
+
+.icon:active {
   color: var(--pink);
+  scale: 1.2;
   opacity: 1;
 }
 

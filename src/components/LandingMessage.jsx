@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWaveformLines } from "@fortawesome/pro-duotone-svg-icons";
-import styles from "./css/LandingMessage.module.css";
+import styles from "./LandingMessage.module.css";
 
 const LandingMessage = () => {
   return (

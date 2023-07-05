@@ -2,10 +2,23 @@ import styles from "./css/Playlist.module.css";
 import Song from "./Song";
 
 import { MainContext } from "../App/MusicPlayer";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { getMetadata } from "firebase/storage";
 
-const Playlist = () => {
-  const { songRefs, showPlaylist } = useContext(MainContext);
+const Playlist = ({ songRefs }) => {
+  const { showPlaylist } = useContext(MainContext);
+  const [metadata, setMetadata] = useState(null);
+
+  useEffect(() => {
+    const extractMetadata = async () => {
+      const metadata = await songRefs.map(async (songRef) => {
+        return await getMetadata(songRef);
+      });
+      setMetadata(await Promise.all(metadata));
+    };
+
+    extractMetadata();
+  }, [songRefs.length]);
 
   return (
     <div className={`${styles["container"]} ${showPlaylist && styles["show"]}`}>
@@ -13,8 +26,16 @@ const Playlist = () => {
         className={`${styles["playlist"]} ${showPlaylist && styles["show"]}`}
       >
         {songRefs.length > 0 &&
-          songRefs.map((itemRef, index) => {
-            return <Song key={itemRef.name} itemRef={itemRef} index={index} />;
+          metadata &&
+          songRefs.map((songRef, index) => {
+            return (
+              <Song
+                key={songRef.name}
+                songRef={songRef}
+                songMD={metadata[index]}
+                index={index}
+              />
+            );
           })}
       </div>
     </div>

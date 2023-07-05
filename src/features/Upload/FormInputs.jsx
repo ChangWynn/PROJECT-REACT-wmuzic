@@ -1,5 +1,5 @@
 import styles from "./css/FormInputs.module.css";
-import Input from "./ui/Input";
+import Input from "../../components/ui/Input";
 import InputFile from "./InputFile";
 import InputCheckbox from "./InputCheckbox";
 import { forwardRef } from "react";

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import styles from "./css/InputCheckbox.module.css";
 import { FormContext } from "./UploadForm";
-import Input from "./ui/Input";
+import Input from "../../components/ui/Input";
 
 const InputCheckbox = ({ checkboxLabel }) => {
   const { isChecked, setIsChecked } = useContext(FormContext);

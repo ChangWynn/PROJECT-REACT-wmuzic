@@ -2,7 +2,7 @@ import { forwardRef, useContext } from "react";
 import styles from "./css/InputFile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlbum } from "@fortawesome/pro-solid-svg-icons";
-import Input from "./ui/Input";
+import Input from "../../components/ui/Input";
 import { FormContext } from "./UploadForm";
 
 const InputFile = forwardRef((_, ref) => {

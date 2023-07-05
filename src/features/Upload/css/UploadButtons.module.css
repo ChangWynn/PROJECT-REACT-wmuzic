@@ -1,4 +1,6 @@
-.form--validation-btn {
+/* STYLES WAS MOVED TO RESPECTIVE COMPONENTS CSS FILES */
+
+/* .form--validation-btn {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -10,8 +12,8 @@
   height: 5rem;
   width: 10rem;
   border-radius: 5px;
-}
-.cancel {
+} */
+/* .cancel {
   color: var(--white);
 
   transition: all 0.1s ease-out;
@@ -25,4 +27,4 @@
 }
 .confirm:hover {
   background-color: #4a1cc0;
-}
+} */

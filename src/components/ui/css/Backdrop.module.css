@@ -1,0 +1,9 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 10;
+}

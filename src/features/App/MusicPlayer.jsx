@@ -119,7 +119,7 @@ const MusicPlayer = () => {
         />
         <AppNavigation />
         <div className={styles["app--middle"]}>
-          <Playlist />
+          <Playlist songRefs={songRefs} />
           {songRefs.length > 0 && <Visual />}
         </div>
         <Menu />

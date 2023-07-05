@@ -1,21 +1,24 @@
 import { useContext } from "react";
 import styles from "./css/UploadButtons.module.css";
 import { FormContext } from "./UploadForm";
-import Button from "./ui/Button";
+import Button from "../../components/ui/Button";
+import ButtonsContainer from "../../components/container/ButtonsContainer";
 
 const UploadButtons = () => {
   const { cleanUp, addNewSong } = useContext(FormContext);
   return (
-    <div className={styles["form--validation-btn"]}>
+    <ButtonsContainer>
       <Button
         label="Cancel"
-        attributes={{ className: styles["cancel"], onClick: cleanUp }}
+        type="cancel-rectangle"
+        attributes={{ onClick: cleanUp }}
       />
       <Button
         label="Upload"
-        attributes={{ className: styles["confirm"], onClick: addNewSong }}
+        type="confirm-rectangle"
+        attributes={{ onClick: addNewSong }}
       />
-    </div>
+    </ButtonsContainer>
   );
 };
 
