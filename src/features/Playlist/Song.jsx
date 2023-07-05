@@ -189,6 +189,7 @@ const Song = React.memo(
         {showModal &&
           ReactDOM.createPortal(
             <EditSongModal
+              showModal={showModal}
               setShowModal={setShowModal}
               songRef={songRef}
               metadata={metadata}

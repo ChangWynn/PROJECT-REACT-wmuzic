@@ -10,6 +10,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import {
   Form,
   useActionData,
+  useNavigation,
   useOutletContext,
   useSubmit,
 } from "react-router-dom";
@@ -22,12 +23,15 @@ import {
 import { storage } from "../../config/firebase";
 import defaultCover from "../../assets/default-album-cover.jpeg";
 
-const EditSongModal = ({ setShowModal, songRef, metadata }) => {
-  const submit = useSubmit();
-  const editError = useActionData();
-
+const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
   const { uid } = useOutletContext();
+  const editError = useActionData();
+  const navigation = useNavigation();
+
+  console.log(navigation.state);
+
   const [albumCoverPreview, setAlbumCoverPreview] = useState(metadata.imgM);
+  const [endOfUpdate, setEndOfUpdate] = useState(false);
   const [errorMessage, setErrorMessage] = useState(metadata.imgM);
 
   const titleRef = useRef();
@@ -37,11 +41,19 @@ const EditSongModal = ({ setShowModal, songRef, metadata }) => {
 
   useEffect(() => {
     if (editError?.customMetadata) {
-      setShowModal(false);
+      setEndOfUpdate(true);
     }
+
     setErrorMessage(editError);
-    console.log(editError);
   }, [editError]);
+
+  useEffect(() => {
+    if (endOfUpdate && showModal) {
+      setShowModal(false);
+    } else {
+      setEndOfUpdate(false);
+    }
+  }, [endOfUpdate]);
 
   const handleImageSelection = (e) => {
     if (e.target.files[0]) {
@@ -83,23 +95,6 @@ const EditSongModal = ({ setShowModal, songRef, metadata }) => {
               </div>
             </div>
           </div>
-
-          <Input
-            input={{
-              type: "hidden",
-              id: "refPath",
-              name: "refPath",
-              value: songRef._location.path,
-            }}
-          />
-          <Input
-            input={{
-              type: "hidden",
-              id: "uid",
-              name: "uid",
-              value: uid,
-            }}
-          />
           <Input
             ref={titleRef}
             input={{
@@ -128,6 +123,22 @@ const EditSongModal = ({ setShowModal, songRef, metadata }) => {
               name: "album",
               defaultValue: metadata.album,
               placeholder: "Edit album title",
+            }}
+          />
+          <Input
+            input={{
+              type: "hidden",
+              id: "refPath",
+              name: "refPath",
+              value: songRef._location.path,
+            }}
+          />
+          <Input
+            input={{
+              type: "hidden",
+              id: "uid",
+              name: "uid",
+              value: uid,
             }}
           />
         </InputsContainer>
