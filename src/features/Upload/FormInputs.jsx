@@ -1,7 +1,5 @@
 import styles from "./css/FormInputs.module.css";
 import Input from "../../components/ui/Input";
-import InputFile from "./InputFile";
-import InputCheckbox from "./InputCheckbox";
 import React, { forwardRef, useContext } from "react";
 import InputsContainer from "../../components/container/InputsContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
