@@ -5,34 +5,21 @@ import { MainContext } from "../App/MusicPlayer";
 import { useContext, useEffect, useState } from "react";
 import { getMetadata } from "firebase/storage";
 
-const Playlist = ({ songRefs }) => {
-  const { showPlaylist } = useContext(MainContext);
-  const [metadata, setMetadata] = useState([]);
-
-  useEffect(() => {
-    const extractMetadata = async () => {
-      const metadata = await songRefs.map(async (songRef) => {
-        return await getMetadata(songRef);
-      });
-      setMetadata(await Promise.all(metadata));
-    };
-
-    extractMetadata();
-  }, [songRefs.length]);
-
+const Playlist = () => {
+  const { showPlaylist, files } = useContext(MainContext);
+  console.log("song 2", files.songMD[2]?.customMetadata);
   return (
     <div className={`${styles["container"]} ${showPlaylist && styles["show"]}`}>
       <div
         className={`${styles["playlist"]} ${showPlaylist && styles["show"]}`}
       >
-        {songRefs.length > 0 &&
-          metadata.length === songRefs.length &&
-          songRefs.map((songRef, index) => {
+        {files.songRefs.length > 0 &&
+          files.songRefs.map((songRef, index) => {
             return (
               <Song
                 key={songRef.name}
                 songRef={songRef}
-                songMD={metadata[index]}
+                songMD={files.songMD[index]}
                 index={index}
               />
             );

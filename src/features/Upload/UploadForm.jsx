@@ -1,13 +1,7 @@
 import styles from "./css/UploadForm.module.css";
 import useUploadState from "../hooks/useUploadState";
-import UploadState from "./UploadState";
-import MidPrompt from "./MidPrompt";
 import axios from "../../services/axios";
 import moment from "moment";
-import FormInputs from "./FormInputs";
-import UploadButtons from "./UploadButtons";
-import ErrorMessage from "./ErrorMessage";
-import Modal from "./Modal";
 import { apiKey } from "../../.api";
 import { MainContext } from "../App/MusicPlayer";
 
@@ -22,7 +16,6 @@ import {
   updateMetadata,
   getMetadata,
 } from "firebase/storage";
-import ModalOverlay from "../../components/ui/ModalOverlay";
 import Backdrop from "../../components/ui/Backdrop";
 import UploadSongModal from "./UploadSongModal";
 
@@ -31,8 +24,8 @@ export const FormContext = React.createContext();
 const UploadForm = ({ showForm, setShowForm }) => {
   const upload = useUploadState();
 
-  const { uid, setMetadata } = useOutletContext();
-  const { songRefs, setSongRefs } = useContext(MainContext);
+  const { uid } = useOutletContext();
+  const { files, setFiles } = useContext(MainContext);
 
   const [uploadedSong, setUploadedSong] = useState(null);
 
@@ -147,7 +140,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
         album: songData?.album?.title || "",
         imgM: songData?.album?.image[1]["#text"] || "",
         imgL: songData?.album?.image.at(-1)["#text"] || "",
-        position: songRefs.length + 1,
+        position: files.songRefs.length + 1,
       },
     };
   };
@@ -156,11 +149,11 @@ const UploadForm = ({ showForm, setShowForm }) => {
     upload.updateState("Uploading file...");
     await uploadFile(songRef, metaData);
     const newSongMD = await getMetadata(songRef);
-    setSongRefs((prevRefs) => {
-      return [...prevRefs, songRef];
-    });
-    setMetadata((prevMD) => {
-      return [...prevMD, newSongMD];
+    setFiles((prev) => {
+      return {
+        songRefs: [...prev.songRefs, songRef],
+        songMD: [...prev.songMD, newSongMD],
+      };
     });
     upload.success();
   };

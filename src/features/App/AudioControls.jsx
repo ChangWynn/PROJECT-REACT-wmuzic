@@ -24,7 +24,7 @@ const AudioControls = () => {
     currentSongIndex,
     setCurrentSongIndex,
     currentSongRef,
-    songRefs,
+    files,
     currentRepeatMode,
     setCurrentRepeatMode,
     shuffleMode,
@@ -38,7 +38,8 @@ const AudioControls = () => {
   const prevSong = () => {
     if (currentSongRef.current.currentTime > 10) {
       currentSongRef.current.currentTime = 0;
-    } else if (currentSongIndex === 0) setCurrentSongIndex(songRefs.length - 1);
+    } else if (currentSongIndex === 0)
+      setCurrentSongIndex(files.songRefs.length - 1);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex - 1;

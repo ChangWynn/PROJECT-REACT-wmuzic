@@ -5,13 +5,13 @@ import { MainContext } from "./MusicPlayer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ControlButton = ({ onClickFn, FaIcon, styleName }) => {
-  const { songRefs } = useContext(MainContext);
+  const { files } = useContext(MainContext);
   return (
-    <button onClick={onClickFn} disabled={songRefs.length < 1}>
+    <button onClick={onClickFn} disabled={files.songRefs.length < 1}>
       <FontAwesomeIcon
         icon={FaIcon}
         className={`${styles["icon"]} ${styles[styleName]} ${
-          songRefs.length === 0 && styles["disabled"]
+          files.songRefs.length === 0 && styles["disabled"]
         }`}
         size="5x"
       />

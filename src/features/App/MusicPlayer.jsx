@@ -5,7 +5,7 @@ import Playlist from "../Playlist/Playlist";
 import React, { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { getDownloadURL } from "firebase/storage";
+import { getDownloadURL, getMetadata } from "firebase/storage";
 import Visual from "../Visual/Visual";
 import AppNavigation from "./AppNavigation";
 
@@ -17,7 +17,7 @@ export const MainContext = React.createContext();
 const MusicPlayer = () => {
   const { allRefs } = useOutletContext();
 
-  const [songRefs, setSongRefs] = useState(allRefs);
+  const [files, setFiles] = useState({ songRefs: allRefs, songMD: [] });
   const [songIsPlaying, setSongIsPlaying] = useState(false);
   const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
@@ -30,16 +30,34 @@ const MusicPlayer = () => {
   const [showForm, setShowForm] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(true);
 
+  // useEffect(() => {
+  //   console.log(files);
+  // }, [files]);
+
   ////// download metadata when songRefs length changes  //////
+
+  useEffect(() => {
+    const extractMetadata = async () => {
+      const metadata = await files.songRefs.map(async (songRef) => {
+        return await getMetadata(songRef);
+      });
+      const songMD = await Promise.all(metadata);
+      setFiles((prev) => {
+        return { ...prev, songMD: [...songMD] };
+      });
+    };
+
+    extractMetadata();
+  }, [files.songRefs.length]);
 
   ////// download url of current index //////
 
   useEffect(() => {
     const downloadURL = async () => {
-      const url = await getDownloadURL(songRefs[currentSongIndex]);
+      const url = await getDownloadURL(files.songRefs[currentSongIndex]);
       setCurrentSongURL(url);
     };
-    if (songRefs.length > 0) downloadURL();
+    if (files.songRefs.length > 0) downloadURL();
   }, [currentSongIndex]);
 
   ////// auto play on index change //////
@@ -54,7 +72,8 @@ const MusicPlayer = () => {
 
   const nextSong = () => {
     if (shuffleMode) shuffleModeOnHandler();
-    else if (currentSongIndex === songRefs.length - 1) setCurrentSongIndex(0);
+    else if (currentSongIndex === files.songRefs.length - 1)
+      setCurrentSongIndex(0);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex + 1;
@@ -76,7 +95,7 @@ const MusicPlayer = () => {
 
   const shuffleModeOnHandler = () => {
     const currentIndex = currentSongIndex;
-    const randomIndex = Math.floor(Math.random() * songRefs.length);
+    const randomIndex = Math.floor(Math.random() * files.songRefs.length);
 
     if (currentIndex === randomIndex) {
       shuffleModeOnHandler();
@@ -86,7 +105,7 @@ const MusicPlayer = () => {
   };
 
   const shuffleModeOffHandler = () => {
-    const isTheLastSong = currentSongIndex === songRefs.length - 1;
+    const isTheLastSong = currentSongIndex === files.songRefs.length - 1;
     if (
       (currentRepeatMode === 0 && !isTheLastSong) ||
       currentRepeatMode === 2
@@ -104,8 +123,8 @@ const MusicPlayer = () => {
         setSongIsPlaying,
         currentSongIndex,
         setCurrentSongIndex,
-        songRefs,
-        setSongRefs,
+        files,
+        setFiles,
         currentRepeatMode,
         setCurrentRepeatMode,
         shuffleMode,
@@ -125,8 +144,8 @@ const MusicPlayer = () => {
         />
         <AppNavigation />
         <div className={styles["app--middle"]}>
-          <Playlist songRefs={songRefs} />
-          {songRefs.length > 0 && <Visual />}
+          {files.songMD.length === files.songRefs.length && <Playlist />}
+          {files.songMD.length > 0 && <Visual />}
         </div>
         <Menu />
         <AudioControllers />

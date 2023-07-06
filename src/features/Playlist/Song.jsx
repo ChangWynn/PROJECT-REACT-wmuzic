@@ -18,18 +18,17 @@ import { useActionData } from "react-router-dom";
 
 const Song = React.memo(
   ({ songRef, songMD, index }) => {
-    console.log(`${index} rendered`);
     const {
       songIsPlaying,
       setSongIsPlaying,
       currentSongIndex,
       setCurrentSongIndex,
-      songRefs,
-      setSongRefs,
+      files,
+      setFiles,
     } = useContext(MainContext);
 
     const [metadata, setMetadata] = useState({ ...songMD.customMetadata });
-
+    console.log(index, metadata);
     const [isLoading, setIsLoading] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -42,10 +41,10 @@ const Song = React.memo(
 
     useEffect(() => {
       setIsLoading(true);
-      const updatedMD = data?.customMetadata;
+      const newSongMD = data?.customMetadata;
 
-      if (metadata?.position === updatedMD?.position) {
-        setMetadata({ ...updatedMD });
+      if (metadata?.duration === newSongMD?.duration) {
+        setMetadata({ ...newSongMD });
       }
       setIsLoading(false);
     }, [data]);
@@ -85,9 +84,10 @@ const Song = React.memo(
     const confirmDelete = async (e) => {
       e.preventDefault();
       try {
-        const index = songRefs.indexOf(songRef);
-        const newSongRefs = songRefs.filter((_, i) => i !== index);
-        setSongRefs(newSongRefs);
+        const index = files.songRefs.indexOf(songRef);
+        const newSongRefs = files.songRefs.filter((_, i) => i !== index);
+        const newSongMD = files.songMD.filter((_, i) => i !== index);
+        setFiles({ songRefs: newSongRefs, songMD: newSongMD });
         await deleteObject(songRef);
       } catch (err) {
         console.log(err);
