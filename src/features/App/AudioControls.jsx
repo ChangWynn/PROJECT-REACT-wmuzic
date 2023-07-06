@@ -1,5 +1,4 @@
 import styles from "./css/AudioControls.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faPause,
@@ -17,6 +16,10 @@ import {
   faRepeat1,
   faShuffle,
 } from "@fortawesome/sharp-regular-svg-icons";
+
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import "./css/AudioControls.css";
 
 const AudioControls = () => {
   const {
@@ -94,6 +97,7 @@ const AudioControls = () => {
           FaIcon={volumeON ? faVolume : faVolumeSlash}
           styleName={volumeON ? "volume" : "volume-off"}
         />
+
         <input
           ref={volumeRef}
           type="range"
