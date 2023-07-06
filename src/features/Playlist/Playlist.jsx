@@ -7,7 +7,7 @@ import { getMetadata } from "firebase/storage";
 
 const Playlist = ({ songRefs }) => {
   const { showPlaylist } = useContext(MainContext);
-  const [metadata, setMetadata] = useState(null);
+  const [metadata, setMetadata] = useState([]);
 
   useEffect(() => {
     const extractMetadata = async () => {
@@ -26,7 +26,7 @@ const Playlist = ({ songRefs }) => {
         className={`${styles["playlist"]} ${showPlaylist && styles["show"]}`}
       >
         {songRefs.length > 0 &&
-          metadata &&
+          metadata.length === songRefs.length &&
           songRefs.map((songRef, index) => {
             return (
               <Song

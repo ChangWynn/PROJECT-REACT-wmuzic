@@ -6,6 +6,7 @@ import {
   faArrowLeft,
   faArrowRight,
 } from "@fortawesome/sharp-regular-svg-icons";
+import ModalOverlay from "../../components/ui/ModalOverlay";
 
 const MidPrompt = () => {
   const { setMidPrompt, addNewSong } = useContext(FormContext);
@@ -19,20 +20,28 @@ const MidPrompt = () => {
     setMidPrompt(false);
   };
   return (
-    <div className={styles["mid-prompt"]}>
-      <h3>Metadata found but might be incorrect</h3>
-      <p>Come back to check spelling or continue anyway ?</p>
-      <div className={styles["mid-prompt-btns"]}>
-        <button onClick={cancelUpload}>
-          <FontAwesomeIcon className={styles["btn-icon"]} icon={faArrowLeft} />{" "}
-          <p>Back</p>
-        </button>
-        <button onClick={resumeUpload}>
-          <p>Continue</p>
-          <FontAwesomeIcon className={styles["btn-icon"]} icon={faArrowRight} />
-        </button>
+    <ModalOverlay zIndex="31">
+      <div className={styles["mid-prompt"]}>
+        <h3>Metadata found but incomplete.</h3>
+        <p>Continue anyway ?</p>
+        <div className={styles["mid-prompt-btns"]}>
+          <button onClick={cancelUpload}>
+            <FontAwesomeIcon
+              className={styles["btn-icon"]}
+              icon={faArrowLeft}
+            />
+            <p>Back</p>
+          </button>
+          <button onClick={resumeUpload}>
+            <p>Continue</p>
+            <FontAwesomeIcon
+              className={styles["btn-icon"]}
+              icon={faArrowRight}
+            />
+          </button>
+        </div>
       </div>
-    </div>
+    </ModalOverlay>
   );
 };
 

@@ -13,16 +13,25 @@ import { MainContext } from "../App/MusicPlayer";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import ReactDOM from "react-dom";
 
 import { storage } from "../../config/firebase";
-import { ref, uploadBytes, updateMetadata } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  updateMetadata,
+  getMetadata,
+} from "firebase/storage";
+import ModalOverlay from "../../components/ui/ModalOverlay";
+import Backdrop from "../../components/ui/Backdrop";
+import UploadSongModal from "./UploadSongModal";
 
 export const FormContext = React.createContext();
 
 const UploadForm = ({ showForm, setShowForm }) => {
   const upload = useUploadState();
 
-  const { uid } = useOutletContext();
+  const { uid, setMetadata } = useOutletContext();
   const { songRefs, setSongRefs } = useContext(MainContext);
 
   const [uploadedSong, setUploadedSong] = useState(null);
@@ -86,7 +95,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
     if (!songData) {
       upload.raiseError({
         description: "No match found",
-        action: "Please check spelling or continue without LastFm metadata",
+        action: "Please check spelling or continue without LastFm",
       });
       return false;
     } else return songData;
@@ -125,7 +134,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
         description: "Something went wrong",
         action: "Please try again",
       });
-      return true;
+      return false;
     }
   };
 
@@ -146,8 +155,12 @@ const UploadForm = ({ showForm, setShowForm }) => {
   const uploadingProcess = async (songRef, metaData) => {
     upload.updateState("Uploading file...");
     await uploadFile(songRef, metaData);
+    const newSongMD = await getMetadata(songRef);
     setSongRefs((prevRefs) => {
       return [...prevRefs, songRef];
+    });
+    setMetadata((prevMD) => {
+      return [...prevMD, newSongMD];
     });
     upload.success();
   };
@@ -188,7 +201,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
         setUploadedSong,
         isChecked,
         setIsChecked,
-        MidPrompt,
+        midPrompt,
         setMidPrompt,
         showForm,
         upload,
@@ -197,21 +210,16 @@ const UploadForm = ({ showForm, setShowForm }) => {
         fileInputRef,
       }}
     >
-      <div
-        ref={backdropRef}
-        onClick={closeModal}
-        className={`${styles["form--background"]} ${
-          showForm && styles["visible"]
-        }`}
-      >
-        {midPrompt && <MidPrompt />}
-        {upload.inProgress && <UploadState message={upload.message} />}
-        <Modal>
-          <ErrorMessage />
-          <FormInputs ref={{ titleRef, artistRef, fileInputRef }} />
-          <UploadButtons />
-        </Modal>
-      </div>
+      {showForm &&
+        ReactDOM.createPortal(
+          <Backdrop zIndex="10" />,
+          document.getElementById("backdrop")
+        )}
+      {showForm &&
+        ReactDOM.createPortal(
+          <UploadSongModal ref={{ titleRef, artistRef, fileInputRef }} />,
+          document.getElementById("modal-overlay")
+        )}
     </FormContext.Provider>
   );
 };

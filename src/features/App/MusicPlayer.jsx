@@ -30,6 +30,10 @@ const MusicPlayer = () => {
   const [showForm, setShowForm] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(true);
 
+  ////// download metadata when songRefs length changes  //////
+
+  ////// download url of current index //////
+
   useEffect(() => {
     const downloadURL = async () => {
       const url = await getDownloadURL(songRefs[currentSongIndex]);
@@ -37,6 +41,8 @@ const MusicPlayer = () => {
     };
     if (songRefs.length > 0) downloadURL();
   }, [currentSongIndex]);
+
+  ////// auto play on index change //////
 
   useEffect(() => {
     const song = currentSongRef?.current;

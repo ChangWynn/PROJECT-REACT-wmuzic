@@ -1,10 +1,9 @@
 .inputs-container {
-  width: 100%;
-}
-
-.inputs-container {
+  width: 35rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.2rem;
+
+  /* border: 1px solid white; */
 }

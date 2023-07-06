@@ -7,7 +7,6 @@
 }
 
 .mid-prompt {
-  position: absolute;
   background-color: var(--mid-prompt-backdrop);
   width: 100%;
   height: 100%;
@@ -45,8 +44,8 @@
   margin-top: 5rem;
   font-size: 2rem;
 }
-
+.mid-prompt-btns button:hover,
 .mid-prompt-btns button:hover .btn-icon {
-  scale: 1.5;
+  scale: 1.1;
   color: var(--mid-prompt-arrows-hover);
 }

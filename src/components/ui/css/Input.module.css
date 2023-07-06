@@ -1,13 +1,34 @@
+label {
+  font-size: 1.4rem;
+  padding: 0 1rem;
+  position: absolute;
+  top: 1rem;
+  transition: all 0.1s ease-out;
+  z-index: -1;
+}
+
 input[type="text"] {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   width: 100%;
   height: 5rem;
   padding: 0 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 1px;
   transition: all 0.1s;
 }
 
 input[type="text"]:focus {
   outline: 3px solid var(--pink-hover);
+}
+
+input[type="text"]:focus + label {
+  top: -1.3rem;
+}
+
+input[type="file"] {
+  height: 5rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
 }

@@ -1,0 +1,8 @@
+.input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  position: relative;
+}

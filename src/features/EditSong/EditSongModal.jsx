@@ -28,9 +28,7 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
   const editError = useActionData();
   const navigation = useNavigation();
 
-  console.log(navigation.state);
-
-  const [albumCoverPreview, setAlbumCoverPreview] = useState(metadata.imgM);
+  const [albumCoverPreview, setAlbumCoverPreview] = useState(metadata.imgL);
   const [endOfUpdate, setEndOfUpdate] = useState(false);
   const [errorMessage, setErrorMessage] = useState(metadata.imgM);
 
@@ -69,79 +67,74 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
   };
 
   return (
-    <ModalOverlay>
+    <ModalOverlay zIndex="11">
       <Form
         method="POST"
         encType="multipart/form-data"
         className={styles["form-container"]}
       >
-        <InputsContainer>
+        <h1 className={styles["modal-title"]}>Update song</h1>
+        <div className={styles["edit-inputs-container"]}>
           <div className={styles["cover-img-container"]}>
             <img src={albumCoverPreview || defaultCover} alt="album-cover" />
             <div className={styles["upload-image-btn--container"]}>
-              <Input
+              <input
                 ref={imageRef}
-                input={{
-                  type: "file",
-                  id: "file",
-                  name: "file",
-                  multiple: false,
-                  accept: ".jpg, .jpeg, .png",
-                  onChange: handleImageSelection,
-                }}
+                type="file"
+                id="file"
+                name="file"
+                multiple={false}
+                accept=".jpg, .jpeg, .png"
+                onChange={handleImageSelection}
               />
               <div className={styles["upload-image-btn--decoration"]}>
-                <FontAwesomeIcon size="2x" icon={faPenToSquare} />
+                <FontAwesomeIcon size="3x" icon={faPenToSquare} />
               </div>
             </div>
           </div>
-          <Input
-            ref={titleRef}
-            input={{
-              type: "text",
-              id: "title",
-              name: "title",
-              defaultValue: metadata.title,
-              placeholder: "Edit song title",
-            }}
-          />
-          <Input
-            ref={artistRef}
-            input={{
-              type: "text",
-              id: "artist",
-              name: "artist",
-              defaultValue: metadata.artist,
-              placeholder: "Edit artist name",
-            }}
-          />
-          <Input
-            ref={albumRef}
-            input={{
-              type: "text",
-              id: "album",
-              name: "album",
-              defaultValue: metadata.album,
-              placeholder: "Edit album title",
-            }}
-          />
-          <Input
-            input={{
-              type: "hidden",
-              id: "refPath",
-              name: "refPath",
-              value: songRef._location.path,
-            }}
-          />
-          <Input
-            input={{
-              type: "hidden",
-              id: "uid",
-              name: "uid",
-              value: uid,
-            }}
-          />
-        </InputsContainer>
+          <InputsContainer>
+            <Input
+              ref={titleRef}
+              label="Title"
+              input={{
+                type: "text",
+                id: "title",
+                name: "title",
+                defaultValue: metadata.title,
+                placeholder: "Edit song title",
+              }}
+            />
+            <Input
+              ref={artistRef}
+              label="Artist"
+              input={{
+                type: "text",
+                id: "artist",
+                name: "artist",
+                defaultValue: metadata.artist,
+                placeholder: "Edit artist name",
+              }}
+            />
+            <Input
+              ref={albumRef}
+              label="Album"
+              input={{
+                type: "text",
+                id: "album",
+                name: "album",
+                defaultValue: metadata.album,
+                placeholder: "Edit album title",
+              }}
+            />
+            <input
+              type="hidden"
+              id="refPath"
+              name="refPath"
+              value={songRef._location.path}
+            />
+            <input type="hidden" id="uid" name="uid" value={uid} />
+          </InputsContainer>
+        </div>
         <ButtonsContainer>
           <Button
             label="Cancel"
@@ -158,7 +151,6 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
 export default EditSongModal;
 
 export const action = async ({ request }) => {
-  console.log(`running`);
   const data = await request.formData();
   const title = data.get("title").trim();
   const artist = data.get("artist").trim();
@@ -198,7 +190,7 @@ export const action = async ({ request }) => {
       Object.entries(formData).filter(([_, value]) => value)
     ),
   };
-  console.log(metadata);
+
   const songPath = data.get("refPath");
   const songRef = ref(storage, songPath);
 

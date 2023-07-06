@@ -1,12 +1,13 @@
 import React, { forwardRef } from "react";
 import styles from "./css/Input.module.css";
+import InputContainer from "../container/InputContainer";
 
-const Input = forwardRef(({ input }, ref) => {
+const Input = forwardRef(({ label, input }, ref) => {
   return (
-    // <React.Fragment>
-    //   <label htmlFor={input.name}>{input.label}</label>
-    <input ref={ref} {...input} />
-    // </React.Fragment>
+    <InputContainer>
+      <input ref={ref} {...input} />
+      <label htmlFor={input.name}>{label}</label>
+    </InputContainer>
   );
 });
 

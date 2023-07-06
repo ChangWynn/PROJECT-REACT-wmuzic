@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./css/UploadState.module.css";
 import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
+import ModalOverlay from "../../components/ui/ModalOverlay";
 
 const UploadState = ({ message }) => {
   return (
-    <div className={styles["backdrop"]}>
+    <ModalOverlay zIndex="21">
       <div className={styles["message"]}>
         <div>
           <FontAwesomeIcon
@@ -21,7 +22,7 @@ const UploadState = ({ message }) => {
         <h3>{message?.description}</h3>
         <p>{message?.action}</p>
       </div>
-    </div>
+    </ModalOverlay>
   );
 };
 

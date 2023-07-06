@@ -13,7 +13,13 @@ const router = createBrowserRouter([
     path: "/app",
     element: <AppLayout />,
     loader: getUsersItemsRefs,
-    children: [{ index: true, element: <MusicPlayer />, action: editSong }],
+    children: [
+      {
+        index: true,
+        element: <MusicPlayer />,
+        action: editSong,
+      },
+    ],
   },
 ]);
 

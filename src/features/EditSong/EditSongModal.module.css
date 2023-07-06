@@ -4,17 +4,31 @@
   gap: 2rem;
 }
 
+.modal-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.edit-inputs-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4rem;
+}
 .cover-img-container,
 .upload-image-btn--container {
-  width: 15rem;
-  height: 15rem;
+  width: 24rem;
+  height: 24rem;
 }
 
 .cover-img-container {
   border: 2px solid var(--pink);
+  border-radius: 1px;
   overflow: hidden;
   position: relative;
 }
+
 .cover-img-container img {
   width: 100%;
   height: 100%;

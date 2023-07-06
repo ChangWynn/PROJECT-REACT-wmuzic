@@ -1,23 +1,72 @@
-.form--input {
+/*  TYPE FILE */
+
+.upload-btn-container,
+.upload-btn-container input[type="file"] {
   width: 100%;
 }
 
-.form--input {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+.upload-btn-container {
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+  margin: 1rem 0;
 }
-
-.form--input input[type="text"] {
-  font-size: 1.6rem;
-  width: 100%;
+.upload-btn-container input[type="file"] {
   height: 5rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+.upload-btn-container input[type="file"]:hover + .btn-icon {
+  background-color: var(--pink-hover);
+}
+
+.btn-icon {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
   padding: 0 1rem;
-  border: none;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+
+  background-color: var(--pink);
+  transition: all 0.2s ease-out;
+}
+.btn-icon h3 {
+  font-size: 1.7rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 2rem;
+}
+
+/* CHEKBOX */
+
+.checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 90%;
+  gap: 1rem;
+}
+.checkbox input[type="checkbox"] {
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 5px;
+  border: none;
+  font-size: 1.6rem;
+  padding: 0 1rem;
+  cursor: pointer;
   transition: all 0.1s;
 }
-.form--input input[type="text"]:focus {
-  outline: 3px solid var(--pink-hover);
+
+.checkbox p {
+  font-size: 1.4rem;
 }

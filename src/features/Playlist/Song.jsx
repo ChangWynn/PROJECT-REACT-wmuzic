@@ -2,7 +2,7 @@ import styles from "./css/Song.module.css";
 import { formatDuration } from "../../utilities/formatDuration";
 import defaultThumbnails from "../../assets/default-album-cover.jpeg";
 
-import { deleteObject, getMetadata } from "firebase/storage";
+import { deleteObject } from "firebase/storage";
 import { MainContext } from "../App/MusicPlayer";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -18,6 +18,7 @@ import { useActionData } from "react-router-dom";
 
 const Song = React.memo(
   ({ songRef, songMD, index }) => {
+    console.log(`${index} rendered`);
     const {
       songIsPlaying,
       setSongIsPlaying,
@@ -81,7 +82,8 @@ const Song = React.memo(
       setShowDelete(false);
     };
 
-    const confirmDelete = async () => {
+    const confirmDelete = async (e) => {
+      e.preventDefault();
       try {
         const index = songRefs.indexOf(songRef);
         const newSongRefs = songRefs.filter((_, i) => i !== index);
@@ -183,7 +185,7 @@ const Song = React.memo(
         )}
         {showModal &&
           ReactDOM.createPortal(
-            <Backdrop />,
+            <Backdrop zIndex="10" />,
             document.getElementById("backdrop")
           )}
         {showModal &&
@@ -200,9 +202,7 @@ const Song = React.memo(
     );
   },
   (prev, next) => {
-    return (
-      prev.songMD.customMetadata.title === next.songMD.customMetadata.title
-    );
+    return prev.index === next.index;
   }
 );
 
