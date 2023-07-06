@@ -33,6 +33,11 @@ const Visual = () => {
           <h2>{currentSongMetadata.title}</h2>
           <h3>{currentSongMetadata.artist}</h3>
         </div>
+        <img
+          className={style["background"]}
+          src={currentSongMetadata.imgM || defaultCover}
+          alt="album cover in the background"
+        />
         <Browser />
       </div>
     </React.Fragment>

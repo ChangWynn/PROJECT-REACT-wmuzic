@@ -1,7 +1,7 @@
 .track--container {
-  height: 10rem;
+  height: 6rem;
   width: 100%;
-  padding: 2rem 4rem;
+  padding: 0 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

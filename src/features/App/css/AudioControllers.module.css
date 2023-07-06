@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 24rem;
+  justify-content: flex-start;
+  height: 25rem;
 
   position: relative;
   z-index: 50;

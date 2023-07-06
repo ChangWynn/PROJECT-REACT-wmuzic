@@ -15,6 +15,12 @@
   gap: 3rem;
   /* border: 1px solid white; */
 }
+.container .background {
+  position: absolute;
+  height: 70%;
+  aspect-ratio: 1/1;
+  filter: blur(43px) brightness(0.5);
+}
 
 .album-cover {
   height: 30rem;
