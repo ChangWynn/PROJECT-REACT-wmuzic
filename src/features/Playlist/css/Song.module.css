@@ -149,6 +149,7 @@
 }
 
 .song-menu button {
+  width: auto;
   font-size: 1.5rem;
   font-weight: 600;
 }
