@@ -13,7 +13,10 @@
   flex-direction: row;
   align-items: center;
 
+  flex-grow: 1;
+
   height: calc(100vh - 9rem - 6rem - 24rem);
+  /* 100vh - nav - menu - playerbutton */
 
   /* border: 1px solid white; */
 }

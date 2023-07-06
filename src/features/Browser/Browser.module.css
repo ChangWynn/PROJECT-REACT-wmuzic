@@ -1,0 +1,46 @@
+.browser-container {
+  background: radial-gradient(circle, rgb(17, 0, 17) 0%, rgba(8, 0, 8, 1) 100%);
+  /* background: radial-gradient(
+    circle,
+    rgba(17, 17, 17, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  ); */
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  animation: close-menu 0.4s ease-in-out 1 normal forwards;
+  transition: all 0.3s ease-in-out;
+  /* border: 1px solid var(--pink-hover); */
+  border-radius: 5px;
+}
+
+.browser-container.open {
+  animation: open-menu 0.4s ease-in-out 1 normal forwards;
+}
+
+@keyframes open-menu {
+  0% {
+    height: 0%;
+  }
+  100% {
+    height: 100%;
+  }
+}
+@keyframes close-menu {
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 0%;
+  }
+}
+
+.browser-container h1 {
+  opacity: 0;
+}
+.browser-container.open h1 {
+  opacity: 1;
+}

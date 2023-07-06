@@ -4,10 +4,11 @@ import Song from "./Song";
 import { MainContext } from "../App/MusicPlayer";
 import { useContext, useEffect, useState } from "react";
 import { getMetadata } from "firebase/storage";
+import Menu from "../Menu/Menu";
 
 const Playlist = () => {
   const { showPlaylist, files } = useContext(MainContext);
-  console.log("song 2", files.songMD[2]?.customMetadata);
+
   return (
     <div className={`${styles["container"]} ${showPlaylist && styles["show"]}`}>
       <div

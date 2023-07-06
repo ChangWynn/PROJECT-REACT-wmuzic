@@ -29,10 +29,7 @@ const MusicPlayer = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(true);
-
-  // useEffect(() => {
-  //   console.log(files);
-  // }, [files]);
+  const [showMediaMenu, setShowMediaMenu] = useState(false);
 
   ////// download metadata when songRefs length changes  //////
 
@@ -133,6 +130,8 @@ const MusicPlayer = () => {
         setShowPlaylist,
         showForm,
         setShowForm,
+        showMediaMenu,
+        setShowMediaMenu,
       }}
     >
       <div className={styles["app"]}>

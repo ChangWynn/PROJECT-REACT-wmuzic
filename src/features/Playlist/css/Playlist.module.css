@@ -5,7 +5,8 @@
   overflow: hidden;
   height: 100%;
   width: 0;
-  /* transform: translateX(-45rem); */
+  position: relative;
+  z-index: 50;
   transition: width 0.2s ease-out;
   /* border: 1px solid white; */
 }
@@ -14,7 +15,6 @@
 .playlist.show {
   width: 45rem;
   opacity: 1;
-  /* transform: translateX(0); */
 }
 .playlist {
   display: flex;
