@@ -19,7 +19,7 @@
   position: absolute;
   height: 70%;
   aspect-ratio: 1/1;
-  filter: blur(43px) brightness(0.5);
+  filter: blur(35px) brightness(0.5);
 }
 
 .album-cover {

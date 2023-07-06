@@ -6,14 +6,14 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  animation: close-menu 0.4s ease-out 1 normal forwards;
+  animation: close-menu 0.3s ease-out 1 normal forwards;
   transition: all 0.3s ease-in-out;
   /* border: 1px solid var(--purple-hover); */
 }
 
 .browser-container.open {
   background: radial-gradient(circle, rgb(17, 0, 17) 0%, rgba(8, 0, 8, 1) 100%);
-  animation: open-menu 0.4s ease-out 1 normal forwards;
+  animation: open-menu 0.3s ease-out 1 normal forwards;
 }
 
 @keyframes open-menu {
