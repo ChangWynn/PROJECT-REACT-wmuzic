@@ -17,20 +17,21 @@ export const MainContext = React.createContext();
 const MusicPlayer = () => {
   const { allRefs } = useOutletContext();
 
-  const [files, setFiles] = useState({ songRefs: allRefs, songMD: [] });
   const [songIsPlaying, setSongIsPlaying] = useState(false);
+
+  const [files, setFiles] = useState({ songRefs: allRefs, songMD: [] });
   const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
   const [currentRepeatMode, setCurrentRepeatMode] = useState(0);
   const [shuffleMode, setShuffleMode] = useState(false);
 
-  const audioRef = useRef();
-  const currentSongRef = useRef();
-
   const [showForm, setShowForm] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(true);
   const [showMediaMenu, setShowMediaMenu] = useState(false);
+
+  const currentSongRef = useRef();
+  const audioRef = useRef();
 
   ////// download metadata when songRefs length changes  //////
 

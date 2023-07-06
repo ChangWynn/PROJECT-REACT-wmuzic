@@ -1,13 +1,13 @@
 import styles from "./css/AudioControllers.module.css";
 
-import AudioControls from "./AudioControls";
+import AudioControl from "./AudioControl";
 import AudioProgressBar from "./AudioProgressBar";
 
 const AudioControllers = () => {
   return (
     <div className={styles["audio-controllers"]}>
       <AudioProgressBar />
-      <AudioControls />
+      <AudioControl />
     </div>
   );
 };

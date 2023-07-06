@@ -1,4 +1,4 @@
-import styles from "./css/AudioControls.module.css";
+import styles from "./css/AudioControl.module.css";
 import {
   faPlay,
   faPause,
@@ -17,11 +17,7 @@ import {
   faShuffle,
 } from "@fortawesome/sharp-regular-svg-icons";
 
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import "./css/AudioControls.css";
-
-const AudioControls = () => {
+const AudioControl = () => {
   const {
     nextSong,
     songIsPlaying,
@@ -97,7 +93,6 @@ const AudioControls = () => {
           FaIcon={volumeON ? faVolume : faVolumeSlash}
           styleName={volumeON ? "volume" : "volume-off"}
         />
-
         <input
           ref={volumeRef}
           type="range"
@@ -140,4 +135,4 @@ const AudioControls = () => {
   );
 };
 
-export default AudioControls;
+export default AudioControl;
