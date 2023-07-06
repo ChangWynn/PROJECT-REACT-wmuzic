@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./MenuButton.module.css";
 import { useState } from "react";
 
-const MenuButton = ({ setShowForm, faIcon, clickEvent }) => {
+const MenuButton = ({ faIcon, clickEvent }) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <button className={styles["menu-btn"]} onClick={clickEvent}>

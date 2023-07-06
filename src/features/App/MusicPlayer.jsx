@@ -25,6 +25,7 @@ const MusicPlayer = () => {
   const [currentRepeatMode, setCurrentRepeatMode] = useState(0);
   const [shuffleMode, setShuffleMode] = useState(false);
 
+  const audioRef = useRef();
   const currentSongRef = useRef();
 
   const [showForm, setShowForm] = useState(false);
@@ -60,7 +61,12 @@ const MusicPlayer = () => {
   ////// auto play on index change //////
 
   useEffect(() => {
-    const song = currentSongRef?.current;
+    const song = audioRef?.current;
+
+    currentSongRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
 
     if (songIsPlaying) {
       song.play();
@@ -80,7 +86,7 @@ const MusicPlayer = () => {
 
   const endOfTrackHandler = () => {
     if (currentRepeatMode === 1) {
-      currentSongRef.current.play();
+      audioRef.current.play();
     } else {
       if (shuffleMode) {
         shuffleModeOnHandler();
@@ -115,6 +121,7 @@ const MusicPlayer = () => {
     <MainContext.Provider
       value={{
         nextSong,
+        audioRef,
         currentSongRef,
         songIsPlaying,
         setSongIsPlaying,
@@ -136,7 +143,7 @@ const MusicPlayer = () => {
     >
       <div className={styles["app"]}>
         <audio
-          ref={currentSongRef}
+          ref={audioRef}
           id="audio"
           src={currentSongURL}
           onEnded={endOfTrackHandler}

@@ -5,8 +5,8 @@ import { formatDuration } from "../../utilities/formatDuration";
 import { useContext, useEffect } from "react";
 
 const AudioDuration = () => {
-  const { currentSongRef } = useContext(MainContext);
-  const songData = currentSongRef.current;
+  const { audioRef } = useContext(MainContext);
+  const songData = audioRef.current;
 
   const totalDuration = formatDuration(songData?.duration);
   const currentTime = formatDuration(songData?.currentTime);

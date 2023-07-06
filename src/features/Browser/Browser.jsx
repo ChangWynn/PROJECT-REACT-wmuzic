@@ -7,6 +7,7 @@ import {
   faAngleDoubleUp,
   faAngleUp,
 } from "@fortawesome/pro-regular-svg-icons";
+import ToggleDisplayBtn from "./ToggleDisplayBtn";
 
 const Browser = () => {
   const { showMediaMenu, setShowMediaMenu } = useContext(MainContext);
@@ -16,13 +17,10 @@ const Browser = () => {
         showMediaMenu && styles["open"]
       }`}
     >
-      <button onClick={() => setShowMediaMenu(!showMediaMenu)}>
-        <FontAwesomeIcon
-          size="xl"
-          icon={showMediaMenu ? faAngleDoubleDown : faAngleDoubleUp}
-          style={{ color: "#ffffff" }}
-        />
-      </button>
+      <ToggleDisplayBtn
+        faIcon={showMediaMenu ? faAngleDoubleDown : faAngleDoubleUp}
+        clickEvent={() => setShowMediaMenu(!showMediaMenu)}
+      />
     </div>
   );
 };

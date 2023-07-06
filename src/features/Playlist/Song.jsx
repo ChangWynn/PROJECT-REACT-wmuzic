@@ -19,6 +19,7 @@ import { useActionData } from "react-router-dom";
 const Song = React.memo(
   ({ songRef, songMD, index }) => {
     const {
+      currentSongRef,
       songIsPlaying,
       setSongIsPlaying,
       currentSongIndex,
@@ -28,7 +29,7 @@ const Song = React.memo(
     } = useContext(MainContext);
 
     const [metadata, setMetadata] = useState({ ...songMD.customMetadata });
-    console.log(index, metadata);
+
     const [isLoading, setIsLoading] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -48,12 +49,6 @@ const Song = React.memo(
       }
       setIsLoading(false);
     }, [data]);
-
-    const containerClickHandler = (e) => {
-      if (e.target === containerRef.current) {
-        playSelectedSong();
-      }
-    };
 
     const playSelectedSong = () => {
       if (currentSongIndex === index) {
@@ -96,8 +91,7 @@ const Song = React.memo(
 
     return (
       <div
-        ref={containerRef}
-        onClick={containerClickHandler}
+        ref={currentSongIndex === index ? currentSongRef : null}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`${styles["song-container"]} ${

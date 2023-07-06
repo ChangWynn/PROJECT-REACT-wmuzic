@@ -19,6 +19,7 @@ const Playlist = () => {
             return (
               <Song
                 key={songRef.name}
+                id={index}
                 songRef={songRef}
                 songMD={files.songMD[index]}
                 index={index}
