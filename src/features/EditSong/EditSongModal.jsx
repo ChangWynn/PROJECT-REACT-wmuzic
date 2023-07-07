@@ -12,7 +12,6 @@ import {
   useActionData,
   useNavigation,
   useOutletContext,
-  useSubmit,
 } from "react-router-dom";
 import {
   getDownloadURL,
@@ -77,7 +76,7 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
       >
         <h1 className={styles["modal-title"]}>Update song</h1>
         <div className={styles["edit-inputs-container"]}>
-          <div className={styles["cover-img-container"]}>
+          <div className={`${styles["cover-img-container"]}`}>
             <img src={albumCoverPreview || defaultCover} alt="album-cover" />
             <div className={styles["upload-image-btn--container"]}>
               <input
@@ -94,6 +93,7 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
               </div>
             </div>
           </div>
+
           <InputsContainer>
             <Input
               ref={titleRef}

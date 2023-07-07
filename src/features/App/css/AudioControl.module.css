@@ -94,6 +94,10 @@
     height: 100%;
     /* border: 1px solid white; */
   }
+
+  .invisible-div {
+    display: none;
+  }
 }
 
 /* .volume-control input[type="range"] {

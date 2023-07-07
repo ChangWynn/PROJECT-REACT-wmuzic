@@ -7,3 +7,15 @@
 
   /* border: 1px solid white; */
 }
+
+@media (max-width: 320px) {
+  .inputs-container {
+    width: 100%;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    gap: 1rem;
+
+    /* border: 1px solid white; */
+  }
+}

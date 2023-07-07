@@ -13,3 +13,25 @@
 .confirm-rectangle:hover {
   background-color: #4a1cc0;
 }
+
+@media (max-width: 320px) {
+  .cancel-rectangle,
+  .confirm-rectangle {
+    font-size: 1.5rem;
+  }
+  /* .cancel-rectangle {
+    color: var(--white);
+
+    transition: all 0.1s ease-out;
+  }
+  .cancel-rectangle:hover {
+    color: #6c3ce3;
+  }
+  .confirm-rectangle {
+    background-color: #541be4;
+    transition: all 0.1s ease-out;
+  }
+  .confirm-rectangle:hover {
+    background-color: #4a1cc0;
+  } */
+}
