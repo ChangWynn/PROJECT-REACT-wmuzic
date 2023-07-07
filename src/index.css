@@ -9,6 +9,7 @@
   --purple-hover: #9100a4;
 
   --auth-form-width: 50%;
+  --auth-form-width-mobile: 100%;
 
   --mid-prompt-backdrop: rgba(0, 0, 0, 0.97);
   --mid-prompt-arrows-hover: #6c3ce3;
@@ -44,8 +45,3 @@ button {
   cursor: pointer;
   color: white;
 }
-
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */

@@ -20,3 +20,28 @@
   justify-content: center;
   gap: 15rem;
 }
+
+@media (max-width: 320px) {
+  /* .god--container {
+    height: 100vh;
+    width: 100vw;
+
+    background: radial-gradient(
+      circle,
+      rgba(23, 0, 23, 1) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  } */
+
+  .auth-page--container {
+    max-width: var(--max-width);
+    height: 100%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+}

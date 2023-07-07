@@ -17,3 +17,30 @@
 .landing-message h1 .m {
   color: var(--pink);
 }
+
+@media (max-width: 320px) {
+  .landing-message {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center; */
+    gap: 1rem;
+
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .landing-message h1 {
+    font-size: 1.5rem;
+  }
+
+  .landing-message--logo {
+    font-size: 1rem;
+  }
+
+  /* .landing-message h1 .w {
+    color: var(--purple);
+  }
+  .landing-message h1 .m {
+    color: var(--pink);
+  } */
+}

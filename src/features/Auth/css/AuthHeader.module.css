@@ -22,3 +22,30 @@
   color: var(--purple-hover);
   text-decoration: solid;
 }
+
+@media (max-width: 320px) {
+  /* .auth--header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  } */
+  /* .auth--header h1 {
+    font-size: 3rem;
+  } */
+  .auth--header p {
+    font-size: 1rem;
+  }
+
+  /* .auth--header p a:link,
+  .auth--header p a:visited {
+    color: var(--purple);
+    text-decoration: none;
+    transition: all 0.2s ease-out;
+  }
+
+  .auth--header p a:hover {
+    color: var(--purple-hover);
+    text-decoration: solid;
+  } */
+}
