@@ -63,7 +63,7 @@ const FormInputs = forwardRef((_, { titleRef, artistRef, fileInputRef }) => {
             }}
             checked={isChecked}
           />
-          <p>Would you like to use LastFM metadata?</p>
+          <p>Would you like to use Spotify&reg; metadata?</p>
         </div>
       </InputsContainer>
     </React.Fragment>

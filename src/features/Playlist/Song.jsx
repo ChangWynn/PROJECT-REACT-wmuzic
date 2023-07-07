@@ -111,7 +111,7 @@ const Song = React.memo(
                     onMouseEnter={() => setThumbnailIsHovered(true)}
                     onMouseLeave={() => setThumbnailIsHovered(false)}
                   >
-                    <img src={metadata.imgM || defaultThumbnails} alt="" />
+                    <img src={metadata.albumImgS || defaultThumbnails} alt="" />
                     <div
                       className={styles["icon-container"]}
                       onClick={playSelectedSong}

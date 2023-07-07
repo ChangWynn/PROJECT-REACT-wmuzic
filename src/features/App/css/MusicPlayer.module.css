@@ -19,3 +19,28 @@
 
   /* border: 1px solid white; */
 }
+
+@media (max-width: 320px) {
+  .app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: 100vh;
+
+    /* border: 1px solid white; */
+  }
+
+  .app--middle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    flex-grow: 1;
+    height: calc(100vh - 5.2rem - 11.3rem - 2rem);
+    /* 100vh - nav - menu - playerbutton */
+
+    /* border: 1px solid white; */
+  }
+}

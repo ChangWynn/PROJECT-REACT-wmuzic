@@ -28,9 +28,11 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
   const editError = useActionData();
   const navigation = useNavigation();
 
-  const [albumCoverPreview, setAlbumCoverPreview] = useState(metadata.imgL);
+  const [albumCoverPreview, setAlbumCoverPreview] = useState(
+    metadata.albumImgL
+  );
   const [endOfUpdate, setEndOfUpdate] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(metadata.imgM);
+  const [errorMessage, setErrorMessage] = useState(metadata.albumImgS);
 
   const titleRef = useRef();
   const artistRef = useRef();
@@ -167,7 +169,7 @@ export const action = async ({ request }) => {
 
   let imgFullpath;
   if (imgFile.name) {
-    const imgPath = `USER-UID-${uid}/images/${imgFile.name}`;
+    const imgPath = `${uid}/images/${imgFile.name}`;
     const imgRef = ref(storage, imgPath);
     try {
       await uploadBytes(imgRef, imgFile);
@@ -181,8 +183,8 @@ export const action = async ({ request }) => {
     title,
     artist,
     album: data.get("album").trim(),
-    imgM: imgFullpath,
-    imgL: imgFullpath,
+    albumImgS: imgFullpath,
+    albumImgL: imgFullpath,
   };
 
   const metadata = {

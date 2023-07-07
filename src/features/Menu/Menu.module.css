@@ -11,3 +11,20 @@
 
   /* border: 1px solid white; */
 }
+
+@media (max-width: 320px) {
+  .playlist--menu {
+    padding: 0;
+    margin: 0;
+    height: 2rem;
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; */
+    gap: 1rem;
+    width: 100%;
+  }
+  .playlist--menu svg {
+    font-size: 2.2rem;
+  }
+}

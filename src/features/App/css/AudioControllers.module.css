@@ -13,3 +13,21 @@
 
   /* border: 1px solid white; */
 }
+
+@media (max-width: 320px) {
+  .audio-controllers {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: auto;
+    padding: 1rem 0;
+
+    position: relative;
+    /* z-index: 50; */
+
+    /* border: 1px solid white; */
+  }
+}

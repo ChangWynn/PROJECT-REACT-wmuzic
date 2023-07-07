@@ -67,3 +67,78 @@
   cursor: initial;
   transform: none;
 }
+
+@media (max-width: 320px) {
+  /* .control-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  } */
+
+  .icon {
+    height: 4rem;
+    width: 4rem;
+    /* background-color: transparent; */
+    margin: 0;
+    /* color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-out; */
+
+    /* border: 1px solid white; */
+  }
+
+  .icon.prev-next {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .icon.repeat,
+  .icon.repeat-off,
+  .icon.shuffle,
+  .icon.shuffle-off {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+
+  .icon.volume,
+  .icon.volume-off {
+    display: none;
+    height: 3rem;
+    width: 3rem;
+  }
+
+  /* .icon.repeat-off,
+  .icon.shuffle-off,
+  .icon.volume-off {
+    color: rgb(80, 80, 80);
+  } */
+
+  /* .icon.play-pause:hover,
+  .icon.prev-next:hover,
+  .icon.repeat:hover,
+  .icon.volume:hover {
+    transform: scale(1.05);
+    color: var(--white-hover);
+  } */
+
+  /* .icon.repeat-off:hover,
+  .icon.shuffle-off:hover,
+  .icon.volume-off:hover {
+    transform: scale(1.05);
+  } */
+
+  /* .icon.play-pause.icon.disabled,
+  .icon.prev-next.icon.disabled,
+  .icon.repeat.icon.disabled,
+  .icon.shuffle.icon.disabled,
+  .icon.volume.icon.disabled {
+    color: rgb(55, 55, 55);
+    cursor: initial;
+    transform: none;
+  } */
+
+  .invisible-div {
+    display: none;
+  }
+}

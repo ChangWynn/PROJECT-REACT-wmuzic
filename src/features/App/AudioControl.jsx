@@ -86,7 +86,7 @@ const AudioControl = () => {
   };
 
   return (
-    <div className={styles["audio-controls"]}>
+    <div className={styles["audio-control"]}>
       <div ref={volumeDivRef} className={styles["volume-control"]}>
         <ControlButton
           onClickFn={() => setVolumeON(!volumeON)}
@@ -130,7 +130,10 @@ const AudioControl = () => {
           styleName={shuffleMode ? "shuffle" : "shuffle-off"}
         />
       </div>
-      <div style={{ width: volumeDivRef.current?.clientWidth }}></div>
+      <div
+        className={styles["invisible-div"]}
+        style={{ width: volumeDivRef.current?.clientWidth }}
+      ></div>
     </div>
   );
 };

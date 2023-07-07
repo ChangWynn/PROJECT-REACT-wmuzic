@@ -8,7 +8,7 @@ import Browser from "../Browser/Browser";
 const Visual = () => {
   const { currentSongIndex, files } = useContext(MainContext);
   const [currentSongMetadata, setCurrentSongMetadata] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,7 +24,7 @@ const Visual = () => {
             <h3>Loading...</h3>
           ) : (
             <img
-              src={currentSongMetadata.imgL || defaultCover}
+              src={currentSongMetadata.albumImgL || defaultCover}
               alt="album cover"
             />
           )}
@@ -35,10 +35,10 @@ const Visual = () => {
         </div>
         <img
           className={style["background"]}
-          src={currentSongMetadata.imgM || defaultCover}
+          src={currentSongMetadata.albumImgS || defaultCover}
           alt="album cover in the background"
         />
-        <Browser />
+        {/* <Browser /> */}
       </div>
     </React.Fragment>
   );

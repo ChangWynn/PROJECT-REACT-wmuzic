@@ -2,7 +2,7 @@ import styles from "./css/UploadForm.module.css";
 import useUploadState from "../hooks/useUploadState";
 import axios from "../../services/axios";
 import moment from "moment";
-import { apiKey } from "../../.api";
+import { lastfmKey, SpotifyID, SpotifySecret } from "../../.api";
 import { MainContext } from "../App/MusicPlayer";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -36,7 +36,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
   const titleRef = useRef();
   const artistRef = useRef();
   const fileInputRef = useRef();
-  const backdropRef = useRef();
+  // const backdropRef = useRef();
 
   useEffect(() => {
     if (uploadedSong) {
@@ -59,9 +59,8 @@ const UploadForm = ({ showForm, setShowForm }) => {
 
     let songData;
     if (isChecked) {
-      songData = await fetchMetadata(title, artist);
+      songData = await axiosDataFromApi(title, artist);
       if (!songData) return;
-      if (mbidRequired && mbidAreMissing(songData)) return;
     }
 
     if (await uploadToFirebase(songData, title, artist)) return;
@@ -81,47 +80,53 @@ const UploadForm = ({ showForm, setShowForm }) => {
     }
   };
 
-  const fetchMetadata = async (title, artist) => {
+  const axiosDataFromApi = async (title, artist) => {
     upload.updateState("Retrieving metadata...");
-    const songData = await callAPI(title, artist);
 
-    if (!songData) {
-      upload.raiseError({
-        description: "No match found",
-        action: "Please check spelling or continue without LastFm",
-      });
+    try {
+      //------ token request ------//
+      const token = await axios.post(
+        `https://accounts.spotify.com/api/token`,
+        `grant_type=client_credentials&client_id=${SpotifyID}&client_secret=${SpotifySecret}`,
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
+
+      //------ search request ------//
+      return await axios.get(
+        `https://api.spotify.com/v1/search?q=${title} ${artist}&type=artist%2Ctrack`,
+        { headers: { Authorization: `Bearer ${token.data.access_token}` } }
+      );
+    } catch (err) {
+      console.log("running", err);
+      if (err.response?.status >= 400 && err.response.status <= 499) {
+        upload.raiseError({
+          description: "Internal error.",
+          action: "Please try again later or continue without metadata",
+        });
+      } else {
+        upload.raiseError({
+          description: "Connection error.",
+          action: "Please your internet connection",
+        });
+      }
+
       return false;
-    } else return songData;
-  };
-
-  const callAPI = async (title, artist) => {
-    const searchTrackURL = `/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${artist}&track=${title}&format=json`;
-
-    const res = await axios.get(searchTrackURL);
-    return res?.data.track;
-  };
-
-  const mbidAreMissing = (songData) => {
-    const mbidMissing = // returns true if one of the below returns undefined
-      !songData?.artist?.mbid || !songData?.mbid || !songData?.album?.mbid;
-
-    if (mbidMissing) {
-      upload.stop();
-      setMidPrompt(true);
-      return true;
     }
   };
 
   const uploadToFirebase = async (songData, title, artist) => {
     const date = moment(new Date()).format("YYYYMMDDHHmmss");
-    const metaData = constructMetadata(songData, title, artist);
+    const metadata = constructMetadata(songData, date, title, artist);
+
     const songRef = ref(
       storage,
-      `USER-UID-${uid}/${date}-${metaData.customMetadata.title}-${metaData.customMetadata.artist}`
+      `${uid}/${date}-${metadata.customMetadata.title}-${metadata.customMetadata.artist}`
     );
 
     try {
-      await uploadingProcess(songRef, metaData);
+      await uploadingProcess(songRef, metadata);
     } catch (err) {
       upload.raiseError({
         description: "Something went wrong",
@@ -131,15 +136,21 @@ const UploadForm = ({ showForm, setShowForm }) => {
     }
   };
 
-  const constructMetadata = (songData, title, artist) => {
+  const constructMetadata = (songData, date, title, artist) => {
+    const tracksPath = songData?.data?.tracks?.items[0];
+    const artistsPath = songData?.data?.artists?.items[0];
+    const albumPath = tracksPath?.album;
     return {
       customMetadata: {
-        title: songData?.name || title,
-        artist: songData?.album?.artist || artist,
+        uid: date + title + artist,
+        title: tracksPath?.name || title,
+        artist: artistsPath?.name || artist,
         duration: uploadedSongDuration,
-        album: songData?.album?.title || "",
-        imgM: songData?.album?.image[1]["#text"] || "",
-        imgL: songData?.album?.image.at(-1)["#text"] || "",
+        album: albumPath?.name || "",
+        albumImgS: albumPath?.images[1]?.url || "",
+        albumImgL: albumPath?.images[0]?.url || "",
+        artistImgS: artistsPath?.images[1]?.url || "",
+        artistImgL: artistsPath?.images[0]?.url || "",
         position: files.songRefs.length + 1,
       },
     };
@@ -175,15 +186,11 @@ const UploadForm = ({ showForm, setShowForm }) => {
 
   ////////// END OF HELPER FUNCTIONS ////////////////////
 
-  const closeModal = (e) => {
-    if (e.target === backdropRef.current) setShowForm(false);
-  };
-
-  document.addEventListener("keydown", (key) => {
-    if (showForm && key.code === "Escape") {
-      setShowForm(false);
-    }
-  });
+  // document.addEventListener("keydown", (key) => {
+  //   if (showForm && key.code === "Escape") {
+  //     setShowForm(false);
+  //   }
+  // });
 
   return (
     <FormContext.Provider

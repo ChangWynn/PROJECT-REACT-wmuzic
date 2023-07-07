@@ -2,3 +2,11 @@
   width: auto;
   height: 100%;
 }
+
+@media (max-width: 320px) {
+  .menu-btn {
+    height: 100%;
+    aspect-ratio: 1/1;
+    font-size: 1rem;
+  }
+}

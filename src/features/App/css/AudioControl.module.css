@@ -1,4 +1,4 @@
-.audio-controls {
+.audio-control {
   width: 100%;
   padding: 0 4rem;
   display: flex;
@@ -42,6 +42,58 @@
   gap: 10rem;
   height: 10rem;
   /* border: 1px solid white; */
+}
+
+@media (max-width: 320px) {
+  .audio-control {
+    width: 100%;
+    padding: 1rem;
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; */
+    gap: unset;
+    height: auto;
+    /* border: 1px solid white; */
+  }
+
+  .volume-control {
+    display: none;
+    /* height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0; */
+
+    /* border: white solid 1px; */
+  }
+
+  .volume-control > input[type="range"] {
+    display: none;
+    /* cursor: grab;
+    opacity: 0;
+    transition: all 0.1s ease-out; */
+  }
+
+  /* .volume-control:hover > input[type="range"] {
+    opacity: 1;
+  }
+  .volume-control:active > input[type="range"] {
+    cursor: grabbing;
+    opacity: 1;
+  } */
+
+  .main-controls {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center; */
+    justify-content: space-around;
+    padding: 1rem 0;
+    width: 100%;
+    gap: 2rem;
+    height: 100%;
+    /* border: 1px solid white; */
+  }
 }
 
 /* .volume-control input[type="range"] {
