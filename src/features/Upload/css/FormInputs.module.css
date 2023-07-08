@@ -71,11 +71,11 @@
   font-size: 1.4rem;
 }
 
-@media (max-width: 320px) {
-  /* .upload-btn-container,
+@media (max-width: 480px) {
+  .upload-btn-container,
   .upload-btn-container input[type="file"] {
-    width: 100%;
-  } */
+    width: 90%;
+  }
 
   /* .upload-btn-container {
     border-radius: 1px;
@@ -84,7 +84,7 @@
     margin: 1rem 0;
   } */
   .upload-btn-container input[type="file"] {
-    height: 4rem;
+    height: 5rem;
     /* position: relative;
     z-index: 1;
     opacity: 0;
@@ -138,8 +138,8 @@
   } */
 
   .checkbox input[type="checkbox"] {
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
     /* border-radius: 5px;
     border: none; */
     /* font-size: 1.6rem; */
@@ -149,6 +149,6 @@
   }
 
   .checkbox p {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 }

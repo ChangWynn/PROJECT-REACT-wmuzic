@@ -50,7 +50,7 @@
   object-fit: contain;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .auth--btns {
     /* display: flex;
     flex-direction: row;

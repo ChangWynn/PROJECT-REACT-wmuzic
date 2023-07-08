@@ -33,6 +33,23 @@ const MusicPlayer = () => {
   const currentSongRef = useRef();
   const audioRef = useRef();
 
+  const appNavRef = useRef();
+  const playlistMenuRef = useRef();
+  const audioControllersRef = useRef();
+  const [playlistComputedHeight, setPlaylistComputedHeight] = useState();
+
+  useEffect(() => {
+    const appNavHeight = appNavRef.current?.clientHeight;
+    const playlistHeight = playlistMenuRef.current?.clientHeight;
+    const audioControllersHeight = audioControllersRef.current?.clientHeight;
+    const otherUIcomputedHeights =
+      appNavHeight + playlistHeight + audioControllersHeight;
+
+    setPlaylistComputedHeight(`calc(100vh - ${otherUIcomputedHeights + "px"})`);
+  }, []);
+
+  console.log(playlistComputedHeight);
+
   ////// download metadata when songRefs length changes  //////
 
   useEffect(() => {
@@ -149,13 +166,18 @@ const MusicPlayer = () => {
           src={currentSongURL}
           onEnded={endOfTrackHandler}
         />
-        <AppNavigation />
-        <div className={styles["app--middle"]}>
+        <AppNavigation ref={appNavRef} />
+        <div
+          className={styles["app--middle"]}
+          style={{
+            height: playlistComputedHeight,
+          }}
+        >
           {files.songMD.length === files.songRefs.length && <Playlist />}
           {files.songMD.length > 0 && <Visual />}
         </div>
-        <Menu />
-        <AudioControllers />
+        <Menu ref={playlistMenuRef} />
+        <AudioControllers ref={audioControllersRef} />
         <UploadForm showForm={showForm} setShowForm={setShowForm} />
       </div>
     </MainContext.Provider>

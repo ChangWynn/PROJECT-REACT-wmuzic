@@ -68,7 +68,7 @@
   transform: none;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   /* .control-button {
     display: flex;
     flex-direction: column;

@@ -13,7 +13,7 @@
   gap: 2rem;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .modal-overlay {
     position: absolute;
     top: 0;

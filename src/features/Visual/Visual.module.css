@@ -71,7 +71,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   /* .container,
   .album-cover,
   .song-info {
@@ -88,22 +88,24 @@
     flex-grow: 1; */
     gap: 2rem;
     /* border: 1px solid white; */
+    justify-content: unset;
   }
 
-  .container .background {
+  .background {
     display: none;
-    /* position: absolute; */
+    /* position: absolute;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     height: 70%;
-    /* aspect-ratio: 1/1; */
-    filter: blur(30px) brightness(0.5);
+    aspect-ratio: 1/1;
+    filter: blur(30px) brightness(0.5); */
   }
 
   .album-cover {
-    height: 17rem;
-    width: 17rem;
+    width: 90%;
+    height: calc(100% - 9.1rem);
+
     /* box-shadow: 0 0 10px 1px var(--pink-hover);
     border: 2px solid var(--pink);
     position: relative;
@@ -116,6 +118,7 @@
     object-fit: cover;
     image-rendering: pixelated;
   } */
+
   .album-cover h3 {
     font-size: 1rem;
     font-weight: 100;
@@ -125,10 +128,16 @@
     gap: 0.5rem;
     /* position: relative;
     z-index: 1; */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
+
+    position: absolute;
+    inset: auto auto 0 auto;
+    background-color: black;
+    padding: 2rem 0;
+    overflow: hidden;
   }
   .song-info h2 {
     width: 70%;
@@ -136,11 +145,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 1.2rem;
+    font-size: 2.5rem;
     letter-spacing: 0.2rem;
   }
   .song-info h3 {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 100;
   }
 }

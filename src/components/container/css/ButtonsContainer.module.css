@@ -12,7 +12,7 @@
   border-radius: 1px;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .buttons-container {
     /* width: 100%; */
     /* display: flex; */
@@ -23,10 +23,10 @@
   }
   .buttons-container button {
     /* height: 5rem; */
-    width: 100%;
+    width: 90%;
     /* border-radius: 1px; */
   }
-  .buttons-container button:first-child {
+  /* .buttons-container button:first-child {
     height: 2rem;
-  }
+  } */
 }

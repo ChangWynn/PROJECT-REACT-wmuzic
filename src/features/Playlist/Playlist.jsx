@@ -10,9 +10,11 @@ const Playlist = () => {
   const { showPlaylist, files } = useContext(MainContext);
 
   return (
-    <div className={`${styles["container"]} ${showPlaylist && styles["show"]}`}>
+    <div
+      className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}
+    >
       <div
-        className={`${styles["playlist"]} ${showPlaylist && styles["show"]}`}
+        className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}
       >
         {files.songRefs.length > 0 &&
           files.songRefs.map((songRef, index) => {

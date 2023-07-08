@@ -6,8 +6,9 @@ import { auth } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { faArrowRightFromBracket } from "@fortawesome/sharp-solid-svg-icons";
+import { forwardRef } from "react";
 
-const AppNavigation = () => {
+const AppNavigation = forwardRef((_, ref) => {
   const navigate = useNavigate();
 
   const logout = () => {
@@ -17,7 +18,7 @@ const AppNavigation = () => {
   };
 
   return (
-    <nav className={styles["navbar"]}>
+    <nav ref={ref} className={styles["navbar"]}>
       <div className={styles["brand"]}>
         <FontAwesomeIcon
           icon={faWaveformLines}
@@ -43,6 +44,6 @@ const AppNavigation = () => {
       </button>
     </nav>
   );
-};
+});
 
 export default AppNavigation;

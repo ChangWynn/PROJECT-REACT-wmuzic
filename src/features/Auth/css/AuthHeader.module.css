@@ -23,7 +23,7 @@
   text-decoration: solid;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   /* .auth--header {
     display: flex;
     flex-direction: column;

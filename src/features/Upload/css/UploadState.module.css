@@ -24,7 +24,7 @@
   font-size: 1.5rem;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .message {
     height: 100%;
     /* display: flex;

@@ -8,7 +8,7 @@
   /* border: 1px solid white; */
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .inputs-container {
     width: 100%;
     /* display: flex;

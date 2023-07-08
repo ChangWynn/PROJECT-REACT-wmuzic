@@ -18,7 +18,7 @@
   color: var(--pink);
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .landing-message {
     /* display: flex;
     flex-direction: row;
@@ -27,6 +27,8 @@
 
     padding: 2rem;
     margin-bottom: 1rem;
+    position: absolute;
+    inset: 0 auto auto auto;
   }
 
   .landing-message h1 {

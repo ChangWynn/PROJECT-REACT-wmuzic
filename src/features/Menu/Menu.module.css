@@ -12,19 +12,19 @@
   /* border: 1px solid white; */
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .playlist--menu {
     padding: 0;
     margin: 0;
-    height: 2rem;
+    /* height: 3rem; */
+    width: 100%;
     /* display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center; */
     gap: 1rem;
-    width: 100%;
   }
   .playlist--menu svg {
-    font-size: 2.2rem;
+    font-size: 3rem;
   }
 }

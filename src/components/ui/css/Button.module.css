@@ -14,7 +14,7 @@
   background-color: #4a1cc0;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .cancel-rectangle,
   .confirm-rectangle {
     font-size: 1.5rem;

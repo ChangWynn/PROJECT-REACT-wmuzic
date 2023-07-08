@@ -65,7 +65,7 @@ const UploadForm = ({ showForm, setShowForm }) => {
 
     if (await uploadToFirebase(songData, title, artist)) return;
 
-    // cleanUp();
+    cleanUp();
   };
 
   ////////// ADD NEW SONG HELPER FUNCTIONS ////////////////////

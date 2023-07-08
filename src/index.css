@@ -9,7 +9,7 @@
   --purple-hover: #9100a4;
 
   --auth-form-width: 50%;
-  --auth-form-width-mobile: 100%;
+  --auth-form-width-mobile: 90%;
 
   --mid-prompt-backdrop: rgba(0, 0, 0, 0.97);
   --mid-prompt-arrows-hover: #6c3ce3;
@@ -18,7 +18,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: inherit;
 }
 
 html {
@@ -26,13 +26,14 @@ html {
 }
 
 body {
+  box-sizing: border-box;
   overflow: hidden;
   background: var(--black);
   color: var(--white);
+  font-weight: 600;
   font-family: "Cabin", sans-serif;
   /* font-family: "Rubik", sans-serif; */
   /* font-family: "Quicksand", sans-serif; */
-  font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

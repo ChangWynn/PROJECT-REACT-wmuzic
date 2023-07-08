@@ -48,7 +48,7 @@
   transition: width 0.1s ease-out;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .track--container {
     height: auto;
     /* width: 100%; */

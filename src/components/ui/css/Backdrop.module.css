@@ -8,7 +8,7 @@
   /* z-index: 10; */
 }
 
-@media (max-width: 320px) {
+@media (max-width: 480px) {
   .backdrop {
     position: fixed;
     top: 0;
