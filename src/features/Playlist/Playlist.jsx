@@ -1,4 +1,4 @@
-import styles from "./css/Playlist.module.css";
+import styles from "./Playlist.module.css";
 import Song from "./Song";
 
 import { AppContext } from "../../layout/AppLayout";
@@ -8,12 +8,8 @@ const Playlist = () => {
   const { showPlaylist, files } = useContext(AppContext);
 
   return (
-    <div
-      className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}
-    >
-      <div
-        className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}
-      >
+    <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
+      <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>
         {files.songRefs.length > 0 &&
           files.songRefs.map((songRef, index) => {
             return (

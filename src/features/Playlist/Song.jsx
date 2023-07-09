@@ -1,4 +1,4 @@
-import styles from "./css/Song.module.css";
+import styles from "./Song.module.css";
 import { formatDuration } from "../../utilities/formatDuration";
 import defaultThumbnails from "../../assets/default-album-cover.jpeg";
 
@@ -93,9 +93,7 @@ const Song = React.memo(
         ref={currentSongIndex === index ? currentSongRef : null}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`${styles["song-container"]} ${
-          currentSongIndex === index && styles["current"]
-        }`}
+        className={`${styles["song-container"]} ${currentSongIndex === index && styles["current"]}`}
       >
         {isLoading ? (
           <h3 className={styles["song--loading-message"]}>Loading...</h3>
@@ -111,23 +109,15 @@ const Song = React.memo(
                     onMouseLeave={() => setThumbnailIsHovered(false)}
                   >
                     <img src={metadata.albumImgS || defaultThumbnails} alt="" />
-                    <div
-                      className={styles["icon-container"]}
-                      onClick={playSelectedSong}
-                    >
-                      {songIsPlaying &&
-                        currentSongIndex === index &&
-                        !thumbnailIsHovered && (
-                          <div className={styles["icon"]}>
-                            <FontAwesomeIcon size="2x" icon={faVolume} />
-                          </div>
-                        )}
+                    <div className={styles["icon-container"]} onClick={playSelectedSong}>
+                      {songIsPlaying && currentSongIndex === index && !thumbnailIsHovered && (
+                        <div className={styles["icon"]}>
+                          <FontAwesomeIcon size="2x" icon={faVolume} />
+                        </div>
+                      )}
                       {thumbnailIsHovered && (
                         <div className={styles["icon"]}>
-                          <FontAwesomeIcon
-                            size="3x"
-                            icon={renderThumbnailIcon()}
-                          />
+                          <FontAwesomeIcon size="3x" icon={renderThumbnailIcon()} />
                         </div>
                       )}
                     </div>
@@ -139,10 +129,7 @@ const Song = React.memo(
                   <div className={styles["hover-options"]}>
                     {isHovered ? (
                       <div className={styles["menu"]} onClick={toggleMenu}>
-                        <FontAwesomeIcon
-                          size="xl"
-                          icon={showMenu ? faXmark : faEllipsisVertical}
-                        />
+                        <FontAwesomeIcon size="xl" icon={showMenu ? faXmark : faEllipsisVertical} />
                       </div>
                     ) : (
                       <div className={styles["song-info--duration"]}>
@@ -152,20 +139,13 @@ const Song = React.memo(
                     {showMenu && (
                       <div className={styles["song-menu"]}>
                         <button onClick={() => setShowModal(true)}>Edit</button>
-                        <button onClick={() => setShowDelete(true)}>
-                          Delete
-                        </button>
+                        <button onClick={() => setShowDelete(true)}>Delete</button>
                       </div>
                     )}
                     {showMenu && showDelete && (
                       <div className={styles["song-menu"]}>
-                        <button onClick={() => setShowDelete(false)}>
-                          Cancel
-                        </button>
-                        <button
-                          className={styles["confirm-delete-btn"]}
-                          onClick={confirmDelete}
-                        >
+                        <button onClick={() => setShowDelete(false)}>Cancel</button>
+                        <button className={styles["confirm-delete-btn"]} onClick={confirmDelete}>
                           Confirm
                         </button>
                       </div>
@@ -177,10 +157,7 @@ const Song = React.memo(
           </div>
         )}
         {showModal &&
-          ReactDOM.createPortal(
-            <Backdrop zIndex="10" />,
-            document.getElementById("backdrop")
-          )}
+          ReactDOM.createPortal(<Backdrop zIndex="10" />, document.getElementById("backdrop"))}
         {showModal &&
           ReactDOM.createPortal(
             <UpdateModal
