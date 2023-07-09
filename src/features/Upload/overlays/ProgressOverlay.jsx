@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./css/UploadState.module.css";
+import styles from "./ProgressOverlay.module.css";
 import { faSpinnerThird } from "@fortawesome/pro-duotone-svg-icons";
-import ModalOverlay from "../../components/ui/ModalOverlay";
+import ModalOverlay from "../../../shared/ui/ModalOverlay";
 
-const UploadState = ({ message }) => {
+const ProgressOverlay = ({ message }) => {
   return (
     <ModalOverlay zIndex="21">
       <div className={styles["message"]}>
@@ -26,4 +26,4 @@ const UploadState = ({ message }) => {
   );
 };
 
-export default UploadState;
+export default ProgressOverlay;

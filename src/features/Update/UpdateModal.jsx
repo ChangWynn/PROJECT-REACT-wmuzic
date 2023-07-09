@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./EditSongModal.module.css";
-import Input from "../../components/ui/Input";
-import ModalOverlay from "../../components/ui/ModalOverlay";
-import Button from "../../components/ui/Button";
-import InputsContainer from "../../components/container/InputsContainer";
-import ButtonsContainer from "../../components/container/ButtonsContainer";
+import styles from "./UpdateModal.module.css";
+import Input from "../../shared/ui/Input";
+import ModalOverlay from "../../shared/ui/ModalOverlay";
+import Button from "../../shared/ui/Button";
+import InputsContainer from "../../shared/container/InputsContainer";
+import ButtonsContainer from "../../shared/container/ButtonsContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -22,7 +22,7 @@ import {
 import { storage } from "../../config/firebase";
 import defaultCover from "../../assets/default-album-cover.jpeg";
 
-const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
+const UpdateModal = ({ showModal, setShowModal, songRef, metadata }) => {
   const { uid } = useOutletContext();
   const editError = useActionData();
   const navigation = useNavigation();
@@ -150,7 +150,7 @@ const EditSongModal = ({ showModal, setShowModal, songRef, metadata }) => {
   );
 };
 
-export default EditSongModal;
+export default UpdateModal;
 
 export const action = async ({ request }) => {
   const data = await request.formData();

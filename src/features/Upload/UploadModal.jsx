@@ -1,16 +1,15 @@
-import styles from "./css/UploadSongModal.module.css";
-import ModalOverlay from "../../components/ui/ModalOverlay";
+import styles from "./UploadModal.module.css";
+import ModalOverlay from "../../shared/ui/ModalOverlay";
 import React, { forwardRef, useContext } from "react";
-import { FormContext } from "./UploadForm";
-import FormInputs from "./FormInputs";
-import UploadButtons from "./UploadButtons";
-import UploadState from "./UploadState";
-import MidPrompt from "./MidPrompt";
+import { UploadContextProvider } from "./context/UploadContext";
+import UploadForm from "./UploadForm";
+import ProgressOverlay from "./overlays/ProgressOverlay";
+import MidPrompt from "./overlays/MidPrompt";
 import ReactDOM from "react-dom";
-import Backdrop from "../../components/ui/Backdrop";
+import Backdrop from "../../shared/ui/Backdrop";
 
-const UploadSongModal = forwardRef((_, ref) => {
-  const { midPrompt, upload } = useContext(FormContext);
+const UploadModal = forwardRef((_, ref) => {
+  const { midPrompt, upload } = useContext(UploadContextProvider);
 
   return (
     <React.Fragment>
@@ -20,8 +19,7 @@ const UploadSongModal = forwardRef((_, ref) => {
           <h2>{upload?.errorMessage?.description}</h2>
           <p>{upload?.errorMessage?.action}</p>
         </div>
-        <FormInputs ref={ref} />
-        <UploadButtons />
+        <UploadForm ref={ref} />
       </ModalOverlay>
 
       {/* LOADING OVERLAYS */}
@@ -32,7 +30,7 @@ const UploadSongModal = forwardRef((_, ref) => {
         )}
       {upload.inProgress &&
         ReactDOM.createPortal(
-          <UploadState message={upload.message} />,
+          <ProgressOverlay message={upload.message} />,
           document.getElementById("modal-overlay")
         )}
 
@@ -51,4 +49,4 @@ const UploadSongModal = forwardRef((_, ref) => {
   );
 });
 
-export default UploadSongModal;
+export default UploadModal;

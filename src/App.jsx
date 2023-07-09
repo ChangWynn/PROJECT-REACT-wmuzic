@@ -1,8 +1,8 @@
-import MusicPlayer from "./features/App/MusicPlayer";
-import { action as editSong } from "./features/EditSong/EditSongModal";
+import AppLayout from "./layout/AppLayout";
+import { action as updateSong } from "./features/Update/UpdateModal";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./layout/AuthLayout";
-import AppLayout, { loader as getUsersItemsRefs } from "./layout/AppLayout";
+import RootLayout, { loader as getUsersItemsRefs } from "./layout/RootLayout";
 
 const router = createBrowserRouter([
   {
@@ -11,13 +11,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <AppLayout />,
+    element: <RootLayout />,
     loader: getUsersItemsRefs,
     children: [
       {
         index: true,
-        element: <MusicPlayer />,
-        action: editSong,
+        element: <AppLayout />,
+        action: updateSong,
       },
     ],
   },

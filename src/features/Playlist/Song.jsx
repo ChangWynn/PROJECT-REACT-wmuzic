@@ -3,16 +3,16 @@ import { formatDuration } from "../../utilities/formatDuration";
 import defaultThumbnails from "../../assets/default-album-cover.jpeg";
 
 import { deleteObject } from "firebase/storage";
-import { MainContext } from "../App/MusicPlayer";
+import { AppContext } from "../../layout/AppLayout";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/pro-solid-svg-icons";
 import { faCirclePlay, faXmark } from "@fortawesome/sharp-regular-svg-icons";
 import { faCirclePause } from "@fortawesome/pro-regular-svg-icons";
-import EditSongModal from "../EditSong/EditSongModal";
-import Backdrop from "../../components/ui/Backdrop";
+import UpdateModal from "../Update/UpdateModal";
+import Backdrop from "../../shared/ui/Backdrop";
 import { faVolume } from "@fortawesome/sharp-light-svg-icons";
 import { useActionData } from "react-router-dom";
 
@@ -26,7 +26,7 @@ const Song = React.memo(
       setCurrentSongIndex,
       files,
       setFiles,
-    } = useContext(MainContext);
+    } = useContext(AppContext);
 
     const [metadata, setMetadata] = useState({ ...songMD.customMetadata });
 
@@ -37,7 +37,6 @@ const Song = React.memo(
     const [showModal, setShowModal] = useState(false);
     const [thumbnailIsHovered, setThumbnailIsHovered] = useState(false);
 
-    const containerRef = useRef();
     const data = useActionData();
 
     useEffect(() => {
@@ -184,7 +183,7 @@ const Song = React.memo(
           )}
         {showModal &&
           ReactDOM.createPortal(
-            <EditSongModal
+            <UpdateModal
               showModal={showModal}
               setShowModal={setShowModal}
               songRef={songRef}

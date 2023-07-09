@@ -1,4 +1,4 @@
-import LandingMessage from "../components/LandingMessage";
+import Logo from "../shared/Logo";
 import styles from "./css/AuthLayout.module.css";
 
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ const AuthLayout = () => {
   return (
     <div className={styles["god--container"]}>
       <div className={styles["auth-page--container"]}>
-        <LandingMessage />
+        <Logo />
         <Auth />
       </div>
     </div>

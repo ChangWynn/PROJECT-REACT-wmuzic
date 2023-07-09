@@ -1,227 +1,92 @@
-import styles from "./css/UploadForm.module.css";
-import useUploadState from "../hooks/useUploadState";
-import axios from "../../services/axios";
-import moment from "moment";
-import { lastfmKey, SpotifyID, SpotifySecret } from "../../.api";
-import { MainContext } from "../App/MusicPlayer";
+import styles from "./UploadForm.module.css";
+import Input from "../../shared/ui/Input";
+import React, { forwardRef, useContext } from "react";
+import InputsContainer from "../../shared/container/InputsContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAlbum } from "@fortawesome/pro-solid-svg-icons";
+import { UploadContextProvider } from "./context/UploadContext";
+import ButtonsContainer from "../../shared/container/ButtonsContainer";
+import Button from "../../shared/ui/Button";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import ReactDOM from "react-dom";
-
-import { storage } from "../../config/firebase";
-import {
-  ref,
-  uploadBytes,
-  updateMetadata,
-  getMetadata,
-} from "firebase/storage";
-import Backdrop from "../../components/ui/Backdrop";
-import UploadSongModal from "./UploadSongModal";
-
-export const FormContext = React.createContext();
-
-const UploadForm = ({ showForm, setShowForm }) => {
-  const upload = useUploadState();
-
-  const { uid } = useOutletContext();
-  const { files, setFiles } = useContext(MainContext);
-
-  const [uploadedSong, setUploadedSong] = useState(null);
-
-  const [uploadedSongDuration, setUploadedSongDuration] = useState(0);
-  const [isChecked, setIsChecked] = useState(true);
-  const [midPrompt, setMidPrompt] = useState(false);
-
-  const titleRef = useRef();
-  const artistRef = useRef();
-  const fileInputRef = useRef();
-  // const backdropRef = useRef();
-
-  useEffect(() => {
-    if (uploadedSong) {
-      const audio = new Audio();
-      audio.src = URL.createObjectURL(uploadedSong);
-      audio.addEventListener("loadedmetadata", () => {
-        setUploadedSongDuration(audio.duration);
-      });
-    }
-  }, [uploadedSong]);
-
-  ////////// ADD NEW SONG FUNCTION ////////////////////
-
-  const addNewSong = async (mbidRequired = true) => {
-    upload.start("Initializing...");
-    const title = titleRef.current.value.trim();
-    const artist = artistRef.current.value.trim();
-
-    if (inputsAreInvalid(title, artist, uploadedSong)) return;
-
-    let songData;
-    if (isChecked) {
-      songData = await axiosDataFromApi(title, artist);
-      if (!songData) return;
-    }
-
-    if (await uploadToFirebase(songData, title, artist)) return;
-
-    cleanUp();
-  };
-
-  ////////// ADD NEW SONG HELPER FUNCTIONS ////////////////////
-
-  const inputsAreInvalid = (title, artist, uploadedSong) => {
-    if (!title || !artist || !uploadedSong) {
-      upload.raiseError({
-        description: "Invalid input",
-        action: "Please fill in all fields",
-      });
-      return true;
-    }
-  };
-
-  const axiosDataFromApi = async (title, artist) => {
-    upload.updateState("Retrieving metadata...");
-
-    try {
-      //------ token request ------//
-      const token = await axios.post(
-        `https://accounts.spotify.com/api/token`,
-        `grant_type=client_credentials&client_id=${SpotifyID}&client_secret=${SpotifySecret}`,
-        {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        }
-      );
-
-      //------ search request ------//
-      return await axios.get(
-        `https://api.spotify.com/v1/search?q=${title} ${artist}&type=artist%2Ctrack`,
-        { headers: { Authorization: `Bearer ${token.data.access_token}` } }
-      );
-    } catch (err) {
-      console.log("running", err);
-      if (err.response?.status >= 400 && err.response.status <= 499) {
-        upload.raiseError({
-          description: "Internal error.",
-          action: "Please try again later or continue without metadata",
-        });
-      } else {
-        upload.raiseError({
-          description: "Connection error.",
-          action: "Please your internet connection",
-        });
-      }
-
-      return false;
-    }
-  };
-
-  const uploadToFirebase = async (songData, title, artist) => {
-    const date = moment(new Date()).format("YYYYMMDDHHmmss");
-    const metadata = constructMetadata(songData, date, title, artist);
-
-    const songRef = ref(
-      storage,
-      `${uid}/${date}-${metadata.customMetadata.title}-${metadata.customMetadata.artist}`
-    );
-
-    try {
-      await uploadingProcess(songRef, metadata);
-    } catch (err) {
-      upload.raiseError({
-        description: "Something went wrong",
-        action: "Please try again",
-      });
-      return false;
-    }
-  };
-
-  const constructMetadata = (songData, date, title, artist) => {
-    const tracksPath = songData?.data?.tracks?.items[0];
-    const artistsPath = songData?.data?.artists?.items[0];
-    const albumPath = tracksPath?.album;
-    return {
-      customMetadata: {
-        uid: date + title + artist,
-        title: tracksPath?.name || title,
-        artist: artistsPath?.name || artist,
-        duration: uploadedSongDuration,
-        album: albumPath?.name || "",
-        albumImgS: albumPath?.images[1]?.url || "",
-        albumImgL: albumPath?.images[0]?.url || "",
-        artistImgS: artistsPath?.images[1]?.url || "",
-        artistImgL: artistsPath?.images[0]?.url || "",
-        position: files.songRefs.length + 1,
-      },
-    };
-  };
-
-  const uploadingProcess = async (songRef, metaData) => {
-    upload.updateState("Uploading file...");
-    await uploadFile(songRef, metaData);
-    const newSongMD = await getMetadata(songRef);
-    setFiles((prev) => {
-      return {
-        songRefs: [...prev.songRefs, songRef],
-        songMD: [...prev.songMD, newSongMD],
-      };
-    });
-    upload.success();
-  };
-
-  const uploadFile = async (songRef, metaData) => {
-    await uploadBytes(songRef, uploadedSong);
-    await updateMetadata(songRef, metaData);
-  };
-
-  const cleanUp = (e) => {
-    if (e) e.preventDefault();
-    titleRef.current.value = "";
-    artistRef.current.value = "";
-    fileInputRef.current.value = null;
-    upload.reset();
-    setUploadedSong(null);
-    setShowForm(false);
-  };
-
-  ////////// END OF HELPER FUNCTIONS ////////////////////
-
-  // document.addEventListener("keydown", (key) => {
-  //   if (showForm && key.code === "Escape") {
-  //     setShowForm(false);
-  //   }
-  // });
-
+const UploadForm = forwardRef((_, { titleRef, artistRef, fileInputRef }) => {
+  const {
+    uploadedSong,
+    setUploadedSong,
+    isChecked,
+    setIsChecked,
+    cleanUp,
+    addNewSong,
+  } = useContext(UploadContextProvider);
   return (
-    <FormContext.Provider
-      value={{
-        addNewSong,
-        cleanUp,
-        uploadedSong,
-        setUploadedSong,
-        isChecked,
-        setIsChecked,
-        midPrompt,
-        setMidPrompt,
-        showForm,
-        upload,
-        titleRef,
-        artistRef,
-        fileInputRef,
-      }}
-    >
-      {showForm &&
-        ReactDOM.createPortal(
-          <Backdrop zIndex="10" />,
-          document.getElementById("backdrop")
-        )}
-      {showForm &&
-        ReactDOM.createPortal(
-          <UploadSongModal ref={{ titleRef, artistRef, fileInputRef }} />,
-          document.getElementById("modal-overlay")
-        )}
-    </FormContext.Provider>
+    <React.Fragment>
+      <InputsContainer>
+        <Input
+          ref={titleRef}
+          label="Title"
+          input={{
+            type: "text",
+            id: "title",
+            name: "title",
+            placeholder: "Enter the new song title",
+          }}
+        />
+        <Input
+          ref={artistRef}
+          label="Artist"
+          input={{
+            type: "text",
+            id: "artist",
+            name: "artist",
+            placeholder: "Enter the artist name",
+          }}
+        />
+        <div className={styles["upload-btn-container"]}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            id="file"
+            name="file"
+            multiple={false}
+            accept=".mp3, .wav, .ogg"
+            onChange={(e) => {
+              setUploadedSong(e.target.files[0]);
+            }}
+          />
+          <div className={styles["btn-icon"]}>
+            <FontAwesomeIcon
+              icon={faAlbum}
+              size="3x"
+              style={{ color: "#ffffff" }}
+            />
+            <h3>{uploadedSong?.name || "Choose file"}</h3>
+          </div>
+        </div>
+        <div className={styles["checkbox"]}>
+          <input
+            type="checkbox"
+            id="checkbox"
+            name="checkbox"
+            onChange={() => {
+              setIsChecked(!isChecked);
+            }}
+            checked={isChecked}
+          />
+          <p>Would you like to use Spotify&reg; metadata?</p>
+        </div>
+      </InputsContainer>
+      <ButtonsContainer>
+        <Button
+          label="Cancel"
+          type="cancel-rectangle"
+          attributes={{ onClick: cleanUp }}
+        />
+        <Button
+          label="Upload"
+          type="confirm-rectangle"
+          attributes={{ onClick: addNewSong }}
+        />
+      </ButtonsContainer>
+    </React.Fragment>
   );
-};
-
+});
 export default UploadForm;

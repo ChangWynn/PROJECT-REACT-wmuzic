@@ -1,16 +1,14 @@
 import { useContext } from "react";
 import styles from "./Browser.module.css";
-import { MainContext } from "../App/MusicPlayer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AppContext } from "../../layout/AppLayout";
 import {
   faAngleDoubleDown,
   faAngleDoubleUp,
-  faAngleUp,
 } from "@fortawesome/pro-regular-svg-icons";
 import ToggleDisplayBtn from "./ToggleDisplayBtn";
 
 const Browser = () => {
-  const { showMediaMenu, setShowMediaMenu } = useContext(MainContext);
+  const { showMediaMenu, setShowMediaMenu } = useContext(AppContext);
   return (
     <div
       className={`${styles["browser-container"]} ${

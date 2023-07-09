@@ -1,4 +1,4 @@
-import styles from "./css/AppNavigation.module.css";
+import styles from "./AppNavigation.module.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWaveformLines } from "@fortawesome/pro-duotone-svg-icons";

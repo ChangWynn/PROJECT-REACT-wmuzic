@@ -1,13 +1,11 @@
 import styles from "./css/Playlist.module.css";
 import Song from "./Song";
 
-import { MainContext } from "../App/MusicPlayer";
-import { useContext, useEffect, useState } from "react";
-import { getMetadata } from "firebase/storage";
-import Menu from "../Menu/Menu";
+import { AppContext } from "../../layout/AppLayout";
+import { useContext } from "react";
 
 const Playlist = () => {
-  const { showPlaylist, files } = useContext(MainContext);
+  const { showPlaylist, files } = useContext(AppContext);
 
   return (
     <div

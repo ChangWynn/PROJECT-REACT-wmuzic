@@ -1,4 +1,4 @@
-import styles from "./css/AudioControl.module.css";
+import styles from "./css/PlayerButtons.module.css";
 import {
   faPlay,
   faPause,
@@ -8,16 +8,16 @@ import {
   faVolumeSlash,
 } from "@fortawesome/sharp-solid-svg-icons";
 
-import { MainContext } from "./MusicPlayer";
+import { AppContext } from "../../layout/AppLayout";
 import { useContext, useEffect, useRef, useState } from "react";
-import ControlButton from "./ControlButton";
+import PlayerButtonUI from "./PlayerButtonUI";
 import {
   faArrowsRepeat,
   faRepeat1,
   faShuffle,
 } from "@fortawesome/sharp-regular-svg-icons";
 
-const AudioControl = () => {
+const PlayerButtons = () => {
   const {
     nextSong,
     songIsPlaying,
@@ -30,7 +30,7 @@ const AudioControl = () => {
     setCurrentRepeatMode,
     shuffleMode,
     setShuffleMode,
-  } = useContext(MainContext);
+  } = useContext(AppContext);
 
   const [volumeON, setVolumeON] = useState(true);
   const [volume, setVolume] = useState(true);
@@ -88,7 +88,7 @@ const AudioControl = () => {
   return (
     <div className={styles["audio-control"]}>
       <div ref={volumeDivRef} className={styles["volume-control"]}>
-        <ControlButton
+        <PlayerButtonUI
           onClickFn={() => setVolumeON(!volumeON)}
           FaIcon={volumeON ? faVolume : faVolumeSlash}
           styleName={volumeON ? "volume" : "volume-off"}
@@ -104,27 +104,27 @@ const AudioControl = () => {
         />
       </div>
       <div className={styles["main-controls"]}>
-        <ControlButton
+        <PlayerButtonUI
           onClickFn={toggleRepeatMode}
           FaIcon={setRepeatIcon()}
           styleName={currentRepeatMode === 0 ? "repeat-off" : "repeat"}
         />
-        <ControlButton
+        <PlayerButtonUI
           onClickFn={prevSong}
           FaIcon={faBackwardStep}
           styleName="prev-next"
         />
-        <ControlButton
+        <PlayerButtonUI
           onClickFn={togglePlay}
           FaIcon={songIsPlaying ? faPause : faPlay}
           styleName="play-pause"
         />
-        <ControlButton
+        <PlayerButtonUI
           onClickFn={nextSong}
           FaIcon={faForwardStep}
           styleName="prev-next"
         />
-        <ControlButton
+        <PlayerButtonUI
           onClickFn={() => setShuffleMode(!shuffleMode)}
           FaIcon={faShuffle}
           styleName={shuffleMode ? "shuffle" : "shuffle-off"}
@@ -138,4 +138,4 @@ const AudioControl = () => {
   );
 };
 
-export default AudioControl;
+export default PlayerButtons;

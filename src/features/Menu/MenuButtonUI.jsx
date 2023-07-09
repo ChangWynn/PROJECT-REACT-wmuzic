@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./MenuButton.module.css";
+import styles from "./MenuButtonUI.module.css";
 
-const MenuButton = ({ faIcon, clickEvent }) => {
+const MenuButtonUI = ({ faIcon, clickEvent }) => {
   return (
     <button className={styles["menu-btn"]} onClick={clickEvent}>
       <FontAwesomeIcon icon={faIcon} size="3x" />
@@ -9,4 +9,4 @@ const MenuButton = ({ faIcon, clickEvent }) => {
   );
 };
 
-export default MenuButton;
+export default MenuButtonUI;

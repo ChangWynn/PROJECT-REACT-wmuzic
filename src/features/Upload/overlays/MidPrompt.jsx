@@ -1,15 +1,15 @@
 import { useContext } from "react";
-import styles from "./css/MidPrompt.module.css";
-import { FormContext } from "./UploadForm";
+import styles from "./MidPrompt.module.css";
+import { UploadContextProvider } from "../context/UploadContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faArrowRight,
 } from "@fortawesome/sharp-regular-svg-icons";
-import ModalOverlay from "../../components/ui/ModalOverlay";
+import ModalOverlay from "../../../shared/ui/ModalOverlay";
 
 const MidPrompt = () => {
-  const { setMidPrompt, addNewSong } = useContext(FormContext);
+  const { setMidPrompt, addNewSong } = useContext(UploadContextProvider);
 
   const resumeUpload = () => {
     setMidPrompt(false);

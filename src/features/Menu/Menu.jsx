@@ -1,21 +1,20 @@
 import styles from "./Menu.module.css";
-import MenuButton from "./MenuButton";
+import MenuButtonUI from "./MenuButtonUI";
 import { forwardRef, useContext } from "react";
-import { MainContext } from "../App/MusicPlayer";
+import { AppContext } from "../../layout/AppLayout";
 
 import { faPlus } from "@fortawesome/sharp-light-svg-icons";
 import { faAlbum, faAlbumCollection } from "@fortawesome/sharp-solid-svg-icons";
 
 const Menu = forwardRef((_, ref) => {
-  const { showPlaylist, setShowPlaylist, setShowForm } =
-    useContext(MainContext);
+  const { showPlaylist, setShowPlaylist, setShowForm } = useContext(AppContext);
   return (
     <div ref={ref} className={styles["playlist--menu"]}>
-      <MenuButton
+      <MenuButtonUI
         faIcon={showPlaylist ? faAlbumCollection : faAlbum}
         clickEvent={() => setShowPlaylist(!showPlaylist)}
       />
-      <MenuButton faIcon={faPlus} clickEvent={() => setShowForm(true)} />
+      <MenuButtonUI faIcon={faPlus} clickEvent={() => setShowForm(true)} />
     </div>
   );
 });

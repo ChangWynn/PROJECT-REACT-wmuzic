@@ -1,11 +1,11 @@
-import styles from "./css/ControlButton.module.css";
+import styles from "./css/PlayerButtonUI.module.css";
 import { useContext } from "react";
-import { MainContext } from "./MusicPlayer";
+import { AppContext } from "../../layout/AppLayout";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ControlButton = ({ onClickFn, FaIcon, styleName }) => {
-  const { files } = useContext(MainContext);
+const PlayerButtonUI = ({ onClickFn, FaIcon, styleName }) => {
+  const { files } = useContext(AppContext);
   return (
     <button
       className={styles["control-button"]}
@@ -23,4 +23,4 @@ const ControlButton = ({ onClickFn, FaIcon, styleName }) => {
   );
 };
 
-export default ControlButton;
+export default PlayerButtonUI;

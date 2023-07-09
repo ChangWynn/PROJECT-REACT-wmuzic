@@ -1,12 +1,12 @@
 import style from "./Visual.module.css";
 import React, { useContext, useEffect, useState } from "react";
-import { MainContext } from "../App/MusicPlayer";
+import { AppContext } from "../../layout/AppLayout";
 
 import defaultCover from "../../assets/default-album-cover.jpeg";
 import Browser from "../Browser/Browser";
 
 const Visual = () => {
-  const { currentSongIndex, files } = useContext(MainContext);
+  const { currentSongIndex, files } = useContext(AppContext);
   const [currentSongMetadata, setCurrentSongMetadata] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

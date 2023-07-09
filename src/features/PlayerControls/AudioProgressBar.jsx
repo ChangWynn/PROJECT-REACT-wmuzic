@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./css/AudioProgressBar.module.css";
 
-import { MainContext } from "./MusicPlayer";
+import { AppContext } from "../../layout/AppLayout";
 import AudioDuration from "./AudioDuration";
 
 const AudioProgressBar = () => {
   const [songProgression, setSongProgression] = useState(0);
   const [bufferProgression, setBufferProgression] = useState(0);
 
-  const { audioRef, currentSongIndex, songIsPlaying } = useContext(MainContext);
+  const { audioRef, currentSongIndex, songIsPlaying } = useContext(AppContext);
+
+  const song = audioRef?.current;
 
   const updateBufferProgression = ({ buffered, duration }) => {
     if (buffered.length > 0) {
@@ -25,7 +27,6 @@ const AudioProgressBar = () => {
   };
 
   useEffect(() => {
-    const song = audioRef?.current;
     const updateProgressBar = () => {
       updateSongProgression(song);
       updateBufferProgression(song);
@@ -39,7 +40,7 @@ const AudioProgressBar = () => {
     return () => {
       return clearInterval(interval);
     };
-  }, [songIsPlaying, currentSongIndex]);
+  }, [songIsPlaying, currentSongIndex, song]);
 
   const navigateInSong = (e) => {
     const width = e.target.clientWidth;
