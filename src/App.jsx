@@ -7,10 +7,6 @@ import RootLayout, { loader as getUsersItemsRefs } from "./layout/RootLayout";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AuthLayout />,
-  },
-  {
-    path: "/app",
     element: <RootLayout />,
     loader: getUsersItemsRefs,
     children: [
@@ -20,6 +16,10 @@ const router = createBrowserRouter([
         action: updateSong,
       },
     ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
   },
 ]);
 

@@ -7,10 +7,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { auth } from "../../config/firebase";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -19,7 +16,7 @@ const Auth = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const authMode = searchParams.get("auth");
+  const authMode = searchParams.get("mode");
 
   const getInputValue = () => {
     return {
@@ -29,7 +26,7 @@ const Auth = () => {
   };
 
   const navigateToMain = () => {
-    navigate("/app");
+    navigate("/");
   };
 
   const formatErrorMessage = (err) => {
@@ -60,7 +57,7 @@ const Auth = () => {
       title: "LOGIN",
       message: "Don't have an account? ",
       link: "Sign up",
-      linkTo: "/?auth=signup",
+      linkTo: "/auth?mode=signup",
       submitBtn: "LOGIN",
       authenticate: () => {
         authenticateMethod(signInWithEmailAndPassword);
@@ -70,7 +67,7 @@ const Auth = () => {
       title: "SIGN UP",
       message: "Already have an account? ",
       link: "Login",
-      linkTo: "/?auth=login",
+      linkTo: "/auth?mode=login",
       submitBtn: "SIGN UP",
       authenticate: () => {
         authenticateMethod(createUserWithEmailAndPassword);

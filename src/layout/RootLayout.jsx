@@ -10,7 +10,7 @@ const RootLayout = () => {
   const allRefs = useLoaderData();
 
   useEffect(() => {
-    if (!uid) navigate("/");
+    if (!uid) navigate("/auth");
   }, []);
 
   if (uid) {

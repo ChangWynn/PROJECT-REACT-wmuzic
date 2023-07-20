@@ -10,7 +10,7 @@ const AuthLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/?auth=signup");
+    navigate("/auth?mode=login");
   }, []);
 
   return (

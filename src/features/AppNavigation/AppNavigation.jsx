@@ -14,7 +14,7 @@ const AppNavigation = forwardRef((_, ref) => {
   const logout = () => {
     localStorage.removeItem("uid");
     signOut(auth);
-    navigate("/");
+    navigate("/auth");
   };
 
   return (

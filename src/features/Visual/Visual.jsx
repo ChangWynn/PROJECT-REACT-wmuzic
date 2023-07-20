@@ -23,21 +23,18 @@ const Visual = () => {
           {isLoading ? (
             <h3>Loading...</h3>
           ) : (
-            <img
-              src={currentSongMetadata.albumImgL || defaultCover}
-              alt="album cover"
-            />
+            <img src={currentSongMetadata.albumImgL || defaultCover} alt="album cover" />
           )}
         </div>
         <div className={style["song-info"]}>
           <h2>{currentSongMetadata.title}</h2>
           <h3>{currentSongMetadata.artist}</h3>
         </div>
-        <img
+        {/* <img
           className={style["background"]}
           src={currentSongMetadata.albumImgS || defaultCover}
           alt="album cover in the background"
-        />
+        /> */}
         {/* <Browser /> */}
       </div>
     </React.Fragment>
