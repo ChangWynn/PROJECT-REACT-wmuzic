@@ -20,6 +20,9 @@
   /* border: white solid 1px; */
 }
 
+.volume-slider {
+  width: 45rem;
+}
 .volume-control > input[type="range"] {
   cursor: grab;
   opacity: 0;

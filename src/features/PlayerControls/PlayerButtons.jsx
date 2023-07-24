@@ -11,11 +11,7 @@ import {
 import { AppContext } from "../../layout/AppLayout";
 import { useContext, useEffect, useRef, useState } from "react";
 import PlayerButtonUI from "./PlayerButtonUI";
-import {
-  faArrowsRepeat,
-  faRepeat1,
-  faShuffle,
-} from "@fortawesome/sharp-regular-svg-icons";
+import { faArrowsRepeat, faRepeat1, faShuffle } from "@fortawesome/sharp-regular-svg-icons";
 
 const PlayerButtons = () => {
   const {
@@ -59,8 +55,7 @@ const PlayerButtons = () => {
   const prevSong = () => {
     if (audioRef.current.currentTime > 10) {
       audioRef.current.currentTime = 0;
-    } else if (currentSongIndex === 0)
-      setCurrentSongIndex(files.songRefs.length - 1);
+    } else if (currentSongIndex === 0) setCurrentSongIndex(files.songRefs.length - 1);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex - 1;
@@ -109,21 +104,13 @@ const PlayerButtons = () => {
           FaIcon={setRepeatIcon()}
           styleName={currentRepeatMode === 0 ? "repeat-off" : "repeat"}
         />
-        <PlayerButtonUI
-          onClickFn={prevSong}
-          FaIcon={faBackwardStep}
-          styleName="prev-next"
-        />
+        <PlayerButtonUI onClickFn={prevSong} FaIcon={faBackwardStep} styleName="prev-next" />
         <PlayerButtonUI
           onClickFn={togglePlay}
           FaIcon={songIsPlaying ? faPause : faPlay}
           styleName="play-pause"
         />
-        <PlayerButtonUI
-          onClickFn={nextSong}
-          FaIcon={faForwardStep}
-          styleName="prev-next"
-        />
+        <PlayerButtonUI onClickFn={nextSong} FaIcon={faForwardStep} styleName="prev-next" />
         <PlayerButtonUI
           onClickFn={() => setShuffleMode(!shuffleMode)}
           FaIcon={faShuffle}

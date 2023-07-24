@@ -3,6 +3,7 @@ import styles from "./css/AudioProgressBar.module.css";
 
 import { AppContext } from "../../layout/AppLayout";
 import AudioDuration from "./AudioDuration";
+import Slider from "../../shared/ui/Slider";
 
 const AudioProgressBar = () => {
   const [songProgression, setSongProgression] = useState(0);
@@ -34,7 +35,7 @@ const AudioProgressBar = () => {
 
     let interval;
     if (songIsPlaying) {
-      interval = setInterval(updateProgressBar, 1000);
+      interval = setInterval(updateProgressBar, 50);
     }
 
     return () => {
@@ -54,7 +55,12 @@ const AudioProgressBar = () => {
 
   return (
     <div className={styles["track--container"]}>
-      <div className={styles["track--background"]}>
+      <Slider
+        objectRef={audioRef}
+        progressValue={songProgression}
+        handleEvent={setSongProgression}
+      />
+      {/* <div className={styles["track--background"]}>
         <div onClick={navigateInSong} className={styles["track--overlay"]} />
         <div
           style={{ width: bufferProgression + "%" }}
@@ -64,7 +70,7 @@ const AudioProgressBar = () => {
           style={{ width: songProgression + "%" }}
           className={styles["track--progress"]}
         />
-      </div>
+      </div> */}
       <AudioDuration />
     </div>
   );
