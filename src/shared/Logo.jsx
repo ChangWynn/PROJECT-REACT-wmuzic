@@ -9,7 +9,7 @@ const Logo = () => {
         className={styles["landing-message--logo"]}
         icon={faWaveformLines}
         rotation={180}
-        // size="3x"
+        size="3x"
         style={{
           "--fa-primary-color": "#c200db",
           "--fa-secondary-color": "#ee82ee",
