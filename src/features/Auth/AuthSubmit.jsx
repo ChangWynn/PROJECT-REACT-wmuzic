@@ -11,17 +11,14 @@ const AuthSubmit = ({ mode, setErrorMessage }) => {
     try {
       await signInWithPopup(auth, googleAuth);
       localStorage.setItem("uid", auth.currentUser.uid);
-      navigate("/app");
+      navigate("/");
     } catch (err) {
       setErrorMessage(err.code);
     }
   };
   return (
     <div className={styles["auth--btns"]}>
-      <button
-        className={styles["auth--submit-btn"]}
-        onClick={() => mode.authenticate()}
-      >
+      <button className={styles["auth--submit-btn"]} onClick={() => mode.authenticate()}>
         {mode.submitBtn}
       </button>
       <button className={styles["auth--google-btn"]} onClick={signinWithGoogle}>
