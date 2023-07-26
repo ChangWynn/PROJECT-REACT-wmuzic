@@ -12,6 +12,7 @@ import { AppContext } from "../../layout/AppLayout";
 import { useContext, useEffect, useRef, useState } from "react";
 import PlayerButtonUI from "./PlayerButtonUI";
 import { faArrowsRepeat, faRepeat1, faShuffle } from "@fortawesome/sharp-regular-svg-icons";
+import Slider from "../../shared/ui/Slider";
 
 const PlayerButtons = () => {
   const {
@@ -29,7 +30,7 @@ const PlayerButtons = () => {
   } = useContext(AppContext);
 
   const [volumeON, setVolumeON] = useState(true);
-  const [volume, setVolume] = useState(true);
+  const [volume, setVolume] = useState(0.5);
 
   const volumeRef = useRef();
   const volumeDivRef = useRef();
@@ -80,6 +81,14 @@ const PlayerButtons = () => {
     }
   };
 
+  const navigateInVolume = (newVolume) => {
+    audioRef.current.volume = Math.floor(newVolume / 100);
+  };
+
+  const formatTooltip = (value) => {
+    return Math.floor(value);
+  };
+
   return (
     <div className={styles["audio-control"]}>
       <div ref={volumeDivRef} className={styles["volume-control"]}>
@@ -88,6 +97,16 @@ const PlayerButtons = () => {
           FaIcon={volumeON ? faVolume : faVolumeSlash}
           styleName={volumeON ? "volume" : "volume-off"}
         />
+        {/* <div className={styles["volume--slider"]}>
+          <Slider
+            objectRefRange={100}
+            currentValue={volume}
+            setCurrentValue={setVolume}
+            navigateFn={navigateInVolume}
+            formatTooltip={formatTooltip}
+            formatTooltipFallback={() => "0"}
+          />
+        </div> */}
         <input
           ref={volumeRef}
           type="range"

@@ -11,6 +11,7 @@ import AppNavigation from "../features/AppNavigation/AppNavigation";
 
 import UploadContext from "../features/Upload/context/UploadContext";
 import Menu from "../features/Menu/Menu";
+import { AnimatePresence } from "framer-motion";
 
 export const AppContext = React.createContext();
 
@@ -42,13 +43,10 @@ const AppLayout = () => {
     const appNavHeight = appNavRef.current?.clientHeight;
     const playlistHeight = playlistMenuRef.current?.clientHeight;
     const audioControllersHeight = audioControllersRef.current?.clientHeight;
-    const otherUIcomputedHeights =
-      appNavHeight + playlistHeight + audioControllersHeight;
+    const otherUIcomputedHeights = appNavHeight + playlistHeight + audioControllersHeight;
 
     setPlaylistComputedHeight(`calc(100vh - ${otherUIcomputedHeights + "px"})`);
   }, []);
-
-  console.log(playlistComputedHeight);
 
   ////// download metadata when songRefs length changes  //////
 
@@ -93,8 +91,7 @@ const AppLayout = () => {
 
   const nextSong = () => {
     if (shuffleMode) shuffleModeOnHandler();
-    else if (currentSongIndex === files.songRefs.length - 1)
-      setCurrentSongIndex(0);
+    else if (currentSongIndex === files.songRefs.length - 1) setCurrentSongIndex(0);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex + 1;
@@ -127,10 +124,7 @@ const AppLayout = () => {
 
   const shuffleModeOffHandler = () => {
     const isTheLastSong = currentSongIndex === files.songRefs.length - 1;
-    if (
-      (currentRepeatMode === 0 && !isTheLastSong) ||
-      currentRepeatMode === 2
-    ) {
+    if ((currentRepeatMode === 0 && !isTheLastSong) || currentRepeatMode === 2) {
       nextSong();
     }
   };
@@ -160,12 +154,7 @@ const AppLayout = () => {
       }}
     >
       <div className={styles["app"]}>
-        <audio
-          ref={audioRef}
-          id="audio"
-          src={currentSongURL}
-          onEnded={endOfTrackHandler}
-        />
+        <audio ref={audioRef} id="audio" src={currentSongURL} onEnded={endOfTrackHandler} />
         <AppNavigation ref={appNavRef} />
         <div
           className={styles["app--middle"]}

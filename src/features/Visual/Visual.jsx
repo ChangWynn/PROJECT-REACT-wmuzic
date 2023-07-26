@@ -35,7 +35,7 @@ const Visual = () => {
           src={currentSongMetadata.albumImgS || defaultCover}
           alt="album cover in the background"
         /> */}
-        <Browser />
+        {/* <Browser /> */}
       </div>
     </React.Fragment>
   );

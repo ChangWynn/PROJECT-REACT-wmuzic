@@ -20,7 +20,7 @@
   /* border: white solid 1px; */
 }
 
-.volume-slider {
+.volume--slider {
   width: 45rem;
 }
 .volume-control > input[type="range"] {
@@ -78,13 +78,13 @@
     transition: all 0.1s ease-out; */
   }
 
-  /* .volume-control:hover > input[type="range"] {
+  .volume-control:hover > input[type="range"] {
     opacity: 1;
   }
   .volume-control:active > input[type="range"] {
     cursor: grabbing;
     opacity: 1;
-  } */
+  }
 
   .main-controls {
     /* display: flex;

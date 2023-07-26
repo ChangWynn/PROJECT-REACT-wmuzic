@@ -8,9 +8,14 @@ import {
   useDragControls,
 } from "framer-motion";
 
-import { formatDuration } from "../../utilities/formatDuration";
-
-const Slider = ({ objectRef, progressValue, handleEvent }) => {
+const Slider = ({
+  objectRefRange,
+  currentValue,
+  setCurrentValue,
+  navigateFn,
+  formatTooltip,
+  formatTooltipFallback,
+}) => {
   const constraintsRef = useRef();
   const progressBarRef = useRef();
   const handleRef = useRef();
@@ -33,8 +38,8 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
   }, []);
 
   useEffect(() => {
-    setValue(progressValue);
-  }, [progressValue]);
+    setValue(currentValue);
+  }, [currentValue]);
 
   useEffect(() => {
     const newProgress = value / (valueMax - valueMin);
@@ -52,14 +57,13 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
     dragControls.start(event, { snapToCursor: true });
   };
 
-  const search = () => {
-    console.log({ dragging }, { tooltipPosition });
+  const search = (formatTooltipFallback) => {
     const { left, width } = progressBarRef.current.getBoundingClientRect();
     const pointerPosition = tooltipPosition.x - left;
     const newProgress = clamp(pointerPosition / width, 0, 1);
 
-    if (newProgress === 0) return "0:00";
-    else return formatDuration(newProgress * objectRef.current.duration);
+    if (newProgress === 0) return formatTooltipFallback();
+    else return formatTooltip(newProgress * objectRefRange);
   };
 
   const navigate = (e) => {
@@ -68,10 +72,10 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
     const newProgress = clamp(pointerPosition / width, 0, 1);
 
     const newSongProgress = newProgress * (valueMax - valueMin);
-    const newCurrentTime = newProgress * objectRef.current.duration;
+    const newCurrentTime = newProgress * objectRefRange;
 
-    objectRef.current.currentTime = newCurrentTime;
-    handleEvent(clamp(newSongProgress, valueMin, valueMax));
+    navigateFn(newCurrentTime);
+    setCurrentValue(clamp(newSongProgress, valueMin, valueMax));
   };
 
   const constructTooltipPosition = (e) => {
@@ -82,6 +86,7 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
   const clamp = (number, min, max) => {
     return Math.max(min, Math.min(number, max));
   };
+
   return (
     <>
       <div className={styles["slider--container"]}>
@@ -112,7 +117,10 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
               navigate(e);
               setDragging(false);
             }}
-            onDrag={() => setDragging(true)}
+            onDrag={() => {
+              setIsHovered(true);
+              setDragging(true);
+            }}
             variants={handleVariants}
             animate={isHovered || dragging ? "visible" : "hidden"}
             style={{
@@ -123,18 +131,20 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onMouseMove={(e) => constructTooltipPosition(e)}
-          ></motion.div>
+          />
         </div>
-        <div
-          className={styles["slider--clickable-area"]}
-          onPointerDown={(e) => {
-            navigate(e);
-            startDrag(e);
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onMouseMove={(e) => constructTooltipPosition(e)}
-        ></div>
+        {!!objectRefRange && (
+          <div
+            className={styles["slider--clickable-area"]}
+            onPointerDown={(e) => {
+              navigate(e);
+              startDrag(e);
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onMouseMove={(e) => constructTooltipPosition(e)}
+          />
+        )}
       </div>
       {(isHovered || dragging) && (
         <div
@@ -144,7 +154,7 @@ const Slider = ({ objectRef, progressValue, handleEvent }) => {
             top: `${tooltipPosition.y - 40}px`,
           }}
         >
-          <p>{search()}</p>
+          <p>{objectRefRange ? search(formatTooltipFallback) : ""}</p>
         </div>
       )}
     </>

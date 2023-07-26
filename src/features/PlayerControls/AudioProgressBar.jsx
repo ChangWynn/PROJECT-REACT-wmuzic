@@ -4,6 +4,7 @@ import styles from "./css/AudioProgressBar.module.css";
 import { AppContext } from "../../layout/AppLayout";
 import AudioDuration from "./AudioDuration";
 import Slider from "../../shared/ui/Slider";
+import { formatDuration } from "../../utilities/formatDuration";
 
 const AudioProgressBar = () => {
   const [songProgression, setSongProgression] = useState(0);
@@ -43,34 +44,20 @@ const AudioProgressBar = () => {
     };
   }, [songIsPlaying, currentSongIndex, song]);
 
-  const navigateInSong = (e) => {
-    const width = e.target.clientWidth;
-    const clickOffset = e.nativeEvent.offsetX;
-    const newCurrentTime = (clickOffset / width) * audioRef.current.duration;
-    const newSongProgress = (clickOffset / width) * 100;
-
+  const navigateInSong = (newCurrentTime) => {
     audioRef.current.currentTime = newCurrentTime;
-    setSongProgression(newSongProgress);
   };
 
   return (
     <div className={styles["track--container"]}>
       <Slider
-        objectRef={audioRef}
-        progressValue={songProgression}
-        handleEvent={setSongProgression}
+        objectRefRange={audioRef.current?.duration}
+        currentValue={songProgression}
+        setCurrentValue={setSongProgression}
+        navigateFn={navigateInSong}
+        formatTooltip={formatDuration}
+        formatTooltipFallback={() => "0:00"}
       />
-      {/* <div className={styles["track--background"]}>
-        <div onClick={navigateInSong} className={styles["track--overlay"]} />
-        <div
-          style={{ width: bufferProgression + "%" }}
-          className={styles["track--buffer"]}
-        />
-        <div
-          style={{ width: songProgression + "%" }}
-          className={styles["track--progress"]}
-        />
-      </div> */}
       <AudioDuration />
     </div>
   );
