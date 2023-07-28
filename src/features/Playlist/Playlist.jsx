@@ -29,6 +29,7 @@ const Playlist = () => {
               <Reorder.Item
                 onDragStart={saveCurrentSong}
                 onDrag={updateCurrentSongIndex}
+                onDragEnd={updateCurrentSongIndex}
                 key={songRefAndMD.ref.name}
                 value={songRefAndMD}
                 style={{ listStyle: "none" }}
