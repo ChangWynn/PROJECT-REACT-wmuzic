@@ -5,17 +5,17 @@ import { AppContext } from "../../layout/AppLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PlayerButtonUI = ({ onClickFn, FaIcon, styleName }) => {
-  const { files } = useContext(AppContext);
+  const { songRefsAndMD } = useContext(AppContext);
   return (
     <button
       className={styles["control-button"]}
       onClick={onClickFn}
-      disabled={files.songRefs.length < 1}
+      disabled={songRefsAndMD.length < 1}
     >
       <FontAwesomeIcon
         icon={FaIcon}
         className={`${styles["icon"]} ${styles[styleName]} ${
-          files.songRefs.length === 0 && styles["disabled"]
+          songRefsAndMD.length === 0 && styles["disabled"]
         }`}
         size="5x"
       />

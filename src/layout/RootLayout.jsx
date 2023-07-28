@@ -7,7 +7,9 @@ import { Outlet, useNavigate, useLoaderData } from "react-router-dom";
 const RootLayout = () => {
   const [uid] = useState(localStorage.getItem("uid"));
   const navigate = useNavigate();
-  const allRefs = useLoaderData();
+  const allSongRefsAndMD = useLoaderData();
+
+  // console.log(allSongRefsAndMD);
 
   useEffect(() => {
     if (!uid) navigate("/auth");
@@ -16,7 +18,7 @@ const RootLayout = () => {
   if (uid) {
     return (
       <div className={styles["app--container"]}>
-        <Outlet context={{ uid, allRefs: allRefs.items }} />
+        <Outlet context={{ uid, allSongRefsAndMD }} />
       </div>
     );
   }

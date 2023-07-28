@@ -9,12 +9,7 @@ import { useOutletContext } from "react-router-dom";
 import ReactDOM from "react-dom";
 
 import { storage } from "../../../config/firebase";
-import {
-  ref,
-  uploadBytes,
-  updateMetadata,
-  getMetadata,
-} from "firebase/storage";
+import { ref, uploadBytes, updateMetadata, getMetadata } from "firebase/storage";
 import Backdrop from "../../../shared/ui/Backdrop";
 import UploadModal from "../UploadModal";
 
@@ -24,7 +19,7 @@ const UploadContext = ({ showForm, setShowForm }) => {
   const upload = useUploadState();
 
   const { uid } = useOutletContext();
-  const { files, setFiles } = useContext(AppContext);
+  const { songRefsAndMD, setSongRefsAndMD } = useContext(AppContext);
 
   const [uploadedSong, setUploadedSong] = useState(null);
 
@@ -35,7 +30,6 @@ const UploadContext = ({ showForm, setShowForm }) => {
   const titleRef = useRef();
   const artistRef = useRef();
   const fileInputRef = useRef();
-  // const backdropRef = useRef();
 
   useEffect(() => {
     if (uploadedSong) {
@@ -150,7 +144,7 @@ const UploadContext = ({ showForm, setShowForm }) => {
         albumImgL: albumPath?.images[0]?.url || "",
         artistImgS: artistsPath?.images[1]?.url || "",
         artistImgL: artistsPath?.images[0]?.url || "",
-        position: files.songRefs.length + 1,
+        position: songRefsAndMD.length + 1,
       },
     };
   };
@@ -159,11 +153,8 @@ const UploadContext = ({ showForm, setShowForm }) => {
     upload.updateState("Uploading file...");
     await uploadFile(songRef, metaData);
     const newSongMD = await getMetadata(songRef);
-    setFiles((prev) => {
-      return {
-        songRefs: [...prev.songRefs, songRef],
-        songMD: [...prev.songMD, newSongMD],
-      };
+    setSongRefsAndMD((prev) => {
+      return [...prev, { ref: songRef, metadata: newSongMD }];
     });
     upload.success();
   };
@@ -210,10 +201,7 @@ const UploadContext = ({ showForm, setShowForm }) => {
       }}
     >
       {showForm &&
-        ReactDOM.createPortal(
-          <Backdrop zIndex="10" />,
-          document.getElementById("backdrop")
-        )}
+        ReactDOM.createPortal(<Backdrop zIndex="10" />, document.getElementById("backdrop"))}
       {showForm &&
         ReactDOM.createPortal(
           <UploadModal ref={{ titleRef, artistRef, fileInputRef }} />,

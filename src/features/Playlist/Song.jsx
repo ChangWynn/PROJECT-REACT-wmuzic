@@ -17,18 +17,16 @@ import { faVolume } from "@fortawesome/sharp-light-svg-icons";
 import { useActionData } from "react-router-dom";
 
 const Song = React.memo(
-  ({ songRef, songMD, index }) => {
+  ({ songRefAndMD, songRef, songMD, index }) => {
     const {
       currentSongRef,
       songIsPlaying,
       setSongIsPlaying,
       currentSongIndex,
       setCurrentSongIndex,
-      files,
-      setFiles,
+      songRefsAndMD,
+      setSongRefsAndMD,
     } = useContext(AppContext);
-
-    const [metadata, setMetadata] = useState({ ...songMD.customMetadata });
 
     const [isLoading, setIsLoading] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -37,17 +35,19 @@ const Song = React.memo(
     const [showModal, setShowModal] = useState(false);
     const [thumbnailIsHovered, setThumbnailIsHovered] = useState(false);
 
-    const data = useActionData();
+    const metadata = songMD.customMetadata;
 
-    useEffect(() => {
-      setIsLoading(true);
-      const newSongMD = data?.customMetadata;
+    // const data = useActionData();
 
-      if (metadata?.duration === newSongMD?.duration) {
-        setMetadata({ ...newSongMD });
-      }
-      setIsLoading(false);
-    }, [data]);
+    // useEffect(() => {
+    //   setIsLoading(true);
+    //   const newSongMD = data?.customMetadata;
+
+    //   if (metadata?.duration === newSongMD?.duration) {
+    //     setMetadata({ ...newSongMD });
+    //   }
+    //   setIsLoading(false);
+    // }, [data]);
 
     const playSelectedSong = () => {
       if (currentSongIndex === index) {
@@ -78,10 +78,9 @@ const Song = React.memo(
     const confirmDelete = async (e) => {
       e.preventDefault();
       try {
-        const index = files.songRefs.indexOf(songRef);
-        const newSongRefs = files.songRefs.filter((_, i) => i !== index);
-        const newSongMD = files.songMD.filter((_, i) => i !== index);
-        setFiles({ songRefs: newSongRefs, songMD: newSongMD });
+        const index = songRefsAndMD.indexOf(songRefAndMD);
+        const newSongRefs = songRefsAndMD.filter((_, i) => i !== index);
+        setSongRefsAndMD(newSongRefs);
         await deleteObject(songRef);
       } catch (err) {
         console.log(err);

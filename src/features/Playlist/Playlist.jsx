@@ -1,27 +1,34 @@
 import styles from "./Playlist.module.css";
 import Song from "./Song";
-
 import { AppContext } from "../../layout/AppLayout";
+
 import { useContext } from "react";
+import { Reorder } from "framer-motion";
 
 const Playlist = () => {
-  const { showPlaylist, files } = useContext(AppContext);
+  const { showPlaylist, songRefsAndMD, setSongRefsAndMD } = useContext(AppContext);
 
   return (
     <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
       <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>
-        {files.songRefs.length > 0 &&
-          files.songRefs.map((songRef, index) => {
+        <Reorder.Group axis="y" values={songRefsAndMD} onReorder={setSongRefsAndMD}>
+          {songRefsAndMD.map((songRefAndMD, index) => {
             return (
-              <Song
-                key={songRef.name}
-                id={index}
-                songRef={songRef}
-                songMD={files.songMD[index]}
-                index={index}
-              />
+              <Reorder.Item
+                key={songRefAndMD.ref.name}
+                value={songRefAndMD}
+                style={{ listStyle: "none" }}
+              >
+                <Song
+                  index={index}
+                  songRefAndMD={songRefAndMD}
+                  songRef={songRefAndMD.ref}
+                  songMD={songRefAndMD.metadata}
+                />
+              </Reorder.Item>
             );
           })}
+        </Reorder.Group>
       </div>
     </div>
   );

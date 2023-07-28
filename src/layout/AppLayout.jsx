@@ -11,16 +11,15 @@ import AppNavigation from "../features/AppNavigation/AppNavigation";
 
 import UploadContext from "../features/Upload/context/UploadContext";
 import Menu from "../features/Menu/Menu";
-import { AnimatePresence } from "framer-motion";
 
 export const AppContext = React.createContext();
 
 const AppLayout = () => {
-  const { allRefs } = useOutletContext();
+  const { allSongRefsAndMD } = useOutletContext();
 
   const [songIsPlaying, setSongIsPlaying] = useState(false);
 
-  const [files, setFiles] = useState({ songRefs: allRefs, songMD: [] });
+  const [songRefsAndMD, setSongRefsAndMD] = useState(allSongRefsAndMD);
   const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
@@ -48,30 +47,14 @@ const AppLayout = () => {
     setPlaylistComputedHeight(`calc(100vh - ${otherUIcomputedHeights + "px"})`);
   }, []);
 
-  ////// download metadata when songRefs length changes  //////
-
-  useEffect(() => {
-    const extractMetadata = async () => {
-      const metadata = await files.songRefs.map(async (songRef) => {
-        return await getMetadata(songRef);
-      });
-      const songMD = await Promise.all(metadata);
-      setFiles((prev) => {
-        return { ...prev, songMD: [...songMD] };
-      });
-    };
-
-    extractMetadata();
-  }, [files.songRefs.length]);
-
   ////// download url of current index //////
 
   useEffect(() => {
     const downloadURL = async () => {
-      const url = await getDownloadURL(files.songRefs[currentSongIndex]);
+      const url = await getDownloadURL(songRefsAndMD[currentSongIndex].ref);
       setCurrentSongURL(url);
     };
-    if (files.songRefs.length > 0) downloadURL();
+    if (songRefsAndMD.length > 0) downloadURL();
   }, [currentSongIndex]);
 
   ////// auto play on index change //////
@@ -91,7 +74,7 @@ const AppLayout = () => {
 
   const nextSong = () => {
     if (shuffleMode) shuffleModeOnHandler();
-    else if (currentSongIndex === files.songRefs.length - 1) setCurrentSongIndex(0);
+    else if (currentSongIndex === songRefsAndMD.length - 1) setCurrentSongIndex(0);
     else {
       setCurrentSongIndex((currentIndex) => {
         return currentIndex + 1;
@@ -113,7 +96,7 @@ const AppLayout = () => {
 
   const shuffleModeOnHandler = () => {
     const currentIndex = currentSongIndex;
-    const randomIndex = Math.floor(Math.random() * files.songRefs.length);
+    const randomIndex = Math.floor(Math.random() * songRefsAndMD.length);
 
     if (currentIndex === randomIndex) {
       shuffleModeOnHandler();
@@ -123,7 +106,7 @@ const AppLayout = () => {
   };
 
   const shuffleModeOffHandler = () => {
-    const isTheLastSong = currentSongIndex === files.songRefs.length - 1;
+    const isTheLastSong = currentSongIndex === songRefsAndMD.length - 1;
     if ((currentRepeatMode === 0 && !isTheLastSong) || currentRepeatMode === 2) {
       nextSong();
     }
@@ -139,8 +122,8 @@ const AppLayout = () => {
         setSongIsPlaying,
         currentSongIndex,
         setCurrentSongIndex,
-        files,
-        setFiles,
+        songRefsAndMD,
+        setSongRefsAndMD,
         currentRepeatMode,
         setCurrentRepeatMode,
         shuffleMode,
@@ -162,8 +145,8 @@ const AppLayout = () => {
             height: playlistComputedHeight,
           }}
         >
-          {files.songMD.length === files.songRefs.length && <Playlist />}
-          {files.songMD.length > 0 && <Visual />}
+          {songRefsAndMD.length > 0 && <Playlist />}
+          {songRefsAndMD.length > 0 && <Visual />}
         </div>
         <Menu ref={playlistMenuRef} />
         <PlayerControls ref={audioControllersRef} />
