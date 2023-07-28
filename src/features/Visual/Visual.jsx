@@ -7,7 +7,6 @@ import Browser from "../Browser/Browser";
 
 const Visual = () => {
   const { currentSongIndex, songRefsAndMD } = useContext(AppContext);
-
   const currentSongMetadata = songRefsAndMD[currentSongIndex].metadata.customMetadata;
 
   // const [isLoading, setIsLoading] = useState(true);
@@ -28,11 +27,6 @@ const Visual = () => {
           <h2>{currentSongMetadata.title}</h2>
           <h3>{currentSongMetadata.artist}</h3>
         </div>
-        {/* <img
-          className={style["background"]}
-          src={currentSongMetadata.albumImgS || defaultCover}
-          alt="album cover in the background"
-        /> */}
         {/* <Browser /> */}
       </div>
     </React.Fragment>

@@ -87,6 +87,8 @@ const Song = React.memo(
       }
     };
 
+    // if (metadata.position === "1") console.log({ index, currentSongIndex });
+
     return (
       <div
         ref={currentSongIndex === index ? currentSongRef : null}

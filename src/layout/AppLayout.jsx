@@ -38,6 +38,10 @@ const AppLayout = () => {
   const audioControllersRef = useRef();
   const [playlistComputedHeight, setPlaylistComputedHeight] = useState();
 
+  // useEffect(() => {
+  //   console.log("has changed", { songRefsAndMD });
+  // }, [songRefsAndMD]);
+
   useEffect(() => {
     const appNavHeight = appNavRef.current?.clientHeight;
     const playlistHeight = playlistMenuRef.current?.clientHeight;
@@ -52,6 +56,7 @@ const AppLayout = () => {
   useEffect(() => {
     const downloadURL = async () => {
       const url = await getDownloadURL(songRefsAndMD[currentSongIndex].ref);
+      if (url === currentSongURL) return;
       setCurrentSongURL(url);
     };
     if (songRefsAndMD.length > 0) downloadURL();
@@ -71,6 +76,8 @@ const AppLayout = () => {
       song.play();
     } else song.pause();
   }, [songIsPlaying, currentSongURL]);
+
+  ////// player controls methods //////
 
   const nextSong = () => {
     if (shuffleMode) shuffleModeOnHandler();
