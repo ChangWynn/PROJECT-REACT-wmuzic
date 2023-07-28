@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./css/RootLayout.module.css";
 import { getUserStorage } from "../utilities/getUserStorage";
 
@@ -8,8 +9,6 @@ const RootLayout = () => {
   const [uid] = useState(localStorage.getItem("uid"));
   const navigate = useNavigate();
   const allSongRefsAndMD = useLoaderData();
-
-  // console.log(allSongRefsAndMD);
 
   useEffect(() => {
     if (!uid) navigate("/auth");

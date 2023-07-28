@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PlayerButtonUI = ({ onClickFn, FaIcon, styleName }) => {
   const { songRefsAndMD } = useContext(AppContext);
+
   return (
     <button
       className={styles["control-button"]}

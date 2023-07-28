@@ -2,9 +2,8 @@ import styles from "./Playlist.module.css";
 import Song from "./Song";
 import { AppContext } from "../../layout/AppLayout";
 
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import { Reorder } from "framer-motion";
-import { duration } from "moment";
 
 const Playlist = () => {
   const { showPlaylist, songRefsAndMD, setSongRefsAndMD, currentSongIndex, setCurrentSongIndex } =
@@ -12,7 +11,7 @@ const Playlist = () => {
 
   const [currentSong, setCurrentSong] = useState(songRefsAndMD[currentSongIndex]);
 
-  const getCurrentSong = () => {
+  const saveCurrentSong = () => {
     setCurrentSong(songRefsAndMD[currentSongIndex]);
   };
 
@@ -21,7 +20,6 @@ const Playlist = () => {
     setCurrentSongIndex(index);
   };
 
-  console.log({ currentSong }, songRefsAndMD.indexOf(currentSong));
   return (
     <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
       <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>
@@ -29,8 +27,8 @@ const Playlist = () => {
           {songRefsAndMD.map((songRefAndMD, index) => {
             return (
               <Reorder.Item
-                onDragStart={getCurrentSong}
-                onDrag={() => updateCurrentSongIndex()}
+                onDragStart={saveCurrentSong}
+                onDrag={updateCurrentSongIndex}
                 key={songRefAndMD.ref.name}
                 value={songRefAndMD}
                 style={{ listStyle: "none" }}

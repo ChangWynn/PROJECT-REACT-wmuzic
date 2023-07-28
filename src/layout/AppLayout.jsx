@@ -5,7 +5,7 @@ import Playlist from "../features/Playlist/Playlist";
 import React, { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { getDownloadURL, getMetadata } from "firebase/storage";
+import { getDownloadURL } from "firebase/storage";
 import Visual from "../features/Visual/Visual";
 import AppNavigation from "../features/AppNavigation/AppNavigation";
 
@@ -37,10 +37,6 @@ const AppLayout = () => {
   const playlistMenuRef = useRef();
   const audioControllersRef = useRef();
   const [playlistComputedHeight, setPlaylistComputedHeight] = useState();
-
-  // useEffect(() => {
-  //   console.log("has changed", { songRefsAndMD });
-  // }, [songRefsAndMD]);
 
   useEffect(() => {
     const appNavHeight = appNavRef.current?.clientHeight;
