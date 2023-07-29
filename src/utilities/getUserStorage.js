@@ -15,8 +15,8 @@ export const getUserStorage = async () => {
 };
 
 const constructRefsAndMD = (refs) => {
-  return refs.map(async (ref) => {
+  return refs.map(async (ref, index) => {
     const metadata = await getMetadata(ref);
-    return { ref, metadata };
+    return { ref, metadata, position: index };
   });
 };

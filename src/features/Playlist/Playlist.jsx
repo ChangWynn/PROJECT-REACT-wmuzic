@@ -20,6 +20,15 @@ const Playlist = () => {
     setCurrentSongIndex(index);
   };
 
+  const updatePositions = () => {
+    const newSongRefsAndMDOrder = songRefsAndMD.map((songRefAndMD, index) => {
+      return { ...songRefAndMD, position: index };
+    });
+    setSongRefsAndMD(newSongRefsAndMDOrder);
+  };
+
+  console.log(songRefsAndMD);
+
   return (
     <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
       <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>
@@ -28,8 +37,8 @@ const Playlist = () => {
             return (
               <Reorder.Item
                 onDragStart={saveCurrentSong}
-                onDrag={updateCurrentSongIndex}
-                onDragEnd={updateCurrentSongIndex}
+                // onDrag={updateCurrentSongIndex}
+                onDragEnd={updatePositions}
                 key={songRefAndMD.ref.name}
                 value={songRefAndMD}
                 style={{ listStyle: "none" }}

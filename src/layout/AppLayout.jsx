@@ -47,6 +47,13 @@ const AppLayout = () => {
     setPlaylistComputedHeight(`calc(100vh - ${otherUIcomputedHeights + "px"})`);
   }, []);
 
+  // useEffect(() => {
+  //   const newPlaylistOrder = songRefsAndMD.map((songRefAndMD, index) => {
+  //     return { ...songRefAndMD, position: index };
+  //   });
+  //   setSongRefsAndMD(newPlaylistOrder);
+  // }, [songRefsAndMD]);
+
   ////// download url of current index //////
 
   useEffect(() => {
@@ -114,7 +121,7 @@ const AppLayout = () => {
       nextSong();
     }
   };
-
+  // console.log(songRefsAndMD);
   return (
     <AppContext.Provider
       value={{
