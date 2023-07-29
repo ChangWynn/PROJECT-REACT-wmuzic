@@ -92,7 +92,6 @@ const UploadContext = ({ showForm, setShowForm }) => {
         { headers: { Authorization: `Bearer ${token.data.access_token}` } }
       );
     } catch (err) {
-      console.log("running", err);
       if (err.response?.status >= 400 && err.response.status <= 499) {
         upload.raiseError({
           description: "Internal error.",

@@ -5,7 +5,6 @@ import Playlist from "../features/Playlist/Playlist";
 import React, { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { getDownloadURL } from "firebase/storage";
 import Visual from "../features/Visual/Visual";
 import AppNavigation from "../features/AppNavigation/AppNavigation";
 
@@ -20,8 +19,8 @@ const AppLayout = () => {
   const [songIsPlaying, setSongIsPlaying] = useState(false);
 
   const [songRefsAndMD, setSongRefsAndMD] = useState(allSongRefsAndMD);
-  const [currentSongURL, setCurrentSongURL] = useState("");
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [currentSongURL, setCurrentSongURL] = useState(songRefsAndMD[currentSongIndex].url);
 
   const [currentRepeatMode, setCurrentRepeatMode] = useState(0);
   const [shuffleMode, setShuffleMode] = useState(false);
@@ -47,22 +46,8 @@ const AppLayout = () => {
     setPlaylistComputedHeight(`calc(100vh - ${otherUIcomputedHeights + "px"})`);
   }, []);
 
-  // useEffect(() => {
-  //   const newPlaylistOrder = songRefsAndMD.map((songRefAndMD, index) => {
-  //     return { ...songRefAndMD, position: index };
-  //   });
-  //   setSongRefsAndMD(newPlaylistOrder);
-  // }, [songRefsAndMD]);
-
-  ////// download url of current index //////
-
   useEffect(() => {
-    const downloadURL = async () => {
-      const url = await getDownloadURL(songRefsAndMD[currentSongIndex].ref);
-      if (url === currentSongURL) return;
-      setCurrentSongURL(url);
-    };
-    if (songRefsAndMD.length > 0) downloadURL();
+    setCurrentSongURL(songRefsAndMD[currentSongIndex].url);
   }, [currentSongIndex]);
 
   ////// auto play on index change //////
@@ -121,7 +106,7 @@ const AppLayout = () => {
       nextSong();
     }
   };
-  // console.log(songRefsAndMD);
+
   return (
     <AppContext.Provider
       value={{
@@ -130,10 +115,12 @@ const AppLayout = () => {
         currentSongRef,
         songIsPlaying,
         setSongIsPlaying,
-        currentSongIndex,
-        setCurrentSongIndex,
         songRefsAndMD,
         setSongRefsAndMD,
+        currentSongIndex,
+        setCurrentSongIndex,
+        currentSongURL,
+        setCurrentSongURL,
         currentRepeatMode,
         setCurrentRepeatMode,
         shuffleMode,

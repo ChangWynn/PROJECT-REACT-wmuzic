@@ -2,21 +2,17 @@ import styles from "./Playlist.module.css";
 import Song from "./Song";
 import { AppContext } from "../../layout/AppLayout";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Reorder } from "framer-motion";
 
 const Playlist = () => {
-  const { showPlaylist, songRefsAndMD, setSongRefsAndMD, currentSongIndex, setCurrentSongIndex } =
+  const { showPlaylist, songRefsAndMD, setSongRefsAndMD, currentSongURL, setCurrentSongIndex } =
     useContext(AppContext);
 
-  const [currentSong, setCurrentSong] = useState(songRefsAndMD[currentSongIndex]);
-
-  const saveCurrentSong = () => {
-    setCurrentSong(songRefsAndMD[currentSongIndex]);
-  };
-
   const updateCurrentSongIndex = () => {
-    const index = songRefsAndMD.indexOf(currentSong);
+    const index = songRefsAndMD.findIndex((song) => {
+      return song.url === currentSongURL;
+    });
     setCurrentSongIndex(index);
   };
 
@@ -27,8 +23,6 @@ const Playlist = () => {
     setSongRefsAndMD(newSongRefsAndMDOrder);
   };
 
-  console.log(songRefsAndMD);
-
   return (
     <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
       <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>
@@ -36,10 +30,9 @@ const Playlist = () => {
           {songRefsAndMD.map((songRefAndMD, index) => {
             return (
               <Reorder.Item
-                onDragStart={saveCurrentSong}
-                // onDrag={updateCurrentSongIndex}
+                onDrag={updateCurrentSongIndex}
                 onDragEnd={updatePositions}
-                key={songRefAndMD.ref.name}
+                key={songRefAndMD.url}
                 value={songRefAndMD}
                 style={{ listStyle: "none" }}
                 transition={{ duration: 0.2 }}

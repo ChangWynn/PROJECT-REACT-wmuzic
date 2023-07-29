@@ -1,5 +1,5 @@
 import { storage } from "../config/firebase";
-import { ref, listAll, getMetadata } from "firebase/storage";
+import { ref, listAll, getMetadata, getDownloadURL } from "firebase/storage";
 
 export const getUserStorage = async () => {
   const userStoragePath = `${localStorage.getItem("uid")}`;
@@ -7,8 +7,8 @@ export const getUserStorage = async () => {
 
   try {
     const allRefs = await listAll(userStorageRef);
-    const allSongRefsAndMD = await Promise.all(constructRefsAndMD(allRefs.items));
-    return allSongRefsAndMD;
+    const allSongs = await Promise.all(constructRefsAndMD(allRefs.items));
+    return allSongs;
   } catch (err) {
     console.log(err);
   }
@@ -17,6 +17,7 @@ export const getUserStorage = async () => {
 const constructRefsAndMD = (refs) => {
   return refs.map(async (ref, index) => {
     const metadata = await getMetadata(ref);
-    return { ref, metadata, position: index };
+    const url = await getDownloadURL(ref);
+    return { ref, metadata, url, position: index };
   });
 };
