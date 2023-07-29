@@ -35,19 +35,14 @@ const Song = React.memo(
     const [showModal, setShowModal] = useState(false);
     const [thumbnailIsHovered, setThumbnailIsHovered] = useState(false);
 
-    const metadata = songMD.customMetadata;
+    let [metadata, setMetadata] = useState(songMD.customMetadata);
+    const data = useActionData();
 
-    // const data = useActionData();
-
-    // useEffect(() => {
-    //   setIsLoading(true);
-    //   const newSongMD = data?.customMetadata;
-
-    //   if (metadata?.duration === newSongMD?.duration) {
-    //     setMetadata({ ...newSongMD });
-    //   }
-    //   setIsLoading(false);
-    // }, [data]);
+    useEffect(() => {
+      if (songRef.name === data?.name) {
+        setMetadata(data.customMetadata);
+      }
+    }, [data]);
 
     const playSelectedSong = () => {
       if (currentSongIndex === index) {
