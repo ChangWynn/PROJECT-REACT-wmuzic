@@ -22,7 +22,7 @@ const Playlist = () => {
     });
     setSongRefsAndMD(newSongRefsAndMDOrder);
   };
-
+  console.log(songRefsAndMD);
   return (
     <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
       <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>

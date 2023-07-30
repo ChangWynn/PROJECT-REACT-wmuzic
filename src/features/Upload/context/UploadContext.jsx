@@ -9,7 +9,7 @@ import { useOutletContext } from "react-router-dom";
 import ReactDOM from "react-dom";
 
 import { storage } from "../../../config/firebase";
-import { ref, uploadBytes, updateMetadata, getMetadata } from "firebase/storage";
+import { ref, uploadBytes, updateMetadata, getMetadata, getDownloadURL } from "firebase/storage";
 import Backdrop from "../../../shared/ui/Backdrop";
 import UploadModal from "../UploadModal";
 
@@ -152,8 +152,14 @@ const UploadContext = ({ showForm, setShowForm }) => {
     upload.updateState("Uploading file...");
     await uploadFile(songRef, metaData);
     const newSongMD = await getMetadata(songRef);
+    const newSongPosition = songRefsAndMD.length;
+    const newSongURL = await getDownloadURL(songRef);
+
     setSongRefsAndMD((prev) => {
-      return [...prev, { ref: songRef, metadata: newSongMD }];
+      return [
+        ...prev,
+        { ref: songRef, metadata: newSongMD, url: newSongURL, position: newSongPosition },
+      ];
     });
     upload.success();
   };

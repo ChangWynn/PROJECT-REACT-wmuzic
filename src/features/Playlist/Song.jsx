@@ -72,11 +72,13 @@ const Song = React.memo(
 
     const confirmDelete = async (e) => {
       e.preventDefault();
+      const newSongRefs = songRefsAndMD.filter((_, i) => i !== index);
       try {
-        const index = songRefsAndMD.indexOf(songRefAndMD);
-        const newSongRefs = songRefsAndMD.filter((_, i) => i !== index);
-        setSongRefsAndMD(newSongRefs);
         await deleteObject(songRef);
+        if (index > newSongRefs.length - 1) {
+          setCurrentSongIndex(newSongRefs.length - 1);
+        }
+        setSongRefsAndMD(newSongRefs);
       } catch (err) {
         console.log(err);
       }
