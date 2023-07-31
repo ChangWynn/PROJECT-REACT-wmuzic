@@ -9,41 +9,19 @@ const Playlist = () => {
   const { showPlaylist, songRefsAndMD, setSongRefsAndMD, currentSongURL, setCurrentSongIndex } =
     useContext(AppContext);
 
-  const updateCurrentSongIndex = () => {
-    const index = songRefsAndMD.findIndex((song) => {
-      return song.url === currentSongURL;
-    });
-    setCurrentSongIndex(index);
-  };
-
-  const updatePositions = () => {
-    const newSongRefsAndMDOrder = songRefsAndMD.map((songRefAndMD, index) => {
-      return { ...songRefAndMD, position: index };
-    });
-    setSongRefsAndMD(newSongRefsAndMDOrder);
-  };
-  console.log(songRefsAndMD);
   return (
     <div className={`${styles["container"]} ${!showPlaylist && styles["hide"]}`}>
       <div className={`${styles["playlist"]} ${!showPlaylist && styles["hide"]}`}>
         <Reorder.Group axis="y" values={songRefsAndMD} onReorder={setSongRefsAndMD}>
           {songRefsAndMD.map((songRefAndMD, index) => {
             return (
-              <Reorder.Item
-                onDrag={updateCurrentSongIndex}
-                onDragEnd={updatePositions}
+              <Song
                 key={songRefAndMD.url}
-                value={songRefAndMD}
-                style={{ listStyle: "none" }}
-                transition={{ duration: 0.2 }}
-              >
-                <Song
-                  index={index}
-                  songRefAndMD={songRefAndMD}
-                  songRef={songRefAndMD.ref}
-                  songMD={songRefAndMD.metadata}
-                />
-              </Reorder.Item>
+                index={index}
+                songRefAndMD={songRefAndMD}
+                songRef={songRefAndMD.ref}
+                songMD={songRefAndMD.metadata}
+              />
             );
           })}
         </Reorder.Group>

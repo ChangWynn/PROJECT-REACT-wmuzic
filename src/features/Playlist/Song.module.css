@@ -1,7 +1,8 @@
 .song-container {
   border-block: rgb(28, 28, 28) 0.5px solid;
+  background-color: black;
   height: 8rem;
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,6 +14,10 @@
 
 .song-container.current {
   background-color: #1c001c;
+}
+.vertical-grip {
+  padding: 1rem;
+  width: 2rem;
 }
 
 .song-container .song--loading-message {

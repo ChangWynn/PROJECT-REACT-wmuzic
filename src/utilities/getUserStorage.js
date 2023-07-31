@@ -18,6 +18,6 @@ const constructRefsAndMD = (refs) => {
   return refs.map(async (ref, index) => {
     const metadata = await getMetadata(ref);
     const url = await getDownloadURL(ref);
-    return { ref, metadata, url, position: index };
+    return { ref, metadata, position: index, url };
   });
 };

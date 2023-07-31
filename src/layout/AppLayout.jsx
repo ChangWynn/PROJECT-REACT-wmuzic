@@ -45,11 +45,6 @@ const AppLayout = () => {
 
     setPlaylistComputedHeight(`calc(100vh - ${otherUIcomputedHeights + "px"})`);
   }, []);
-
-  useEffect(() => {
-    setCurrentSongURL(songRefsAndMD[currentSongIndex].url);
-  }, [currentSongIndex]);
-
   ////// auto play on index change //////
 
   useEffect(() => {
