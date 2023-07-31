@@ -48,6 +48,10 @@ const AppLayout = () => {
   ////// auto play on index change //////
 
   useEffect(() => {
+    setCurrentSongURL(songRefsAndMD[currentSongIndex].url);
+  }, [currentSongIndex]);
+
+  useEffect(() => {
     const song = audioRef?.current;
 
     currentSongRef.current?.scrollIntoView({

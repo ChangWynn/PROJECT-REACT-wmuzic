@@ -8,7 +8,13 @@ import Browser from "../Browser/Browser";
 const Visual = () => {
   const { currentSongIndex, songRefsAndMD } = useContext(AppContext);
 
-  const currentSongMetadata = songRefsAndMD[currentSongIndex].metadata.customMetadata;
+  const [currentSongMetadata, setCurrentSongMetadata] = useState(
+    songRefsAndMD[currentSongIndex].metadata.customMetadata
+  );
+
+  useEffect(() => {
+    setCurrentSongMetadata(songRefsAndMD[currentSongIndex].metadata.customMetadata);
+  }, [currentSongIndex]);
 
   return (
     <React.Fragment>
