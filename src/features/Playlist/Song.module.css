@@ -1,6 +1,6 @@
 .song-container {
   border-block: rgb(28, 28, 28) 0.5px solid;
-  background-color: black;
+  /* background-color: black; */
   height: 8rem;
   padding: 1.5rem 0;
   display: flex;

@@ -6,8 +6,8 @@
 }
 
 .icon {
-  height: 7rem;
-  width: 7rem;
+  height: 3rem;
+  width: 3rem;
   background-color: transparent;
   margin: -0.2rem;
   color: white;
@@ -18,16 +18,16 @@
 }
 
 .icon.prev-next {
-  height: 5rem;
-  width: 5rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .icon.repeat,
 .icon.repeat-off,
 .icon.shuffle,
 .icon.shuffle-off {
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .icon.volume,
