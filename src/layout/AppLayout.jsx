@@ -10,6 +10,7 @@ import AppNavigation from "../features/AppNavigation/AppNavigation";
 
 import UploadContext from "../features/Upload/context/UploadContext";
 import Menu from "../features/Menu/Menu";
+import Browser from "../features/Browser/Browser";
 
 export const AppContext = React.createContext();
 
@@ -135,6 +136,7 @@ const AppLayout = () => {
       <div className={styles["app"]}>
         <audio ref={audioRef} id="audio" src={currentSongURL} onEnded={endOfTrackHandler} />
         <AppNavigation ref={appNavRef} />
+
         <div
           className={styles["app--middle"]}
           style={{
@@ -144,6 +146,8 @@ const AppLayout = () => {
           {songRefsAndMD.length > 0 && <Playlist />}
           {songRefsAndMD.length > 0 && <Visual />}
         </div>
+        {/* <Browser /> */}
+
         <Menu ref={playlistMenuRef} />
         <PlayerControls ref={audioControllersRef} />
         <UploadContext showForm={showForm} setShowForm={setShowForm} />

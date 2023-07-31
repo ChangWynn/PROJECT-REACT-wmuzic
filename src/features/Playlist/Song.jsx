@@ -14,9 +14,9 @@ import { faCirclePause } from "@fortawesome/pro-regular-svg-icons";
 import UpdateModal from "../Update/UpdateModal";
 import Backdrop from "../../shared/ui/Backdrop";
 import { faVolume } from "@fortawesome/sharp-light-svg-icons";
-import { useActionData, useOutletContext } from "react-router-dom";
+import { useActionData } from "react-router-dom";
 
-import { Reorder, useDragControls } from "framer-motion";
+import { motion, Reorder, useDragControls } from "framer-motion";
 
 const Song = React.memo(
   ({ songRefAndMD, songRef, songMD, index }) => {
@@ -105,15 +105,15 @@ const Song = React.memo(
     // };
 
     const [isDragged, setIsDragged] = useState(false);
-
+    // console.log([...controls.componentControls][0].isDragging);
     return (
       <Reorder.Item
         onDrag={updateCurrentSongIndex}
         onDragStart={() => setIsDragged(true)}
         onDragEnd={() => setIsDragged(false)}
         // onDragEnd={updatePositions}
-        dragControls={controls}
-        dragListener={false}
+        // dragControls={controls}
+        // dragListener={false}
         value={songRefAndMD}
         style={{ listStyle: "none", position: "relative", zIndex: 1 }}
         animate={{ scale: isDragged ? 1.05 : 1 }}
@@ -129,13 +129,9 @@ const Song = React.memo(
         >
           <div className={styles["song-btn"]} onMouseLeave={closeMenu}>
             <div className={styles["song-info"]}>
-              <div
-                onPointerDown={(e) => controls.start(e)}
-                style={{ touchAction: "none" }}
-                className={styles["vertical-grip"]}
-              >
+              {/* <div onPointerDown={(e) => controls.start(e)} className={styles["vertical-grip"]}>
                 {isHovered && <FontAwesomeIcon icon={faGripDotsVertical} size="2x" />}
-              </div>
+              </div> */}
               <div
                 className={styles["song-info--img"]}
                 onMouseEnter={() => setThumbnailIsHovered(true)}

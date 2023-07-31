@@ -1,6 +1,6 @@
 .song-container {
   border-block: rgb(28, 28, 28) 0.5px solid;
-  /* background-color: black; */
+  background-color: black;
   height: 8rem;
   padding: 1.5rem 0;
   display: flex;
@@ -16,8 +16,27 @@
   background-color: #1c001c;
 }
 .vertical-grip {
+  touch-action: none;
+  margin-left: 1rem;
   padding: 1rem;
   width: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 0.2s;
+
+  /* border: 1px solid white; */
+}
+
+.vertical-grip:hover {
+  scale: 1.3;
+  cursor: grab;
+}
+.vertical-grip:active {
+  scale: 1.3;
+  cursor: grabbing;
 }
 
 .song-container .song--loading-message {

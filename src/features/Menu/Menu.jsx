@@ -5,11 +5,13 @@ import { AppContext } from "../../layout/AppLayout";
 
 import { faPlus } from "@fortawesome/sharp-light-svg-icons";
 import { faAlbum, faAlbumCollection } from "@fortawesome/sharp-solid-svg-icons";
+import Browser from "../Browser/Browser";
 
 const Menu = forwardRef((_, ref) => {
   const { showPlaylist, setShowPlaylist, setShowForm } = useContext(AppContext);
   return (
     <div ref={ref} className={styles["playlist--menu"]}>
+      {/* <Browser /> */}
       <MenuButtonUI
         faIcon={showPlaylist ? faAlbumCollection : faAlbum}
         clickEvent={() => setShowPlaylist(!showPlaylist)}
