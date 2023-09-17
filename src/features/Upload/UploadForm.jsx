@@ -9,14 +9,8 @@ import ButtonsContainer from "../../shared/container/ButtonsContainer";
 import Button from "../../shared/ui/Button";
 
 const UploadForm = forwardRef((_, { titleRef, artistRef, fileInputRef }) => {
-  const {
-    uploadedSong,
-    setUploadedSong,
-    isChecked,
-    setIsChecked,
-    cleanUp,
-    addNewSong,
-  } = useContext(UploadContextProvider);
+  const { uploadedSong, setUploadedSong, isChecked, setIsChecked, cleanUp, addNewSong } =
+    useContext(UploadContextProvider);
   return (
     <React.Fragment>
       <InputsContainer>
@@ -53,11 +47,7 @@ const UploadForm = forwardRef((_, { titleRef, artistRef, fileInputRef }) => {
             }}
           />
           <div className={styles["btn-icon"]}>
-            <FontAwesomeIcon
-              icon={faAlbum}
-              size="3x"
-              style={{ color: "#ffffff" }}
-            />
+            <FontAwesomeIcon icon={faAlbum} size="3x" style={{ color: "#ffffff" }} />
             <h3>{uploadedSong?.name || "Choose file"}</h3>
           </div>
         </div>
@@ -75,16 +65,8 @@ const UploadForm = forwardRef((_, { titleRef, artistRef, fileInputRef }) => {
         </div>
       </InputsContainer>
       <ButtonsContainer>
-        <Button
-          label="Cancel"
-          type="cancel-rectangle"
-          attributes={{ onClick: cleanUp }}
-        />
-        <Button
-          label="Upload"
-          type="confirm-rectangle"
-          attributes={{ onClick: addNewSong }}
-        />
+        <Button label="Cancel" type="cancel-rectangle" attributes={{ onClick: cleanUp }} />
+        <Button label="Upload" type="confirm-rectangle" attributes={{ onClick: addNewSong }} />
       </ButtonsContainer>
     </React.Fragment>
   );

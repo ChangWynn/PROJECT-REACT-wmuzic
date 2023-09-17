@@ -27,7 +27,7 @@ const Visual = () => {
           <h2>{currentSongMetadata.title}</h2>
           <h3>{currentSongMetadata.artist}</h3>
         </div>
-        {/* <Browser /> */}
+        <Browser />
       </div>
     </React.Fragment>
   );
